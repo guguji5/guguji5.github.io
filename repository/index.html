@@ -308,6 +308,7 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 </script>
 <script src="/js/plugin.min.js"></script>
 <script src="/js/application.js"></script>
+<script src="/js/crypto-js/crypto-js.js"></script>
 
     <script>
 (function (window) {
@@ -342,7 +343,9 @@ var open = function() {
     var errorContainer = repoContainer.find(".blankslate");
     var countContainer = $("#repo-count");
 
-    $.get("https://api.github.com/users/guguji5/repos?access_token=7badb49d0c9f1e725b5e61bef48ce0fbd138422a", function(result) {
+    var access_token = CryptoJS.AES.decrypt("U2FsdGVkX1+VWdiIkoA3PCbz9KKGlKilMs6UztGd2VQuYuSAoZLyCi8fM2qxUbviYt35kf/tpFvEqNmtY3WppQ==", 'guguji5').toString(CryptoJS.enc.Utf8);
+
+    $.get("https://api.github.com/users/guguji5/repos?access_token="+access_token, function(result) {
       if (result) {
         errorContainer.remove();
         countContainer.text(result.length); //设置项目个数
