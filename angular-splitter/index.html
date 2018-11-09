@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>angular-splitter | Hexo</title>
+  <meta name="description" content="this is a angular splitter that could drag the responsive layout, and also act like the layout of notes on mac.   Onlinehttp://angular-splitter.guguji5.top How to run1234git clone https://github.com/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="angular-splitter">
+<meta property="og:url" content="guguji5.github.io/angular-splitter/index.html">
+<meta property="og:site_name" content="咕咕鸡的前端博客">
+<meta property="og:description" content="this is a angular splitter that could drag the responsive layout, and also act like the layout of notes on mac.   Onlinehttp://angular-splitter.guguji5.top How to run1234git clone https://github.com/">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="/images/splitter.gif">
+<meta property="og:image" content="/images/macnotes.gif">
+<meta property="og:updated_time" content="2018-11-09T05:13:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="angular-splitter">
+<meta name="twitter:description" content="this is a angular splitter that could drag the responsive layout, and also act like the layout of notes on mac.   Onlinehttp://angular-splitter.guguji5.top How to run1234git clone https://github.com/">
+<meta name="twitter:image" content="/images/splitter.gif">
+  <!-- Canonical links -->
+  <link rel="canonical" href="guguji5.github.io/angular-splitter/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="咕咕鸡的前端博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/guguji5" target="_blank">
+          <img class="img-circle img-rotate" src="/images/gangji.jpeg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Damon Du</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">菜鸡前端</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 滴滴云</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search">
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech="">
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope="" itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/guguji5" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/guguji5" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope="" itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+
+    
+      
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/如何使用GZIP来优化你的网站/" class="title">如何使用GZIP来优化你的网站</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-11-09T05:22:55.000Z" itemprop="datePublished">2018-11-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/Hexo-Github搭建静态博客-一/" class="title">Hexo + Github搭建静态博客(一)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-11-09T05:19:48.000Z" itemprop="datePublished">2018-11-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/angular-splitter/" class="title">angular-splitter</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-11-09T04:15:55.000Z" itemprop="datePublished">2018-11-09</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-angular-splitter" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      angular-splitter
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/angular-splitter/" class="article-date">
+	  <time datetime="2018-11-09T04:15:55.000Z" itemprop="datePublished">2018-11-09</time>
+	</a>
+</span>
+        
+        
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/angular-splitter/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <blockquote>
+<p>this is a angular splitter that could drag the responsive layout, and also act like the layout of notes on mac.</p>
+</blockquote>
+<p><img src="/images/splitter.gif" alt="drawing"><br><img src="/images/macnotes.gif" alt="drawing"></p>
+<h2 id="Online"><a href="#Online" class="headerlink" title="Online"></a>Online</h2><p><a href="http://angular-splitter.guguji5.top" target="_blank" rel="noopener">http://angular-splitter.guguji5.top</a></p>
+<h2 id="How-to-run"><a href="#How-to-run" class="headerlink" title="How to run"></a>How to run</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/guguji5/angular-splitter.git</span><br><span class="line">cd angular-splitter</span><br><span class="line">npm install</span><br><span class="line">ng serve --open</span><br></pre></td></tr></table></figure>
+<p>of course you must have angular-cli installed.</p>
+<h2 id="Angular-Support"><a href="#Angular-Support" class="headerlink" title="Angular Support"></a>Angular Support</h2><p>angular 5~6</p>
+<h2 id="Document"><a href="#Document" class="headerlink" title="Document"></a>Document</h2><p><strong>Component <code>&lt;tam-splitter&gt;</code></strong></p>
+<table>
+<thead>
+<tr>
+<th>@Input</th>
+<th>Type</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>direction</td>
+<td>string</td>
+<td>“horizontal”</td>
+<td>Select split direction: “horizontal” or “vertical”.</td>
+</tr>
+<tr>
+<td>splitterBarWidth</td>
+<td>number</td>
+<td>8</td>
+<td>Gutters’s size (dragging elements) in pixels.</td>
+</tr>
+<tr>
+<td>useTransition</td>
+<td>boolean or number</td>
+<td>false</td>
+<td>Use transition when collapsing or expanding. when this param is a number, it will be a millisecond value set to the property ‘transition-duration’, should be between 100 and 1000</td>
+</tr>
+<tr>
+<td>type</td>
+<td>string</td>
+<td>‘standard’</td>
+<td>it has two value(standard, macNotes), which controls the behavior of the drag, macNotes type will act like the notes on mac</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>@Output</th>
+<th>Param</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sizeChange</td>
+<td>{barNum: number, sizes: Array<code>&lt;number&gt;</code>}</td>
+<td>Emit when draging, return the index of bar and the sizes of panels</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Component <code>&lt;tam-splitter-panel&gt;</code></strong></p>
+<table>
+<thead>
+<tr>
+<th>@Input</th>
+<th>Type</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>size</td>
+<td>number</td>
+<td>null</td>
+<td>Size of the panel in percent (value between 0 and 100).all panels sizes should be equal to 100</td>
+</tr>
+<tr>
+<td>max</td>
+<td>number</td>
+<td>null</td>
+<td>Max size of the panel in percent (value between 0 and 100).</td>
+</tr>
+<tr>
+<td>min</td>
+<td>number</td>
+<td>null</td>
+<td>Min size of the panel in percent (value between 0 and 100).</td>
+</tr>
+<tr>
+<td>visible</td>
+<td>boolean</td>
+<td>true</td>
+<td>Allow to toggle panel visibility</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>@Output</th>
+<th>Param</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>collapsedChange</td>
+<td>{collapsed:boolean, sizes:  Array<code>&lt;number&gt;</code>, collapsedComponentSize: number}</td>
+<td>Emit when collapsed or expand, return the collapsed, the sizes of panels and the size of collapsed panel</td>
+</tr>
+</tbody>
+</table>
+<p>simple demo:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;tam-splitter splitterBarWidth=3 [direction]=&quot;horizontal&quot; (sizeChange)=&quot;sizeChange($event)&quot;&gt;</span><br><span class="line">    &lt;tam-splitter-panel [size]=&quot;20&quot; [max]=&quot;30&quot; [min]=&quot;10&quot;</span><br><span class="line">        [visible]=true (collapsedChange)=&quot;collapsedChange($event)&quot;&gt;</span><br><span class="line">        Refined By Panel</span><br><span class="line">    &lt;/tam-splitter-panel&gt;</span><br><span class="line">    &lt;tam-splitter-panel  [size]=&quot;30&quot; [max]=&quot;50&quot; [min]=&quot;20&quot;&gt;</span><br><span class="line">        Side List Panel</span><br><span class="line">    &lt;/tam-splitter-panel&gt;</span><br><span class="line">    &lt;tam-splitter-panel [size]=&quot;50&quot; [max]=&quot;70&quot; [min]=&quot;20&quot;&gt;</span><br><span class="line">        Preview Panel</span><br><span class="line">    &lt;/tam-splitter-panel&gt;</span><br><span class="line">&lt;/tam-splitter&gt;</span><br></pre></td></tr></table></figure></p>
+<p>nested demo:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;tam-splitter splitterBarWidth=3&gt;</span><br><span class="line">    &lt;tam-splitter-panel [size]=&quot;20&quot; [max]=&quot;30&quot; [min]=&quot;10&quot; (collapsedChange)=&quot;collapsedChange($event)&quot;&gt;</span><br><span class="line">        Refined By Panel</span><br><span class="line">    &lt;/tam-splitter-panel&gt;</span><br><span class="line">    &lt;tam-splitter-panel [size]=&quot;80&quot;&gt;</span><br><span class="line">        &lt;tam-splitter splitterBarWidth=3 [direction]=&quot;&apos;vertical&apos;&quot;&gt;</span><br><span class="line">            &lt;tam-splitter-panel [size]=&quot;30&quot; [max]=&quot;40&quot; [min]=&quot;20&quot;&gt;</span><br><span class="line">                Side List Panel</span><br><span class="line">            &lt;/tam-splitter-panel&gt;</span><br><span class="line"></span><br><span class="line">            &lt;tam-splitter-panel [size]=&quot;70&quot; [max]=&quot;80&quot; [min]=&quot;60&quot;&gt;</span><br><span class="line">                Preview Panel</span><br><span class="line">            &lt;/tam-splitter-panel&gt;</span><br><span class="line">        &lt;/tam-splitter&gt;</span><br><span class="line">    &lt;/tam-splitter-panel&gt;</span><br><span class="line">&lt;/tam-splitter&gt;</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://blog.csdn.net/baidu_35407267/article/details/82527822" target="_blank" rel="noopener">中文README</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="guguji5.github.io/angular-splitter/" title="angular-splitter" target="_blank" rel="external">guguji5.github.io/angular-splitter/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/guguji5" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/gangji.jpeg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/guguji5" target="_blank"><span class="text-dark">Damon Du</span><small class="ml-1x">菜鸡前端</small></a></h3>
+        <div>滴滴云</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom="">
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/Hexo-Github搭建静态博客-一/" title="Hexo + Github搭建静态博客(一)"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,wechat" data-mobile-sites="weibo,wechat"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope="" itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/guguji5" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/guguji5" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
