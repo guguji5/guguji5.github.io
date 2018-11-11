@@ -17,8 +17,9 @@
   <meta http-equiv="window-target" content="_top">
   
   
-  <title>angular-splitter | Hexo</title>
+  <title>angular-splitter | 咕咕鸡的前端博客</title>
   <meta name="description" content="this is a angular splitter that could drag the responsive layout, and also act like the layout of notes on mac.   Onlinehttp://angular-splitter.guguji5.top How to run1234git clone https://github.com/">
+<meta name="keywords" content="angular,component">
 <meta property="og:type" content="article">
 <meta property="og:title" content="angular-splitter">
 <meta property="og:url" content="guguji5.github.io/angular-splitter/index.html">
@@ -27,7 +28,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="/images/splitter.gif">
 <meta property="og:image" content="/images/macnotes.gif">
-<meta property="og:updated_time" content="2018-11-09T05:13:57.000Z">
+<meta property="og:updated_time" content="2018-11-11T03:40:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="angular-splitter">
 <meta name="twitter:description" content="this is a angular splitter that could drag the responsive layout, and also act like the layout of notes on mac.   Onlinehttp://angular-splitter.guguji5.top How to run1234git clone https://github.com/">
@@ -44,6 +45,8 @@
   
   
   
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
   
 </head>
 
@@ -119,6 +122,26 @@
         </li>
         
         
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
         <li class="menu-item menu-item-repository">
           <a href="/repository">
             
@@ -170,18 +193,39 @@
 
     
       
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/组件/">组件</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
 
     
       
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angular/">angular</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/component/">component</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/优化/">优化</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
 
     
       
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Hexo/" style="font-size: 13px;">Hexo</a> <a href="/tags/angular/" style="font-size: 13px;">angular</a> <a href="/tags/component/" style="font-size: 13px;">component</a> <a href="/tags/优化/" style="font-size: 14px;">优化</a>
+    </div>
+  </div>
+
     
       
   <div class="widget">
     <h3 class="widget-title">归档</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -193,6 +237,21 @@
     <div class="widget-body">
       <ul class="recent-post-list list-unstyled no-thumbnail">
         
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/bakery性能优化/" class="title">bakery性能优化</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-11-11T03:15:17.000Z" itemprop="datePublished">2018-11-11</time>
+              </p>
+            </div>
+          </li>
+          
           <li>
             
             <div class="item-inner">
@@ -227,7 +286,7 @@
             
             <div class="item-inner">
               <p class="item-category">
-                
+                <a class="category-link" href="/categories/组件/">组件</a>
               </p>
               <p class="item-title">
                 <a href="/angular-splitter/" class="title">angular-splitter</a>
@@ -271,7 +330,17 @@
 	</a>
 </span>
         
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/组件/">组件</a>
+  </span>
+
         
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/angular/">angular</a>, <a class="article-tag-link" href="/tags/component/">component</a>
+  </span>
+
 
         
 
@@ -440,7 +509,7 @@
     
   <section id="comments">
   	
-      <div id="vcomments"></div>
+           
     
   </section>
 
@@ -530,29 +599,23 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
    
     
-  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
   <script type="text/javascript">
-  var GUEST = ['nick', 'mail', 'link'];
-  var meta = 'nick,mail,link';
-  meta = meta.split(',').filter(function(item) {
-    return GUEST.indexOf(item) > -1;
-  });
-  new Valine({
-    el: '#vcomments',
-    verify: false,
-    notify: false,
-    appId: '',
-    appKey: '',
-    placeholder: 'Just go go',
-    avatar: 'mm',
-    meta: meta,
-    pageSize: '10' || 10,
-    visitor: false
-  });
+  var gitalk = new Gitalk({
+    clientID: 'd2c2eed331f93213c11d',
+    clientSecret: 'df41c902c1854c3a80133f0096c625c6020609c2',
+    repo: 'guguji5.github.io',
+    owner: 'guguji5',
+    admin: ['guguji5'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
   </script>
 
-     
+      
 
 
 
