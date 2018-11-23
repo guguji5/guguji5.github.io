@@ -17,25 +17,23 @@
   <meta http-equiv="window-target" content="_top">
   
   
-  <title>bakery性能优化 | 咕咕鸡的前端博客</title>
-  <meta name="description" content="香满苑蛋糕屋的微信站bakery运行在了亚马逊云（1G内存+1核+8G硬盘），俄亥俄洲的主机上，平均有300ms的延迟，因为是试运行所以暂时也没有换的打算。在“时间就是金钱的”21世纪，性能优化就显得更为重要，主页load时间过长会让用户失去耐心，前端后台以及mongodb数据库的优化变得不可或缺。 这里分前端、后台和数据库三部分来记录一下我说做的工作。 web前端的优化 代码的合并、压缩、增加m">
+  <title>SVG Sprite优化滴滴云项目中的图标 | 咕咕鸡的前端博客</title>
+  <meta name="description" content="背景介绍滴滴云用户系统随着模块，功能，页面的增多，小图标也越来越多，随着开发人员的不断加入以及图片需求的不断更新，项目中图片的引用方法也变得多种多样。本次调研旨在整理项目中的图标，网站加载速率，统一开发人员引用图片的用法。 项目现状项目中图片的使用方式有以下三种  iconfont，单色小图片。 inline直接引用图片。 inline直接引用，图片小于2k，转为base64。  第">
 <meta name="keywords" content="优化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="bakery性能优化">
-<meta property="og:url" content="guguji5.github.io/bakery性能优化/index.html">
+<meta property="og:title" content="SVG Sprite优化滴滴云项目中的图标">
+<meta property="og:url" content="guguji5.github.io/SVG-Sprite优化滴滴云项目中的图标/index.html">
 <meta property="og:site_name" content="咕咕鸡的前端博客">
-<meta property="og:description" content="香满苑蛋糕屋的微信站bakery运行在了亚马逊云（1G内存+1核+8G硬盘），俄亥俄洲的主机上，平均有300ms的延迟，因为是试运行所以暂时也没有换的打算。在“时间就是金钱的”21世纪，性能优化就显得更为重要，主页load时间过长会让用户失去耐心，前端后台以及mongodb数据库的优化变得不可或缺。 这里分前端、后台和数据库三部分来记录一下我说做的工作。 web前端的优化 代码的合并、压缩、增加m">
+<meta property="og:description" content="背景介绍滴滴云用户系统随着模块，功能，页面的增多，小图标也越来越多，随着开发人员的不断加入以及图片需求的不断更新，项目中图片的引用方法也变得多种多样。本次调研旨在整理项目中的图标，网站加载速率，统一开发人员引用图片的用法。 项目现状项目中图片的使用方式有以下三种  iconfont，单色小图片。 inline直接引用图片。 inline直接引用，图片小于2k，转为base64。  第">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="/images/clipboard2.png">
-<meta property="og:image" content="/images/clipboard1.png">
-<meta property="og:image" content="/images/clipboard.png">
-<meta property="og:updated_time" content="2018-11-11T04:26:58.000Z">
+<meta property="og:image" content="/images/svg_node.png">
+<meta property="og:updated_time" content="2018-11-23T04:09:25.451Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="bakery性能优化">
-<meta name="twitter:description" content="香满苑蛋糕屋的微信站bakery运行在了亚马逊云（1G内存+1核+8G硬盘），俄亥俄洲的主机上，平均有300ms的延迟，因为是试运行所以暂时也没有换的打算。在“时间就是金钱的”21世纪，性能优化就显得更为重要，主页load时间过长会让用户失去耐心，前端后台以及mongodb数据库的优化变得不可或缺。 这里分前端、后台和数据库三部分来记录一下我说做的工作。 web前端的优化 代码的合并、压缩、增加m">
-<meta name="twitter:image" content="/images/clipboard2.png">
+<meta name="twitter:title" content="SVG Sprite优化滴滴云项目中的图标">
+<meta name="twitter:description" content="背景介绍滴滴云用户系统随着模块，功能，页面的增多，小图标也越来越多，随着开发人员的不断加入以及图片需求的不断更新，项目中图片的引用方法也变得多种多样。本次调研旨在整理项目中的图标，网站加载速率，统一开发人员引用图片的用法。 项目现状项目中图片的使用方式有以下三种  iconfont，单色小图片。 inline直接引用图片。 inline直接引用，图片小于2k，转为base64。  第">
+<meta name="twitter:image" content="/images/svg_node.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="guguji5.github.io/bakery性能优化/index.html">
+  <link rel="canonical" href="guguji5.github.io/SVG-Sprite优化滴滴云项目中的图标/index.html">
   
     <link rel="alternate" href="/atom.xml" title="咕咕鸡的前端博客" type="application/atom+xml">
   
@@ -326,14 +324,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-bakery性能优化" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <article id="post-SVG-Sprite优化滴滴云项目中的图标" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      bakery性能优化
+      SVG Sprite优化滴滴云项目中的图标
     </h1>
   
 
@@ -341,8 +339,8 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/bakery性能优化/" class="article-date">
-	  <time datetime="2018-11-11T03:15:17.000Z" itemprop="datePublished">2018-11-11</time>
+	<a href="/SVG-Sprite优化滴滴云项目中的图标/" class="article-date">
+	  <time datetime="2018-11-22T13:54:26.000Z" itemprop="datePublished">2018-11-22</time>
 	</a>
 </span>
         
@@ -362,48 +360,75 @@
 	</span>
 
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/bakery性能优化/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/SVG-Sprite优化滴滴云项目中的图标/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 761(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.4k(字)</span>
 	
 	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 2(分)</span>
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 5(分)</span>
 	
 
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <p>香满苑蛋糕屋的微信站bakery运行在了亚马逊云（1G内存+1核+8G硬盘），俄亥俄洲的主机上，平均有300ms的延迟，因为是试运行所以暂时也没有换的打算。在“时间就是金钱的”21世纪，性能优化就显得更为重要，主页load时间过长会让用户失去耐心，前端后台以及mongodb数据库的优化变得不可或缺。</p>
-<p>这里分前端、后台和数据库三部分来记录一下我说做的工作。</p>
-<h3 id="web前端的优化"><a href="#web前端的优化" class="headerlink" title="web前端的优化"></a>web前端的优化</h3><ol>
-<li>代码的合并、压缩、增加md5的版本都是webpack做的，以及把文件打包成几个bundle文件。减少请求次数。</li>
-<li>小图标根据需要缩小，不使用大图。1024<em>1024的图标直减为20</em>20。</li>
-<li>小图标的合并，css雪碧图的使用，减少请求次数。</li>
-<li>大量图片（包括雪碧图）从服务器拉取比较慢，上传到新浪微博的图床。</li>
-<li>code split。</li>
-<li>webpack热重载慢，webpack2升级到webpack3速度提高10倍；开发过程中就用普通路由，懒加载路由在webpack中会使cache失效。</li>
+        <h3 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h3><p>滴滴云用户系统随着模块，功能，页面的增多，小图标也越来越多，随着开发人员的不断加入以及图片需求的不断更新，项目中图片的引用方法也变得多种多样。本次调研旨在整理项目中的图标，网站加载速率，统一开发人员引用图片的用法。</p>
+<h3 id="项目现状"><a href="#项目现状" class="headerlink" title="项目现状"></a>项目现状</h3><p>项目中图片的使用方式有以下三种</p>
+<ol>
+<li>iconfont，单色小图片。</li>
+<li>inline直接引用图片。</li>
+<li>inline直接引用，图片小于2k，转为base64。</li>
 </ol>
-<div align="center"><br><img src="/images/clipboard2.png"><br></div>
-
-<p>   从webpack的analysis中可以看出，资源文件打包成两个包。vendor较大，230k左右，app很小几十K。手机端浏览器大部分会同时拉取4个资源，根据木桶原理，最终完毕时间肯定由最慢的一个资源决定。所以将mint-ui的内容从vendor中转移到app中，两个大小都在150k左右。</p>
-<div align="center"><br><img src="/images/clipboard1.png"><br></div>
-
-<h3 id="node后台的优化"><a href="#node后台的优化" class="headerlink" title="node后台的优化"></a>node后台的优化</h3><ol>
-<li>设置一个设置favicon.ico，不然每次都返回404。</li>
-<li>后台开启gzip超级有效，大概压缩率打到75%，从上边code split中可以看出159k的可以直接压缩成54k传过来。（有关gzip还专门翻译了一篇文章：<a href="https://github.com/guguji5/blogs/blob/master/how%20to%20optimieze%20your%20site%20with%20gzip.md" target="_blank" rel="noopener">how to optimieze your site with gzip</a>）</li>
-<li>占据渲染时间大半壁江山的都是图片，图片缓存很重要，从新浪图床上下载下来的，新浪服务器缓存的很好。少量从我服务器上的图通过IF-Modified-since/last-modified last-modified和if-none-match/etags来设置好缓存。未过期的值或者未变化的值浏览器端直接读取缓存。<br><img src="/images/clipboard.png" alt="设置过期时间"></li>
-</ol>
-<h3 id="数据库和微信（菜鸟备忘）"><a href="#数据库和微信（菜鸟备忘）" class="headerlink" title="数据库和微信（菜鸟备忘）"></a>数据库和微信（菜鸟备忘）</h3><ol>
-<li><p>指定需要返回的键</p>
-<p> db.users.find({},{“username”:1,”email”:1})   比db.users.find() 然后再解析数据肯定是要快。</p>
-</li>
-<li>mongodb启动时候要加用户名密码dbpath -auth，裸奔很危险。</li>
-<li>用户表（user ）的收货人数组的id通过生成随机数的方式来使其保证唯一，可以换成$ne或者$addToSet来将数组作为数据集使用，保证数组内的元素不会重复。</li>
-<li>评论放在产品详情（productDetail）表，然后把name和头像url都存进去。<br>db.blog.update({“title”:”a blog post”},<br>{$push:{“commit”:<br>{“name”:”jone”,”headimgurl”:”<a href="http://www.example.com/1.jpg&quot;" target="_blank" rel="noopener">www.example.com/1.jpg&quot;</a>,<br>“content”:”nice post”}}})</li>
-<li>微信端jsapi_ticket,access_token等数据都有每日最大请求次数和过期时间，需要缓存在数据库，通过<a href="https://docs.mongodb.com/manual/tutorial/expire-data/" target="_blank" rel="noopener">TTL</a>的设置来实现过期expires。</li>
-</ol>
+<p>第2项中大图片直接引用无可否非，但目前项目中有70-80多个4k-8k的小图片也是直接引用到项目里，这次调研主要针对小图片进行合并，减少请求数，优化网站的响应速度。</p>
+<h3 id="CSS-SPRITE"><a href="#CSS-SPRITE" class="headerlink" title="CSS SPRITE"></a>CSS SPRITE</h3><p>CSS Sprite是传统的优化图片的方法，基本原理也很简单，把小图标按照一定顺序合并在一个大图上，使用时需按background-image方式引入，辅以background-position来控制需要显示图片的位置。</p>
+<p>webpack-spritesmith组件可以实现合并小图片，并生成相对于的css样式，在原来使用的标签上添加对应的class类名即可。但是此方法针对项目中通过<code>&lt;img src=&quot;imgages/demo.png /&gt;</code>标签内联引用图片的方式改动较大，需将img标签转换为background显示，可读性减弱，改动effort较大，样式出错的机会及测试的成本都很大，顾放弃此方法。</p>
+<h3 id="SVG-SPRITE"><a href="#SVG-SPRITE" class="headerlink" title="SVG SPRITE"></a>SVG SPRITE</h3><p>SVG 是一种基于 XML 语法的图像格式，全称是可缩放矢量图（Scalable Vector Graphics）。其他图像格式都是基于像素处理的，SVG 则是属于对图像的形状描述，所以它本质上是文本文件，体积较小，且不管放大多少倍都不会失真。</p>
+<p>SVG可以直接放在HTML，CSS里使用。SVG Sprite是依赖其symbol标签和use标签实现其合并的效果。合并完以后的svg大概如下图<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg&gt;</span><br><span class="line">    &lt;symbol id=&quot;shape&quot;&gt;</span><br><span class="line">        &lt;!-- 第1个图标路径形状之类代码 --&gt;</span><br><span class="line">    &lt;/symbol&gt;</span><br><span class="line">    &lt;symbol&gt;</span><br><span class="line">        &lt;!-- 第2个图标路径形状之类代码 --&gt;</span><br><span class="line">    &lt;/symbol&gt;</span><br><span class="line">    &lt;symbol&gt;</span><br><span class="line">        &lt;!-- 第3个图标路径形状之类代码 --&gt;</span><br><span class="line">    &lt;/symbol&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure></p>
+<p>use的语法如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg&gt;</span><br><span class="line">  &lt;use xlink:href=&quot;#shape&quot; x=&quot;200&quot; y=&quot;50&quot; /&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure></p>
+<p>我们期望的效果是把所有svg都通过symbol合并到一个大的svg sprite，而手动维护显然是不现实的，所以我们需要<a href="https://github.com/kisenka/svg-sprite-loader" target="_blank" rel="noopener">svg-sprite-loader</a>，他可以根据config来自动合并所有的svg，形成一个大的svg sprite。需在webpack中添加的配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    test: /\.svg$/,</span><br><span class="line">    loader: &apos;svg-sprite-loader&apos;,</span><br><span class="line">    include: [resolve(&apos;src/assets/images/svg&apos;)], //只合并固定目录</span><br><span class="line">    options: &#123;</span><br><span class="line">        extract: true, // 将合并后的svg提取为一个单独文件，默认false，会将svg解析后以内联方式打包到模板里</span><br><span class="line">        spriteFilename: utils.assetsPath(&apos;img/sprite.svg&apos;),</span><br><span class="line">        symbolId: &apos;icon-[name]&apos;, //symbol id的rename规则</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br><span class="line">// 主动调用webpack 方法，循环遍历svg目标文件夹下所有svg格式文件。</span><br><span class="line">const req = require.context(&apos;assets/images/svg&apos;, false, /\.svg$/)</span><br><span class="line">const requireAll = requireContext =&gt; requireContext.keys().map(requireContext)</span><br><span class="line">requireAll(req)</span><br></pre></td></tr></table></figure></p>
+<p>至此，项目中就可以以<code>&lt;svg&gt;&lt;use xlink:href=&quot;#shape&quot;/&gt;&lt;/svg&gt;</code>方式来用svg展示icon。进一步可以封装为vue组件以方便使用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;svg class=&quot;svg-icon&quot; aria-hidden=&quot;true&quot;&gt;</span><br><span class="line">    &lt;use :xlink:href=&quot;iconName&quot;&gt;&lt;/use&gt;</span><br><span class="line">  &lt;/svg&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &apos;icon-svg&apos;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    iconClass: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">      required: true</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    iconName () &#123;</span><br><span class="line">      return `sprite.svg#icon-$&#123;this.iconClass&#125;`</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">.svg-icon &#123;</span><br><span class="line">  width: 1em;    //能继承font-size的大小</span><br><span class="line">  height: 1em;</span><br><span class="line">  vertical-align: -0.15em;</span><br><span class="line">  fill: currentColor;   //可以接受外部color，改变svg内部currentColor的路径</span><br><span class="line">  overflow: hidden;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure></p>
+<p>组件可以实现和iconfont一样的通过font-size，color修改图标的大小和颜色，使用方法也更加友好，只需<code>&lt;icon-svg icon-class=&quot;wechat-for-signin&quot; /&gt;</code>,在icon-class传入svg名字即可。在页面中的node节点渲染如图：<br><img src="/images/svg_node.png" alt="svg"></p>
+<h3 id="svg-vs-iconfont"><a href="#svg-vs-iconfont" class="headerlink" title="svg vs iconfont"></a>svg vs iconfont</h3><table>
+<thead>
+<tr>
+<th>icon-svg</th>
+<th>iconfont</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>多种色彩</td>
+<td>单一色彩</td>
+</tr>
+<tr>
+<td>真正的矢量</td>
+<td>字体文件</td>
+</tr>
+<tr>
+<td>css控制大小，颜色，甚至局部颜色</td>
+<td>css控制大小，颜色</td>
+</tr>
+<tr>
+<td>webpack实现</td>
+<td>需要借助外部工具</td>
+</tr>
+<tr>
+<td>IE9+</td>
+<td>IE6</td>
+</tr>
+</tbody>
+</table>
+<h3 id="SVG待解决问题"><a href="#SVG待解决问题" class="headerlink" title="SVG待解决问题"></a>SVG待解决问题</h3><p>通过symbol+use的方式引入svg，当<code>&lt;use xlink:href=&quot;&quot;&gt;</code>引用的是外部资源时在vue的template里v-if渲染会有问题。尤大大解释说这是chrome的bug。<br><a href="https://github.com/vuejs/vue/issues/2661" target="_blank" rel="noopener">https://github.com/vuejs/vue/issues/2661</a><br><a href="https://github.com/vuejs/vue/issues/2782" target="_blank" rel="noopener">https://github.com/vuejs/vue/issues/2782</a></p>
+<p>issue提出已经两年了，有没有官方的解决方案还需继续调研。目前的workaround有一下三种：</p>
+<ul>
+<li>将v-if改为v-show</li>
+<li>不提取sprint.svg,内联引用，</li>
+<li>将sprint.svg通过webpack达成chunk包,通过js引用sprint.svg。</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>项目中4k-8k的小图片没有以iconfont方式引入的方式，原因不管是“多色”，“图片格式限制”。引入icon-svg后，随着设计师更新icon，我们希望尽量将图切成svg，一并合到sprite.svg中，svg文件经过gzip的压缩，会达到减少请求，增加传输的效率的目的。</p>
+<p><em>参考链接</em></p>
+<p><a href="https://css-tricks.com/svg-symbol-good-choice-icons/" target="_blank" rel="noopener">https://css-tricks.com/svg-symbol-good-choice-icons/</a><br><a href="https://github.com/PanJiaChen/vue-element-admin" target="_blank" rel="noopener">https://github.com/PanJiaChen/vue-element-admin</a></p>
 
       
     </div>
@@ -413,7 +438,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="guguji5.github.io/bakery性能优化/" title="bakery性能优化" target="_blank" rel="external">guguji5.github.io/bakery性能优化/</a>
+      <a href="guguji5.github.io/SVG-Sprite优化滴滴云项目中的图标/" title="SVG Sprite优化滴滴云项目中的图标" target="_blank" rel="external">guguji5.github.io/SVG-Sprite优化滴滴云项目中的图标/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -459,13 +484,9 @@
   
   <ul class="pager pull-left">
     
-    <li class="prev">
-      <a href="/Hexo-Github搭建静态博客-二/" title="Hexo + Github搭建静态博客(二)"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
-    </li>
-    
     
     <li class="next">
-      <a href="/如何使用GZIP来优化你的网站/" title="如何使用GZIP来优化你的网站"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/Hexo-Github搭建静态博客-二/" title="Hexo + Github搭建静态博客(二)"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
