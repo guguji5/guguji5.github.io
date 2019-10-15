@@ -18,17 +18,17 @@
   
   
   <title>gitlab-CI和Docker前端自动化 | 咕咕鸡的前端博客</title>
-  <meta name="description" content="写在前边的话：大佬要走了，打包、部署出问题没人管了，趁着人还在，赶紧撸一遍，有问题早发现早治疗。  DevOps已经不是什么新概念了，现在前端开发人员多，分支多，测试环境多，前端自动化的重要性不（无)言（形）而（装）喻（比）。本博客的目的是实现在代码更新后，通过gitlab的webhook自动将部署文件打包成docker镜像。然后通过拿镜像名称去服务器上部署。这里我们分三步走，第一步配置Do">
+  <meta name="description" content="DevOps已经不是什么新概念了，现在前端开发人员多，分支多，测试环境多，前端自动化的重要性不（无)言（形）而（装）喻（比）。本博客的目的是实现在代码更新后，通过gitlab的webhook自动将部署文件打包成docker镜像。然后通过拿镜像名称去服务器上部署。这里我们分三步走，第一步配置Dockerfile先在本地测试docker build的流程；第二部注册gitlab-runner；第三部配">
 <meta property="og:type" content="article">
 <meta property="og:title" content="gitlab-CI和Docker前端自动化">
 <meta property="og:url" content="guguji5.github.io/gitlab-CI和Docker前端自动化/index.html">
 <meta property="og:site_name" content="咕咕鸡的前端博客">
-<meta property="og:description" content="写在前边的话：大佬要走了，打包、部署出问题没人管了，趁着人还在，赶紧撸一遍，有问题早发现早治疗。  DevOps已经不是什么新概念了，现在前端开发人员多，分支多，测试环境多，前端自动化的重要性不（无)言（形）而（装）喻（比）。本博客的目的是实现在代码更新后，通过gitlab的webhook自动将部署文件打包成docker镜像。然后通过拿镜像名称去服务器上部署。这里我们分三步走，第一步配置Do">
+<meta property="og:description" content="DevOps已经不是什么新概念了，现在前端开发人员多，分支多，测试环境多，前端自动化的重要性不（无)言（形）而（装）喻（比）。本博客的目的是实现在代码更新后，通过gitlab的webhook自动将部署文件打包成docker镜像。然后通过拿镜像名称去服务器上部署。这里我们分三步走，第一步配置Dockerfile先在本地测试docker build的流程；第二部注册gitlab-runner；第三部配">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-15T09:33:48.626Z">
+<meta property="og:updated_time" content="2019-10-15T09:38:13.244Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="gitlab-CI和Docker前端自动化">
-<meta name="twitter:description" content="写在前边的话：大佬要走了，打包、部署出问题没人管了，趁着人还在，赶紧撸一遍，有问题早发现早治疗。  DevOps已经不是什么新概念了，现在前端开发人员多，分支多，测试环境多，前端自动化的重要性不（无)言（形）而（装）喻（比）。本博客的目的是实现在代码更新后，通过gitlab的webhook自动将部署文件打包成docker镜像。然后通过拿镜像名称去服务器上部署。这里我们分三步走，第一步配置Do">
+<meta name="twitter:description" content="DevOps已经不是什么新概念了，现在前端开发人员多，分支多，测试环境多，前端自动化的重要性不（无)言（形）而（装）喻（比）。本博客的目的是实现在代码更新后，通过gitlab的webhook自动将部署文件打包成docker镜像。然后通过拿镜像名称去服务器上部署。这里我们分三步走，第一步配置Dockerfile先在本地测试docker build的流程；第二部注册gitlab-runner；第三部配">
   <!-- Canonical links -->
   <link rel="canonical" href="guguji5.github.io/gitlab-CI和Docker前端自动化/index.html">
   
@@ -355,7 +355,7 @@
         <span class="post-comment"><i class="icon icon-comment"></i> <a href="/gitlab-CI和Docker前端自动化/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 960(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 919(字)</span>
 	
 	
 		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 4(分)</span>
@@ -365,10 +365,7 @@
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <blockquote>
-<p>写在前边的话：大佬要走了，打包、部署出问题没人管了，趁着人还在，赶紧撸一遍，有问题早发现早治疗。</p>
-</blockquote>
-<p>DevOps已经不是什么新概念了，现在前端开发人员多，分支多，测试环境多，前端自动化的重要性不（无)言（形）而（装）喻（比）。本博客的目的是实现在代码更新后，通过gitlab的webhook自动将部署文件打包成docker镜像。然后通过拿镜像名称去服务器上部署。这里我们分三步走，第一步配置Dockerfile先在本地测试docker build的流程；第二部注册gitlab-runner；第三部配置.gitlab-ci.yml监听代码更新后触发docker build流程并push到docker的hub。</p>
+        <p>DevOps已经不是什么新概念了，现在前端开发人员多，分支多，测试环境多，前端自动化的重要性不（无)言（形）而（装）喻（比）。本博客的目的是实现在代码更新后，通过gitlab的webhook自动将部署文件打包成docker镜像。然后通过拿镜像名称去服务器上部署。这里我们分三步走，第一步配置Dockerfile先在本地测试docker build的流程；第二部注册gitlab-runner；第三部配置.gitlab-ci.yml监听代码更新后触发docker build流程并push到docker的hub。</p>
 <h2 id="docker-配置"><a href="#docker-配置" class="headerlink" title="docker 配置"></a>docker 配置</h2><p>前端的部署环境很简单，无论你是react，vue还是Angular，部署的时候都是启动一个nginx，然后将build的静态文件放到nginx的共享目录就好了。这里我们不关心前端功能的具体打包过程，直接打包一个简单的html文件到镜像里就好。</p>
 <h4 id="1-安装"><a href="#1-安装" class="headerlink" title="1. 安装"></a>1. 安装</h4><p>docker安装很简单，针对不同的系统提供了不同的方法，参照官方文档<a href="https://docs.docker.com/v17.09/engine/installation/" target="_blank" rel="noopener">Install Docker</a>安装即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ docker</span><br><span class="line"></span><br><span class="line">Usage:	docker [OPTIONS] COMMAND</span><br><span class="line"></span><br><span class="line">A self-sufficient runtime for containers</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">      --config string      Location of client config files (default &quot;/Users/dida/.docker&quot;)</span><br><span class="line">  -D, --debug              Enable debug mode</span><br><span class="line">  -H, --host list          Daemon socket(s) to connect to</span><br><span class="line">  -l, --log-level string   Set the logging level (&quot;debug&quot;|&quot;info&quot;|&quot;warn&quot;|&quot;error&quot;|&quot;fatal&quot;) (default &quot;info&quot;)</span><br><span class="line">      --tls                Use TLS; implied by --tlsverify</span><br><span class="line">      --tlscacert string   Trust certs signed only by this CA (default &quot;/Users/dida/.docker/ca.pem&quot;)</span><br><span class="line">      --tlscert string     Path to TLS certificate file (default &quot;/Users/dida/.docker/cert.pem&quot;)</span><br><span class="line">      --tlskey string      Path to TLS key file (default &quot;/Users/dida/.docker/key.pem&quot;)</span><br><span class="line">      --tlsverify          Use TLS and verify the remote</span><br><span class="line">  -v, --version            Print version information and quit</span><br><span class="line"></span><br><span class="line">Management Commands:</span><br><span class="line">  builder     Manage builds</span><br><span class="line">  config      Manage Docker configs</span><br><span class="line">  container   Manage containers</span><br><span class="line">  image       Manage images</span><br><span class="line">  network     Manage networks</span><br><span class="line">  node        Manage Swarm nodes</span><br><span class="line">  plugin      Manage plugins</span><br><span class="line">  secret      Manage Docker secrets</span><br><span class="line">  service     Manage services</span><br><span class="line">  stack       Manage Docker stacks</span><br><span class="line">  swarm       Manage Swarm</span><br><span class="line">  system      Manage Docker</span><br><span class="line">  trust       Manage trust on Docker images</span><br><span class="line">  volume      Manage volumes</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure></p>
 <p>执行<code>docker</code>即为安装成功。</p>
