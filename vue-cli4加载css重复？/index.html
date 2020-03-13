@@ -17,25 +17,23 @@
   <meta http-equiv="window-target" content="_top">
   
   
-  <title>bakery性能优化 | 咕咕鸡的前端博客</title>
-  <meta name="description" content="香满苑蛋糕屋的微信站bakery运行在了亚马逊云（1G内存+1核+8G硬盘），俄亥俄洲的主机上，平均有300ms的延迟，因为是试运行所以暂时也没有换的打算。在“时间就是金钱的”21世纪，性能优化就显得更为重要，主页load时间过长会让用户失去耐心，前端后台以及mongodb数据库的优化变得不可或缺。 这里分前端、后台和数据库三部分来记录一下我说做的工作。 web前端的优化 代码的合并、压缩、增加m">
-<meta name="keywords" content="优化">
+  <title>vue-cli4加载css重复？ | 咕咕鸡的前端博客</title>
+  <meta name="description" content="vue-cli引入css的正确姿势是什么？ vue-cli怎么避免重复引入css呢？  问题最近用single-spa尝试重构项目,每个子项目用vue-cli初始化，瞧了一眼vue-cli都已经第四版了。我的css预编译框架选的less，本计划是像之前一样直接在main.js中直接 import &amp;#39;./styles/index.less&amp;#39;; 报错了（但是错误是啥不记得了），查了vu">
+<meta name="keywords" content="CSS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="bakery性能优化">
-<meta property="og:url" content="guguji5.github.io/bakery性能优化/index.html">
+<meta property="og:title" content="vue-cli4加载css重复？">
+<meta property="og:url" content="guguji5.github.io/vue-cli4加载css重复？/index.html">
 <meta property="og:site_name" content="咕咕鸡的前端博客">
-<meta property="og:description" content="香满苑蛋糕屋的微信站bakery运行在了亚马逊云（1G内存+1核+8G硬盘），俄亥俄洲的主机上，平均有300ms的延迟，因为是试运行所以暂时也没有换的打算。在“时间就是金钱的”21世纪，性能优化就显得更为重要，主页load时间过长会让用户失去耐心，前端后台以及mongodb数据库的优化变得不可或缺。 这里分前端、后台和数据库三部分来记录一下我说做的工作。 web前端的优化 代码的合并、压缩、增加m">
+<meta property="og:description" content="vue-cli引入css的正确姿势是什么？ vue-cli怎么避免重复引入css呢？  问题最近用single-spa尝试重构项目,每个子项目用vue-cli初始化，瞧了一眼vue-cli都已经第四版了。我的css预编译框架选的less，本计划是像之前一样直接在main.js中直接 import &amp;#39;./styles/index.less&amp;#39;; 报错了（但是错误是啥不记得了），查了vu">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="/images/clipboard2.png">
-<meta property="og:image" content="/images/clipboard1.png">
-<meta property="og:image" content="/images/clipboard.png">
-<meta property="og:updated_time" content="2018-11-11T04:26:58.000Z">
+<meta property="og:image" content="http://img-ys011.didistatic.com/static/dc2img/do1_bfuBHyFYhpB8FBBSextw">
+<meta property="og:updated_time" content="2020-03-13T07:19:26.380Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="bakery性能优化">
-<meta name="twitter:description" content="香满苑蛋糕屋的微信站bakery运行在了亚马逊云（1G内存+1核+8G硬盘），俄亥俄洲的主机上，平均有300ms的延迟，因为是试运行所以暂时也没有换的打算。在“时间就是金钱的”21世纪，性能优化就显得更为重要，主页load时间过长会让用户失去耐心，前端后台以及mongodb数据库的优化变得不可或缺。 这里分前端、后台和数据库三部分来记录一下我说做的工作。 web前端的优化 代码的合并、压缩、增加m">
-<meta name="twitter:image" content="/images/clipboard2.png">
+<meta name="twitter:title" content="vue-cli4加载css重复？">
+<meta name="twitter:description" content="vue-cli引入css的正确姿势是什么？ vue-cli怎么避免重复引入css呢？  问题最近用single-spa尝试重构项目,每个子项目用vue-cli初始化，瞧了一眼vue-cli都已经第四版了。我的css预编译框架选的less，本计划是像之前一样直接在main.js中直接 import &amp;#39;./styles/index.less&amp;#39;; 报错了（但是错误是啥不记得了），查了vu">
+<meta name="twitter:image" content="http://img-ys011.didistatic.com/static/dc2img/do1_bfuBHyFYhpB8FBBSextw">
   <!-- Canonical links -->
-  <link rel="canonical" href="guguji5.github.io/bakery性能优化/index.html">
+  <link rel="canonical" href="guguji5.github.io/vue-cli4加载css重复？/index.html">
   
     <link rel="alternate" href="/atom.xml" title="咕咕鸡的前端博客" type="application/atom+xml">
   
@@ -326,14 +324,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-bakery性能优化" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <article id="post-vue-cli4加载css重复？" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      bakery性能优化
+      vue-cli4加载css重复？
     </h1>
   
 
@@ -341,15 +339,15 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/bakery性能优化/" class="article-date">
-	  <time datetime="2018-11-11T03:15:17.000Z" itemprop="datePublished">2018-11-11</time>
+	<a href="/vue-cli4加载css重复？/" class="article-date">
+	  <time datetime="2020-03-13T03:26:24.000Z" itemprop="datePublished">2020-03-13</time>
 	</a>
 </span>
         
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/优化/">优化</a>
+	<a class="article-tag-link" href="/tags/CSS/">CSS</a>
   </span>
 
 
@@ -362,47 +360,32 @@
 	</span>
 
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/bakery性能优化/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/vue-cli4加载css重复？/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 761(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 449(字)</span>
 	
 	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 2(分)</span>
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
 	
 
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <p>香满苑蛋糕屋的微信站bakery运行在了亚马逊云（1G内存+1核+8G硬盘），俄亥俄洲的主机上，平均有300ms的延迟，因为是试运行所以暂时也没有换的打算。在“时间就是金钱的”21世纪，性能优化就显得更为重要，主页load时间过长会让用户失去耐心，前端后台以及mongodb数据库的优化变得不可或缺。</p>
-<p>这里分前端、后台和数据库三部分来记录一下我说做的工作。</p>
-<h3 id="web前端的优化"><a href="#web前端的优化" class="headerlink" title="web前端的优化"></a>web前端的优化</h3><ol>
-<li>代码的合并、压缩、增加md5的版本都是webpack做的，以及把文件打包成几个bundle文件。减少请求次数。</li>
-<li>小图标根据需要缩小，不使用大图。1024<em>1024的图标直减为20</em>20。</li>
-<li>小图标的合并，css雪碧图的使用，减少请求次数。</li>
-<li>大量图片（包括雪碧图）从服务器拉取比较慢，上传到新浪微博的图床。</li>
-<li>code split。</li>
-<li>webpack热重载慢，webpack2升级到webpack3速度提高10倍；开发过程中就用普通路由，懒加载路由在webpack中会使cache失效。</li>
-</ol>
-<div align="center"><br><img src="/images/clipboard2.png"><br></div>
-
-<p>   从webpack的analysis中可以看出，资源文件打包成两个包。vendor较大，230k左右，app很小几十K。手机端浏览器大部分会同时拉取4个资源，根据木桶原理，最终完毕时间肯定由最慢的一个资源决定。所以将mint-ui的内容从vendor中转移到app中，两个大小都在150k左右。</p>
-<div align="center"><br><img src="/images/clipboard1.png"><br></div>
-
-<h3 id="node后台的优化"><a href="#node后台的优化" class="headerlink" title="node后台的优化"></a>node后台的优化</h3><ol>
-<li>设置一个设置favicon.ico，不然每次都返回404。</li>
-<li>后台开启gzip超级有效，大概压缩率打到75%，从上边code split中可以看出159k的可以直接压缩成54k传过来。（有关gzip还专门翻译了一篇文章：<a href="https://github.com/guguji5/blogs/blob/master/how%20to%20optimieze%20your%20site%20with%20gzip.md" target="_blank" rel="noopener">how to optimieze your site with gzip</a>）</li>
-<li>占据渲染时间大半壁江山的都是图片，图片缓存很重要，从新浪图床上下载下来的，新浪服务器缓存的很好。少量从我服务器上的图通过IF-Modified-since/last-modified last-modified和if-none-match/etags来设置好缓存。未过期的值或者未变化的值浏览器端直接读取缓存。<br><img src="/images/clipboard.png" alt="设置过期时间"></li>
-</ol>
-<h3 id="数据库和微信（菜鸟备忘）"><a href="#数据库和微信（菜鸟备忘）" class="headerlink" title="数据库和微信（菜鸟备忘）"></a>数据库和微信（菜鸟备忘）</h3><ol>
-<li><p>指定需要返回的键</p>
-<p> db.users.find({},{“username”:1,”email”:1})   比db.users.find() 然后再解析数据肯定是要快。</p>
-</li>
-<li>mongodb启动时候要加用户名密码dbpath -auth，裸奔很危险。</li>
-<li>用户表（user ）的收货人数组的id通过生成随机数的方式来使其保证唯一，可以换成$ne或者$addToSet来将数组作为数据集使用，保证数组内的元素不会重复。</li>
-<li>评论放在产品详情（productDetail）表，然后把name和头像url都存进去。<br>db.blog.update({“title”:”a blog post”},<br>{$push:{“commit”:<br>{“name”:”jone”,”headimgurl”:”<a href="http://www.example.com/1.jpg&quot;" target="_blank" rel="noopener">www.example.com/1.jpg&quot;</a>,<br>“content”:”nice post”}}})</li>
-<li>微信端jsapi_ticket,access_token等数据都有每日最大请求次数和过期时间，需要缓存在数据库，通过<a href="https://docs.mongodb.com/manual/tutorial/expire-data/" target="_blank" rel="noopener">TTL</a>的设置来实现过期expires。</li>
+        <p>vue-cli引入css的正确姿势是什么？ vue-cli怎么避免重复引入css呢？</p>
+<hr>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>最近用<a href="https://single-spa.js.org/" target="_blank" rel="noopener">single-spa</a>尝试重构项目,每个子项目用vue-cli初始化，瞧了一眼vue-cli都已经第四版了。我的css预编译框架选的less，本计划是像之前一样直接在main.js中直接 <code>import &#39;./styles/index.less&#39;;</code> 报错了（但是错误是啥不记得了），查了vue-cli的文档<a href="https://cli.vuejs.org/zh/guide/css.html#引用静态资源" target="_blank" rel="noopener">CSS 相关</a> 可以选择 <a href="https://github.com/yenshih/style-resources-loader" target="_blank" rel="noopener">style-resources-loader</a>  和  <a href="https://www.npmjs.com/package/vue-cli-plugin-style-resources-loader" target="_blank" rel="noopener">vue-cli-plugin-style-resources-loader</a> 来引用资源。（见下图一）</p>
+<p>结果在debug样式的时候发现样式重复引入了，啥叫重复了呢，就是像下边这个样子，明明是同一段css，却被加载了N多次。</p>
+<p><img src="http://img-ys011.didistatic.com/static/dc2img/do1_bfuBHyFYhpB8FBBSextw" alt="重复资源"></p>
+<p>原来  <code>vue-cli-plugin-style-resources-loader</code> 是会在每个vue文件中都注入依赖的代码，一般只把less变量放进去。像我这边这样，把的入口index.less文件都引进去，相当于在每个文件中都import了index.less一遍。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//vue.config.js 图一</span></span><br><span class="line">pluginOptions: &#123;</span><br><span class="line">    <span class="string">'style-resources-loader'</span>: &#123;</span><br><span class="line">      preProcessor: <span class="string">'less'</span>,</span><br><span class="line">      patterns: [path.resolve(__dirname, <span class="string">'src/styles/index.less'</span>)]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//vars.less 图二</span></span><br><span class="line"><span class="variable">@blue-base:</span> <span class="number">#2D77EE</span>;</span><br><span class="line"><span class="variable">@blue-light:</span> <span class="number">#6C9FF3</span>;</span><br><span class="line"><span class="variable">@blue-middle-light:</span> <span class="number">#DDE9FC</span>;</span><br><span class="line"><span class="variable">@blue-extra-light:</span> <span class="number">#F3F7FE</span>;</span><br><span class="line"><span class="variable">@blue-lightest:</span> <span class="number">#E4E5EA</span>;</span><br><span class="line"><span class="variable">@blue-active:</span> <span class="number">#2A6BD4</span>;</span><br><span class="line"><span class="variable">@base-color:</span> <span class="variable">@blue-base</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><ol>
+<li>全局less样式，可以在main.js中通过import引入，需要less变量的文件手动<code>@import vars.less</code>，比较清楚明白。</li>
+<li>单独使用 <a href="https://github.com/yenshih/style-resources-loader" target="_blank" rel="noopener">style-resources-loader</a> 可以按图一的方式将index.less文件的作为样式入口文件引入，不会重复。注意一定不要安装  <a href="https://www.npmjs.com/package/vue-cli-plugin-style-resources-loader" target="_blank" rel="noopener">vue-cli-plugin-style-resources-loader</a> 组件。</li>
+<li><a href="https://github.com/yenshih/style-resources-loader" target="_blank" rel="noopener">style-resources-loader</a>  和  <a href="https://www.npmjs.com/package/vue-cli-plugin-style-resources-loader" target="_blank" rel="noopener">vue-cli-plugin-style-resources-loader</a>  同时安装时，<code>vue.config.js</code> 中只能引入变量（如图二）。</li>
+<li>比较推荐的方法是，index.less在main.js中引入，vars.less 等变量在vue.config.js中引入。</li>
 </ol>
 
       
@@ -413,7 +396,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="guguji5.github.io/bakery性能优化/" title="bakery性能优化" target="_blank" rel="external">guguji5.github.io/bakery性能优化/</a>
+      <a href="guguji5.github.io/vue-cli4加载css重复？/" title="vue-cli4加载css重复？" target="_blank" rel="external">guguji5.github.io/vue-cli4加载css重复？/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -459,13 +442,9 @@
   
   <ul class="pager pull-left">
     
-    <li class="prev">
-      <a href="/Hexo-Github搭建静态博客-二/" title="Hexo + Github搭建静态博客(二)"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
-    </li>
-    
     
     <li class="next">
-      <a href="/如何使用GZIP来优化你的网站/" title="如何使用GZIP来优化你的网站"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/fork项目自动同步机器人/" title="fork项目自动同步机器人"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
