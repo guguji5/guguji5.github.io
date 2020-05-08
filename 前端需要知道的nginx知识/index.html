@@ -17,16 +17,21 @@
   <meta http-equiv="window-target" content="_top">
   
   
-  <title>归档: 2018 | 咕咕鸡的前端博客</title>
-  <meta property="og:type" content="website">
-<meta property="og:title" content="咕咕鸡的前端博客">
-<meta property="og:url" content="guguji5.github.io/archives/2018/index.html">
+  <title>前端需要知道的nginx知识 | 咕咕鸡的前端博客</title>
+  <meta name="description" content="看来我必须得写点前端需要掌握的nginx知识了，每次都浪费我好多好多的时间。 1. proxy_pass具体的可以见 https://blog.csdn.net/u010433704/article/details/99945557 这个链接，使用场景是，当我们有很多机器，但是只有一个域名时，可以通过不同的location来转发到不同的机器上。 2. gzip有关gzip的介绍，可以参考这个如何使">
+<meta name="keywords" content="nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端需要知道的nginx知识">
+<meta property="og:url" content="guguji5.github.io/前端需要知道的nginx知识/index.html">
 <meta property="og:site_name" content="咕咕鸡的前端博客">
+<meta property="og:description" content="看来我必须得写点前端需要掌握的nginx知识了，每次都浪费我好多好多的时间。 1. proxy_pass具体的可以见 https://blog.csdn.net/u010433704/article/details/99945557 这个链接，使用场景是，当我们有很多机器，但是只有一个域名时，可以通过不同的location来转发到不同的机器上。 2. gzip有关gzip的介绍，可以参考这个如何使">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-05-08T08:23:33.546Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="咕咕鸡的前端博客">
+<meta name="twitter:title" content="前端需要知道的nginx知识">
+<meta name="twitter:description" content="看来我必须得写点前端需要掌握的nginx知识了，每次都浪费我好多好多的时间。 1. proxy_pass具体的可以见 https://blog.csdn.net/u010433704/article/details/99945557 这个链接，使用场景是，当我们有很多机器，但是只有一个域名时，可以通过不同的location来转发到不同的机器上。 2. gzip有关gzip的介绍，可以参考这个如何使">
   <!-- Canonical links -->
-  <link rel="canonical" href="guguji5.github.io/archives/2018/index.html">
+  <link rel="canonical" href="guguji5.github.io/前端需要知道的nginx知识/index.html">
   
     <link rel="alternate" href="/atom.xml" title="咕咕鸡的前端博客" type="application/atom+xml">
   
@@ -316,98 +321,134 @@
   
   
 <main class="main" role="main">
-  	<article class="content article article-archives article-type-list" itemscope="">
-	    <header class="article-header">
-	      <h1 itemprop="title">归档: 2018</h1>
-	      <p class="text-muted">共 6 篇文章</p>
-	    </header>
-	    <div class="article-body">
-	      
-  
-  
+  <div class="content">
+  <article id="post-前端需要知道的nginx知识" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
     
-    
+    <div class="article-header">
       
+        
+  
+    <h1 class="article-title" itemprop="name">
+      前端需要知道的nginx知识
+    </h1>
+  
+
       
-      <section class="panel panel-default b-no">
-        <div class="panel-heading" role="tab">
-          <h3 class="panel-title">
-            <a data-toggle="collapse" href="#collapse2018" aria-expanded="true">
-              <i class="icon icon-calendar-plus text-active"></i><i class="icon icon-calendar-minus text"></i>
-              2018
-            </a>
-            <!-- <a href="/archives/2018" class="archive-year">2018</a> -->
-          </h3>
-        </div>
-        <div id="collapse2018" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading2018">
-        <div class="panel-body">
-          <div class="collection">
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/前端需要知道的nginx知识/" class="article-date">
+	  <time datetime="2020-05-08T08:12:53.000Z" itemprop="datePublished">2020-05-08</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/nginx/">nginx</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/前端需要知道的nginx知识/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 160(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>看来我必须得写点前端需要掌握的nginx知识了，每次都浪费我好多好多的时间。</p>
+<h1 id="1-proxy-pass"><a href="#1-proxy-pass" class="headerlink" title="1. proxy_pass"></a>1. proxy_pass</h1><p>具体的可以见 <a href="https://blog.csdn.net/u010433704/article/details/99945557" target="_blank" rel="noopener">https://blog.csdn.net/u010433704/article/details/99945557</a> 这个链接，使用场景是，当我们有很多机器，但是只有一个域名时，可以通过不同的location来转发到不同的机器上。</p>
+<h1 id="2-gzip"><a href="#2-gzip" class="headerlink" title="2. gzip"></a>2. gzip</h1><p>有关gzip的介绍，可以参考这个<a href="https://guguji5.js.org/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8GZIP%E6%9D%A5%E4%BC%98%E5%8C%96%E4%BD%A0%E7%9A%84%E7%BD%91%E7%AB%99/" target="_blank" rel="noopener">如何使用GZIP来优化你的网站</a>，在nginx开启gzip很简单，但是proxy_pass 和 gzip配合起来，有些好坑，<a href="https://reinout.vanrees.org/weblog/2015/11/19/nginx-proxy-gzip.html" target="_blank" rel="noopener">https://reinout.vanrees.org/weblog/2015/11/19/nginx-proxy-gzip.html</a> 这个链接解释了如何操作。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
     
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="guguji5.github.io/前端需要知道的nginx知识/" title="前端需要知道的nginx知识" target="_blank" rel="external">guguji5.github.io/前端需要知道的nginx知识/</a>
+    </li>
     
-<a href="/SVG-Sprite优化滴滴云项目中的图标/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2018-11-22T13:54:26.000Z" itemprop="datePublished">2018-11-22</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> SVG Sprite优化滴滴云项目中的图标
-</a>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/guguji5" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/gangji.jpeg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/guguji5" target="_blank"><span class="text-dark">Damon Du</span><small class="ml-1x">菜鸡前端</small></a></h3>
+        <div>滴滴云</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
 
 
   
-    
-    
-    
-<a href="/Hexo-Github搭建静态博客-二/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2018-11-11T08:43:29.000Z" itemprop="datePublished">2018-11-11</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> Hexo + Github搭建静态博客(二)
-</a>
+</div>
 
-
+  <nav class="bar bar-footer clearfix" data-stick-bottom="">
+  <div class="bar-inner">
   
+  <ul class="pager pull-left">
     
     
-    
-<a href="/bakery性能优化/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2018-11-11T03:15:17.000Z" itemprop="datePublished">2018-11-11</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> bakery性能优化
-</a>
-
-
-  
+    <li class="next">
+      <a href="/vue-cli4加载css重复？/" title="vue-cli4加载css重复？"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
     
     
-    
-<a href="/如何使用GZIP来优化你的网站/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2018-11-09T05:22:55.000Z" itemprop="datePublished">2018-11-09</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> 如何使用GZIP来优化你的网站
-</a>
-
-
-  
-    
-    
-    
-<a href="/Hexo-Github搭建静态博客-一/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2018-11-09T05:19:48.000Z" itemprop="datePublished">2018-11-09</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> Hexo + Github搭建静态博客(一)
-</a>
-
-
-  
-    
-    
-    
-<a href="/angular-splitter/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2018-11-09T04:15:55.000Z" itemprop="datePublished">2018-11-09</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> angular-splitter
-</a>
-
-
+  </ul>
   
   
-    </div></div></div></section>
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,wechat" data-mobile-sites="weibo,wechat"></div>
+    
+  </div>
+  </div>
+</nav>
   
 
-	    </div>
-  	</article>
-  	 	
+
 </main>
 
   <footer class="footer" itemscope="" itemtype="http://schema.org/WPFooter">
@@ -457,6 +498,33 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'd2c2eed331f93213c11d',
+    clientSecret: 'df41c902c1854c3a80133f0096c625c6020609c2',
+    repo: 'guguji5.github.io',
+    owner: 'guguji5',
+    admin: ['guguji5'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
 
 
 
