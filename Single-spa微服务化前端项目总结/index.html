@@ -17,19 +17,19 @@
   <meta http-equiv="window-target" content="_top">
   
   
-  <title>Single-spa微服务化前端项目总结 | 咕咕鸡的前端博客</title>
+  <title>滴滴云MIS Single-spa微服务化项目总结 | 咕咕鸡的前端博客</title>
   <meta name="description" content="我们为什么要用微前端 ？当然微前端的优势有很多，具体到我们应用大概就以下三点：  因为滴滴云有三个项目，滴滴云官网，滴滴云控制台，滴滴云MIS。滴滴云官网和控制台是对外提供服务，MIS是对内提供服务。MIS如何复用控制台和官网的组件？在单页应用的架构下，目前没有能力，从去年冬天，我们开始探索微前端的结构。 MIS中功能较为独立，一部分模块改动频繁，另外一些可以说基本不更新。作为一个整体应用，这些原">
 <meta name="keywords" content="微前端 single-spa">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Single-spa微服务化前端项目总结">
+<meta property="og:title" content="滴滴云MIS Single-spa微服务化项目总结">
 <meta property="og:url" content="guguji5.github.io/Single-spa微服务化前端项目总结/index.html">
 <meta property="og:site_name" content="咕咕鸡的前端博客">
 <meta property="og:description" content="我们为什么要用微前端 ？当然微前端的优势有很多，具体到我们应用大概就以下三点：  因为滴滴云有三个项目，滴滴云官网，滴滴云控制台，滴滴云MIS。滴滴云官网和控制台是对外提供服务，MIS是对内提供服务。MIS如何复用控制台和官网的组件？在单页应用的架构下，目前没有能力，从去年冬天，我们开始探索微前端的结构。 MIS中功能较为独立，一部分模块改动频繁，另外一些可以说基本不更新。作为一个整体应用，这些原">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="/images/how_single-spa_works.png">
-<meta property="og:updated_time" content="2020-06-12T09:01:03.656Z">
+<meta property="og:updated_time" content="2020-06-14T07:28:40.531Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Single-spa微服务化前端项目总结">
+<meta name="twitter:title" content="滴滴云MIS Single-spa微服务化项目总结">
 <meta name="twitter:description" content="我们为什么要用微前端 ？当然微前端的优势有很多，具体到我们应用大概就以下三点：  因为滴滴云有三个项目，滴滴云官网，滴滴云控制台，滴滴云MIS。滴滴云官网和控制台是对外提供服务，MIS是对内提供服务。MIS如何复用控制台和官网的组件？在单页应用的架构下，目前没有能力，从去年冬天，我们开始探索微前端的结构。 MIS中功能较为独立，一部分模块改动频繁，另外一些可以说基本不更新。作为一个整体应用，这些原">
 <meta name="twitter:image" content="/images/how_single-spa_works.png">
   <!-- Canonical links -->
@@ -205,7 +205,7 @@
   <div class="widget">
     <h3 class="widget-title">标签</h3>
     <div class="widget-body">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angular/">angular</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/component/">component</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/优化/">优化</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微前端-single-spa/">微前端 single-spa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器人/">机器人</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动化测试/">自动化测试</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angular/">angular</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/component/">component</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/优化/">优化</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微前端-single-spa/">微前端 single-spa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器人/">机器人</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动化测试/">自动化测试</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -215,7 +215,7 @@
   <div class="widget">
     <h3 class="widget-title">标签云</h3>
     <div class="widget-body tagcloud">
-      <a href="/tags/CSS/" style="font-size: 13px;">CSS</a> <a href="/tags/Hexo/" style="font-size: 13.5px;">Hexo</a> <a href="/tags/angular/" style="font-size: 13px;">angular</a> <a href="/tags/component/" style="font-size: 13px;">component</a> <a href="/tags/nginx/" style="font-size: 13px;">nginx</a> <a href="/tags/优化/" style="font-size: 14px;">优化</a> <a href="/tags/微前端-single-spa/" style="font-size: 13px;">微前端 single-spa</a> <a href="/tags/机器人/" style="font-size: 13px;">机器人</a> <a href="/tags/自动化测试/" style="font-size: 13px;">自动化测试</a>
+      <a href="/tags/CSS/" style="font-size: 13px;">CSS</a> <a href="/tags/Hexo/" style="font-size: 13.5px;">Hexo</a> <a href="/tags/angular/" style="font-size: 13px;">angular</a> <a href="/tags/component/" style="font-size: 13px;">component</a> <a href="/tags/nginx/" style="font-size: 13px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 13px;">nodejs</a> <a href="/tags/优化/" style="font-size: 14px;">优化</a> <a href="/tags/微前端-single-spa/" style="font-size: 13px;">微前端 single-spa</a> <a href="/tags/机器人/" style="font-size: 13px;">机器人</a> <a href="/tags/自动化测试/" style="font-size: 13px;">自动化测试</a>
     </div>
   </div>
 
@@ -224,7 +224,7 @@
   <div class="widget">
     <h3 class="widget-title">归档</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -236,6 +236,21 @@
     <div class="widget-body">
       <ul class="recent-post-list list-unstyled no-thumbnail">
         
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/记一次koa转发请求遇到的bug/" class="title">记一次koa转发请求遇到的bug</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-07-18T11:50:39.000Z" itemprop="datePublished">2020-07-18</time>
+              </p>
+            </div>
+          </li>
+          
           <li>
             
             <div class="item-inner">
@@ -258,7 +273,7 @@
                 
               </p>
               <p class="item-title">
-                <a href="/Single-spa微服务化前端项目总结/" class="title">Single-spa微服务化前端项目总结</a>
+                <a href="/Single-spa微服务化前端项目总结/" class="title">滴滴云MIS Single-spa微服务化项目总结</a>
               </p>
               <p class="item-date">
                 <time datetime="2020-05-30T07:42:15.000Z" itemprop="datePublished">2020-05-30</time>
@@ -296,21 +311,6 @@
             </div>
           </li>
           
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                
-              </p>
-              <p class="item-title">
-                <a href="/fork项目自动同步机器人/" class="title">fork项目自动同步机器人</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2020-02-29T12:14:28.000Z" itemprop="datePublished">2020-02-29</time>
-              </p>
-            </div>
-          </li>
-          
       </ul>
     </div>
   </div>
@@ -331,7 +331,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Single-spa微服务化前端项目总结
+      滴滴云MIS Single-spa微服务化项目总结
     </h1>
   
 
@@ -366,7 +366,7 @@
 		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2.3k(字)</span>
 	
 	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 8(分)</span>
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 9(分)</span>
 	
 
       </div>
@@ -405,7 +405,7 @@
 <li><p>single-spa 的项目如何部署在nginx服务器？<br>single-spa，顾名思义，还是一个单页应用。我们不希望切换路由的时候浏览器发生跳转或者刷新。可以尝试如下配置：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">      try_files $uri $uri.html /index.html =404;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>System-importmap 存在哪里，如何修改？<br>根据官方的推荐，importmap建议存在S3存储，目前我们使用的内部gift，gift上没有一个https的域名，所以使用了cdn的域名。但这个cdn的下发有延迟，导致页面的刷新有些问题，后期考虑存到数据库。</p>
+<li><p>System-importmap 存在哪里，如何修改？<br>根据官方的推荐，importmap建议存在S3存储，目前我们使用的内部gift服务，gift上目前没有一个支持https协议的域名，所以使用了cdn的域名。但这个cdn的下发有延迟，导致页面的刷新有些问题，后期考虑存到数据库。</p>
 </li>
 </ol>
 <ol start="6">
@@ -446,9 +446,11 @@
 <li>探索了使用single-spa的成本和难度，为改造滴滴云控制台提供了一种解决方案。</li>
 <li>拆分后的项目更独立，为技术栈的改造和升级降低了门槛。</li>
 <li>最最重要的给复用滴滴云控制台的代码提供了一种可维护的方案，目前滴滴云MIS中费用中心使用的是滴滴云控制台中现成的视图组件。</li>
+<li>改版后的MIS懒加载更合理，不同的用户使用MIS中某些特定的功能，真正做到不使用的应用不加载。</li>
 <li>给团队的同学分享和实践了一种可落地的微前端解决方案。</li>
+<li>全新的开发体验，做到开发哪里，替换哪里。(<a href="https://github.com/joeldenning/import-map-overrides" target="_blank" rel="noopener">import-map-overrides新体验</a>)</li>
 </ol>
-<h2 id="写在最后的话"><a href="#写在最后的话" class="headerlink" title="写在最后的话"></a>写在最后的话</h2><p>single-spa核心团队的Joeldenning是一个非常热情，阅历丰富，技术扎实的开发人员。在探索single-spa的过程中，向他学习到很多东西，他也总是能第一时间给出合理的解决方案，并且也是很热心的把再Youtube上的single-spa的介绍视频上传到bilibili一份，投桃报李，我们团队也利用周末时间，进行了single-spa的中文翻译工作，收获良多。</p>
+<h2 id="写在最后的话"><a href="#写在最后的话" class="headerlink" title="写在最后的话"></a>写在最后的话</h2><p>single-spa核心团队的Joeldenning是一个非常热情，阅历丰富，技术扎实的开发人员。在探索single-spa的过程中，向他学习到很多东西，他也总是能第一时间给出合理的解决方案，并且也是很热心的把再Youtube上的single-spa的介绍视频上传到bilibili一份，投桃报李，我们团队也利用周末时间，进行了<a href="https://zh-hans.single-spa.js.org/docs/getting-started-overview" target="_blank" rel="noopener">single-spa的中文翻译</a>工作，收获良多。</p>
 
       
     </div>
@@ -458,7 +460,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="guguji5.github.io/Single-spa微服务化前端项目总结/" title="Single-spa微服务化前端项目总结" target="_blank" rel="external">guguji5.github.io/Single-spa微服务化前端项目总结/</a>
+      <a href="guguji5.github.io/Single-spa微服务化前端项目总结/" title="滴滴云MIS Single-spa微服务化项目总结" target="_blank" rel="external">guguji5.github.io/Single-spa微服务化前端项目总结/</a>
     </li>
     
     <li class="post-copyright-license">
