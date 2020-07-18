@@ -26,7 +26,7 @@
 <meta property="og:site_name" content="咕咕鸡的前端博客">
 <meta property="og:description" content="最近公司内某业务线清理非法请求，options请求就被归为此类，从浏览器端直接调用跨域的api必然产生options，所以需要proxy来转发。  无论对于何种后端语言来说，转发都是一个基本切正常的需求，我们选择使用前端自己搭的nodejs server来做转发。在调研了 koa-proxy，koa-proxies，koa-better-http-proxy，koa2-proxy-middlew">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-07-18T12:57:12.889Z">
+<meta property="og:updated_time" content="2020-07-18T13:01:51.428Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次koa转发请求遇到的bug">
 <meta name="twitter:description" content="最近公司内某业务线清理非法请求，options请求就被归为此类，从浏览器端直接调用跨域的api必然产生options，所以需要proxy来转发。  无论对于何种后端语言来说，转发都是一个基本切正常的需求，我们选择使用前端自己搭的nodejs server来做转发。在调研了 koa-proxy，koa-proxies，koa-better-http-proxy，koa2-proxy-middlew">
@@ -361,7 +361,7 @@
         <span class="post-comment"><i class="icon icon-comment"></i> <a href="/记一次koa转发请求遇到的bug/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 802(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 799(字)</span>
 	
 	
 		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 3(分)</span>
@@ -382,9 +382,9 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// this works with bug &quot;socket hang up&quot;.</span><br><span class="line">const Koa = require(&apos;koa&apos;);</span><br><span class="line">const app = new Koa();</span><br><span class="line">const proxy = require(&apos;koa-proxies&apos;)</span><br><span class="line">const bodyParser = require(&apos;koa-bodyparser&apos;);</span><br><span class="line">app.use(bodyParser())</span><br><span class="line"></span><br><span class="line">app.use(proxy(&apos;/user&apos;, &#123;</span><br><span class="line">  target: &apos;http://example.com&apos;,    </span><br><span class="line">  changeOrigin: true,</span><br><span class="line">  rewrite: path =&gt; path</span><br><span class="line">&#125;))</span><br><span class="line"></span><br><span class="line">app.listen(8080);</span><br></pre></td></tr></table></figure>
 <p>这个proxy，真的是 从查找文档，拷贝粘贴，一共也就用了5分钟。但是把bodyParser从proxy上边挪到proxy下边用了many many多的hours。<strong>这事不能这么过了，必须得找下原因看看为啥。</strong></p>
 <p>先从 <code>koa-bodyparser</code> 这个库说起吧，它到期对api请求过来的数据做了什么？我们都知道这个库是在koa框架下解析post put等有请求体的api时，将请求体数据转换成我们想要的格式，比如json，form，text等。<br>那么它是如何做的呢？我们举一个最简单的nodejs例子来如何处理post数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">http.createServer(function (req, res) &#123;</span><br><span class="line">  console.log(req.url)</span><br><span class="line">  let postData = &apos;&apos; </span><br><span class="line">  req.on(&apos;data&apos;, chunk =&gt; &#123;</span><br><span class="line">    postData += chunk.toString()</span><br><span class="line">  &#125;)</span><br><span class="line">  req.on(&apos;end&apos;, () =&gt; &#123;</span><br><span class="line">    if (postData) &#123;</span><br><span class="line">      res.setHeader(&apos;Content-type&apos;, &apos;text/plain&apos;)</span><br><span class="line">      res.end(&apos;request successfully proxied!&apos; + &apos;\n&apos; + JSON.stringify(req.headers, true, 2) + postData)</span><br><span class="line">    &#125;</span><br><span class="line">    console.log(JSON.parse(postData))</span><br><span class="line">  &#125;) </span><br><span class="line">&#125;).listen(9000);</span><br></pre></td></tr></table></figure></p>
-<p>很显然在bodyParser这个中间件中消费了data数据，直到它结束。再到proxy这个中间件执行时req中就没有data事件了。</p>
+<p>很显然在bodyParser这个中间件中消费了data数据，直到它结束。<strong>而middleware会串行的一个一个执行，并且修改ctx中的res和req。</strong> 再到proxy这个中间件执行时req中就没有data事件了。</p>
 <p>这和使用postman请求的结果符合，使用postman请求是一直不返回数据，其实它被bodyParser接受并消费了，根本没发到proxy的target去，也就没有返回值可言了，超时后报错<code>hang up</code>,一切就通了。</p>
-<p>这次浪费这么多时间主要还是对middleware和bodyParser这个库的实现不熟悉，导致一个小小的问题，middleware会串行的一个一个执行，并且修改ctx中的res和req。</p>
+<p>这次浪费这么多时间主要还是对middleware和bodyParser这个库的实现不熟悉，继续加油吧。</p>
 
       
     </div>
