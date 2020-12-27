@@ -51,7 +51,7 @@ const Counter = {
             this.closeList.push(currNode)
             if(this.isTarget(currNode.list)){
                 this.disable = true
-                alert('success')
+                // alert('success')
                 return
             }
             this.step++
