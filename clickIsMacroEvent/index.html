@@ -93,7 +93,7 @@
         var inner = document.getElementById('inner')
         out.addEventListener('click', function(){
             console.log('outter')
-            setTimeout(()=>{
+            setTimeout(function() {
                 console.log('this is outter settimeout')
             })
             Promise.resolve(111).then(res =>{
@@ -103,7 +103,7 @@
 
         inner.addEventListener('click', function(){
             console.log('inner')
-            setTimeout(()=>{
+            setTimeout(function() {
                 console.log('this is inner settimeout')
             })
             Promise.resolve(111).then(res =>{
