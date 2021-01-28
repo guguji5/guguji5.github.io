@@ -17,25 +17,23 @@
   <meta http-equiv="window-target" content="_top">
   
   
-  <title>bakery性能优化 | 咕咕鸡的前端博客</title>
-  <meta name="description" content="香满苑蛋糕屋的微信站bakery运行在了亚马逊云（1G内存+1核+8G硬盘），俄亥俄洲的主机上，平均有300ms的延迟，因为是试运行所以暂时也没有换的打算。在“时间就是金钱的”21世纪，性能优化就显得更为重要，主页load时间过长会让用户失去耐心，前端后台以及mongodb数据库的优化变得不可或缺。 这里分前端、后台和数据库三部分来记录一下我说做的工作。 web前端的优化 代码的合并、压缩、增加m">
-<meta name="keywords" content="优化">
+  <title>4.Vue升级引发nextTick的bug(一) | 咕咕鸡的前端博客</title>
+  <meta name="description" content="最近项目使用qiankun做了个简单的重构和拆分，顺手把Vue版本往上升级了一丢丢（2.5.5 -&amp;gt; 2.6.10)。出现了一点问题，记录之。 简单介绍一下场景，也很简单，就是点击button，出现dialog，而点击其他区域，关闭该dialog，应该是个非常常见的需求。  Vue2.5.2事件流如下: button clicked -&amp;gt; document clicked（冒泡） -&amp;">
+<meta name="keywords" content="Bugfix">
 <meta property="og:type" content="article">
-<meta property="og:title" content="bakery性能优化">
-<meta property="og:url" content="guguji5.github.io/bakery性能优化/index.html">
+<meta property="og:title" content="4.Vue升级引发nextTick的bug(一)">
+<meta property="og:url" content="guguji5.github.io/4.Vue升级引发nextTick的bug(一)/index.html">
 <meta property="og:site_name" content="咕咕鸡的前端博客">
-<meta property="og:description" content="香满苑蛋糕屋的微信站bakery运行在了亚马逊云（1G内存+1核+8G硬盘），俄亥俄洲的主机上，平均有300ms的延迟，因为是试运行所以暂时也没有换的打算。在“时间就是金钱的”21世纪，性能优化就显得更为重要，主页load时间过长会让用户失去耐心，前端后台以及mongodb数据库的优化变得不可或缺。 这里分前端、后台和数据库三部分来记录一下我说做的工作。 web前端的优化 代码的合并、压缩、增加m">
+<meta property="og:description" content="最近项目使用qiankun做了个简单的重构和拆分，顺手把Vue版本往上升级了一丢丢（2.5.5 -&amp;gt; 2.6.10)。出现了一点问题，记录之。 简单介绍一下场景，也很简单，就是点击button，出现dialog，而点击其他区域，关闭该dialog，应该是个非常常见的需求。  Vue2.5.2事件流如下: button clicked -&amp;gt; document clicked（冒泡） -&amp;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="/images/clipboard2.png">
-<meta property="og:image" content="/images/clipboard1.png">
-<meta property="og:image" content="/images/clipboard.png">
-<meta property="og:updated_time" content="2018-11-11T04:26:58.000Z">
+<meta property="og:image" content="http://img-ys011.didistatic.com/static/dc2img/do1_yngcCDJ7zLxtVZ5WlJPi">
+<meta property="og:updated_time" content="2021-01-26T12:15:51.629Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="bakery性能优化">
-<meta name="twitter:description" content="香满苑蛋糕屋的微信站bakery运行在了亚马逊云（1G内存+1核+8G硬盘），俄亥俄洲的主机上，平均有300ms的延迟，因为是试运行所以暂时也没有换的打算。在“时间就是金钱的”21世纪，性能优化就显得更为重要，主页load时间过长会让用户失去耐心，前端后台以及mongodb数据库的优化变得不可或缺。 这里分前端、后台和数据库三部分来记录一下我说做的工作。 web前端的优化 代码的合并、压缩、增加m">
-<meta name="twitter:image" content="/images/clipboard2.png">
+<meta name="twitter:title" content="4.Vue升级引发nextTick的bug(一)">
+<meta name="twitter:description" content="最近项目使用qiankun做了个简单的重构和拆分，顺手把Vue版本往上升级了一丢丢（2.5.5 -&amp;gt; 2.6.10)。出现了一点问题，记录之。 简单介绍一下场景，也很简单，就是点击button，出现dialog，而点击其他区域，关闭该dialog，应该是个非常常见的需求。  Vue2.5.2事件流如下: button clicked -&amp;gt; document clicked（冒泡） -&amp;">
+<meta name="twitter:image" content="http://img-ys011.didistatic.com/static/dc2img/do1_yngcCDJ7zLxtVZ5WlJPi">
   <!-- Canonical links -->
-  <link rel="canonical" href="guguji5.github.io/bakery性能优化/index.html">
+  <link rel="canonical" href="guguji5.github.io/4.Vue升级引发nextTick的bug(一)/index.html">
   
     <link rel="alternate" href="/atom.xml" title="咕咕鸡的前端博客" type="application/atom+xml">
   
@@ -326,14 +324,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-bakery性能优化" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <article id="post-4.Vue升级引发nextTick的bug(一)" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      bakery性能优化
+      4.Vue升级引发nextTick的bug(一)
     </h1>
   
 
@@ -341,15 +339,15 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/bakery性能优化/" class="article-date">
-	  <time datetime="2018-11-11T03:15:17.000Z" itemprop="datePublished">2018-11-11</time>
+	<a href="/4.Vue升级引发nextTick的bug(一)/" class="article-date">
+	  <time datetime="2021-01-26T10:15:07.000Z" itemprop="datePublished">2021-01-26</time>
 	</a>
 </span>
         
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/优化/">优化</a>
+	<a class="article-tag-link" href="/tags/Bugfix/">Bugfix</a>
   </span>
 
 
@@ -362,48 +360,40 @@
 	</span>
 
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/bakery性能优化/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/4.Vue升级引发nextTick的bug(一)/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 761(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 794(字)</span>
 	
 	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 2(分)</span>
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 3(分)</span>
 	
 
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <p>香满苑蛋糕屋的微信站bakery运行在了亚马逊云（1G内存+1核+8G硬盘），俄亥俄洲的主机上，平均有300ms的延迟，因为是试运行所以暂时也没有换的打算。在“时间就是金钱的”21世纪，性能优化就显得更为重要，主页load时间过长会让用户失去耐心，前端后台以及mongodb数据库的优化变得不可或缺。</p>
-<p>这里分前端、后台和数据库三部分来记录一下我说做的工作。</p>
-<h3 id="web前端的优化"><a href="#web前端的优化" class="headerlink" title="web前端的优化"></a>web前端的优化</h3><ol>
-<li>代码的合并、压缩、增加md5的版本都是webpack做的，以及把文件打包成几个bundle文件。减少请求次数。</li>
-<li>小图标根据需要缩小，不使用大图。1024<em>1024的图标直减为20</em>20。</li>
-<li>小图标的合并，css雪碧图的使用，减少请求次数。</li>
-<li>大量图片（包括雪碧图）从服务器拉取比较慢，上传到新浪微博的图床。</li>
-<li>code split。</li>
-<li>webpack热重载慢，webpack2升级到webpack3速度提高10倍；开发过程中就用普通路由，懒加载路由在webpack中会使cache失效。</li>
-</ol>
-<div align="center"><br><img src="/images/clipboard2.png"><br></div>
-
-<p>   从webpack的analysis中可以看出，资源文件打包成两个包。vendor较大，230k左右，app很小几十K。手机端浏览器大部分会同时拉取4个资源，根据木桶原理，最终完毕时间肯定由最慢的一个资源决定。所以将mint-ui的内容从vendor中转移到app中，两个大小都在150k左右。</p>
-<div align="center"><br><img src="/images/clipboard1.png"><br></div>
-
-<h3 id="node后台的优化"><a href="#node后台的优化" class="headerlink" title="node后台的优化"></a>node后台的优化</h3><ol>
-<li>设置一个设置favicon.ico，不然每次都返回404。</li>
-<li>后台开启gzip超级有效，大概压缩率打到75%，从上边code split中可以看出159k的可以直接压缩成54k传过来。（有关gzip还专门翻译了一篇文章：<a href="https://github.com/guguji5/blogs/blob/master/how%20to%20optimieze%20your%20site%20with%20gzip.md" target="_blank" rel="noopener">how to optimieze your site with gzip</a>）</li>
-<li>占据渲染时间大半壁江山的都是图片，图片缓存很重要，从新浪图床上下载下来的，新浪服务器缓存的很好。少量从我服务器上的图通过IF-Modified-since/last-modified last-modified和if-none-match/etags来设置好缓存。未过期的值或者未变化的值浏览器端直接读取缓存。<br><img src="/images/clipboard.png" alt="设置过期时间"></li>
-</ol>
-<h3 id="数据库和微信（菜鸟备忘）"><a href="#数据库和微信（菜鸟备忘）" class="headerlink" title="数据库和微信（菜鸟备忘）"></a>数据库和微信（菜鸟备忘）</h3><ol>
-<li><p>指定需要返回的键</p>
-<p> db.users.find({},{“username”:1,”email”:1})   比db.users.find() 然后再解析数据肯定是要快。</p>
-</li>
-<li>mongodb启动时候要加用户名密码dbpath -auth，裸奔很危险。</li>
-<li>用户表（user ）的收货人数组的id通过生成随机数的方式来使其保证唯一，可以换成$ne或者$addToSet来将数组作为数据集使用，保证数组内的元素不会重复。</li>
-<li>评论放在产品详情（productDetail）表，然后把name和头像url都存进去。<br>db.blog.update({“title”:”a blog post”},<br>{$push:{“commit”:<br>{“name”:”jone”,”headimgurl”:”<a href="http://www.example.com/1.jpg&quot;" target="_blank" rel="noopener">www.example.com/1.jpg&quot;</a>,<br>“content”:”nice post”}}})</li>
-<li>微信端jsapi_ticket,access_token等数据都有每日最大请求次数和过期时间，需要缓存在数据库，通过<a href="https://docs.mongodb.com/manual/tutorial/expire-data/" target="_blank" rel="noopener">TTL</a>的设置来实现过期expires。</li>
-</ol>
+        <p>最近项目使用qiankun做了个简单的重构和拆分，顺手把Vue版本往上升级了一丢丢（2.5.5 -&gt; 2.6.10)。出现了一点问题，记录之。</p>
+<p>简单介绍一下场景，也很简单，就是点击button，出现dialog，而点击其他区域，关闭该dialog，应该是个非常常见的需求。</p>
+<p><img src="http://img-ys011.didistatic.com/static/dc2img/do1_yngcCDJ7zLxtVZ5WlJPi" alt=""></p>
+<p>Vue2.5.2事件流如下:</p>
+<p><strong>button clicked -&gt; document clicked（冒泡） -&gt; dialog render -&gt; directive bind function 触发 -&gt; document.addEventListener 触发 </strong></p>
+<p><strong>其中<code>document.addEventListener</code>中的callback，就是关闭该dialog。</strong>点击其他区域关闭弹窗，合情合理，符合需求。</p>
+<p>代码在Vue2.5.2下工作正常，升级到Vue2.6.10之后，点击button后没有显示dialog，经过各种排查，发现原来是nextTick搞的鬼。</p>
+<p><strong>因为click事件是宏任务</strong>，如果不清楚可以点击 <a href="https://guguji5.github.io/%E8%AF%81%E6%98%8E%EF%BC%9AClick%E6%98%AF%E4%B8%80%E4%B8%AAEventLoop%E5%AE%8F%E4%BB%BB%E5%8A%A1/">证明：Click是一个EventLoop宏任务</a> 查看证明过程。</p>
+<p>而Vue2.5.2中的nextTick是宏任务 -&gt; 微任务 -&gt; 宏任务交替触发，第一次使用宏任务。而Vue2.6.10中nextTick全部使用微任务。</p>
+<p>重新解释一下 Vue2.5.2事件流：</p>
+<p><strong>button clicked (触发nextTick) -&gt; document clicked（冒泡） -&gt; nextTick 触发（dialog render -&gt; directive bind function 触发 -&gt; document.addEventListener 触发 ）</strong></p>
+<p>而根据EventLoop中微任务优先于宏任务执行的逻辑，Vue2.6.10事件流：</p>
+<p><strong>button clicked (触发nextTick) -&gt; nextTick 触发（dialog render -&gt; directive bind function 触发 -&gt; document.addEventListener 触发 ） -&gt; document clicked（冒泡 触发listener函数）-&gt; callback 触发 关闭dialog</strong></p>
+<p>所以表现上弹窗没打开。慢动作是打开了，又关闭了。Bug由此产生。</p>
+<hr>
+<p>进一步刨根问题一下为啥会触发nextTick，如果清楚的同学就不用往下看了。<br>先看一下nextTick在不同Vue版本中的注释<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// Vue 2.5.2</span><br><span class="line">// Here we have async deferring wrappers using both micro and macro tasks.</span><br><span class="line">// In &lt; 2.4 we used micro tasks everywhere, but there are some scenarios where</span><br><span class="line">// micro tasks have too high a priority and fires in between supposedly</span><br><span class="line">// sequential events (e.g. #4521, #6690) or even between bubbling of the same</span><br><span class="line">// event (#6566). However, using macro tasks everywhere also has subtle problems</span><br><span class="line">// when state is changed right before repaint (e.g. #6813, out-in transitions).</span><br><span class="line">// Here we use micro task by default, but expose a way to force macro task when</span><br><span class="line">// needed (e.g. in event handlers attached by v-on).</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// Vue 2.6.10</span><br><span class="line">// Here we have async deferring wrappers using microtasks.</span><br><span class="line">// In 2.5 we used (macro) tasks (in combination with microtasks).</span><br><span class="line">// However, it has subtle problems when state is changed right before repaint</span><br><span class="line">// (e.g. #6813, out-in transitions).</span><br><span class="line">// Also, using (macro) tasks in event handler would cause some weird behaviors</span><br><span class="line">// that cannot be circumvented (e.g. #7109, #7153, #7546, #7834, #8109).</span><br><span class="line">// So we now use microtasks everywhere, again.</span><br><span class="line">// A major drawback of this tradeoff is that there are some scenarios</span><br><span class="line">// where microtasks have too high a priority and fire in between supposedly</span><br><span class="line">// sequential events (e.g. #4521, #6690, which have workarounds)</span><br><span class="line">// or even between bubbling of the same event (#6566).</span><br></pre></td></tr></table></figure>
+<p>首先明确，dialog的打开关闭是用一个data中的变量来控制的，它是reactive的，而button点击打开dialog的过程无非就是将该值设为true，而设置的过程必然会触发defineProperty中的set函数。触发过程如下</p>
+<p><strong>set function -&gt; dep.notify() -&gt; subs[].update() -&gt; queueWatcher() -&gt; nextTick()</strong></p>
+<p>也就是说每次赋值都会触发nextTick，或者说每次数据的更新后续的变更都是在nextTick中进行的（不知道这么说是不是准确）。</p>
+<p><em><a href="https://unpkg.com/vue@2.5.2/dist/vue.js" target="_blank" rel="noopener">https://unpkg.com/vue@2.5.2/dist/vue.js</a></em></p>
 
       
     </div>
@@ -413,7 +403,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="guguji5.github.io/bakery性能优化/" title="bakery性能优化" target="_blank" rel="external">guguji5.github.io/bakery性能优化/</a>
+      <a href="guguji5.github.io/4.Vue升级引发nextTick的bug(一)/" title="4.Vue升级引发nextTick的bug(一)" target="_blank" rel="external">guguji5.github.io/4.Vue升级引发nextTick的bug(一)/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -460,12 +450,12 @@
   <ul class="pager pull-left">
     
     <li class="prev">
-      <a href="/Hexo-Github搭建静态博客-二/" title="Hexo + Github搭建静态博客(二)"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+      <a href="/5.Vue升级引发nextTick的bug(二)/" title="5.Vue升级引发nextTick的bug(二)"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
     </li>
     
     
     <li class="next">
-      <a href="/如何使用GZIP来优化你的网站/" title="如何使用GZIP来优化你的网站"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/证明：Click是一个EventLoop宏任务/" title="证明：Click是一个EventLoop宏任务"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     

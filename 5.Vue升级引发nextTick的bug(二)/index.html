@@ -17,25 +17,25 @@
   <meta http-equiv="window-target" content="_top">
   
   
-  <title>bakery性能优化 | 咕咕鸡的前端博客</title>
-  <meta name="description" content="香满苑蛋糕屋的微信站bakery运行在了亚马逊云（1G内存+1核+8G硬盘），俄亥俄洲的主机上，平均有300ms的延迟，因为是试运行所以暂时也没有换的打算。在“时间就是金钱的”21世纪，性能优化就显得更为重要，主页load时间过长会让用户失去耐心，前端后台以及mongodb数据库的优化变得不可或缺。 这里分前端、后台和数据库三部分来记录一下我说做的工作。 web前端的优化 代码的合并、压缩、增加m">
-<meta name="keywords" content="优化">
+  <title>5.Vue升级引发nextTick的bug(二) | 咕咕鸡的前端博客</title>
+  <meta name="description" content="nextTick是Vue绕不开的一个方法，nextTick的实现变了，莫名的bug就会出现，再举一个例子。 首先，Vue升级引发nextTick的bug(一)提到，Vue2.5.2中的nextTick是宏任务 -&amp;gt; 微任务 -&amp;gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。 我们的场景是view中有一个form组件，其内部有一个input-num">
 <meta property="og:type" content="article">
-<meta property="og:title" content="bakery性能优化">
-<meta property="og:url" content="guguji5.github.io/bakery性能优化/index.html">
+<meta property="og:title" content="5.Vue升级引发nextTick的bug(二)">
+<meta property="og:url" content="guguji5.github.io/5.Vue升级引发nextTick的bug(二)/index.html">
 <meta property="og:site_name" content="咕咕鸡的前端博客">
-<meta property="og:description" content="香满苑蛋糕屋的微信站bakery运行在了亚马逊云（1G内存+1核+8G硬盘），俄亥俄洲的主机上，平均有300ms的延迟，因为是试运行所以暂时也没有换的打算。在“时间就是金钱的”21世纪，性能优化就显得更为重要，主页load时间过长会让用户失去耐心，前端后台以及mongodb数据库的优化变得不可或缺。 这里分前端、后台和数据库三部分来记录一下我说做的工作。 web前端的优化 代码的合并、压缩、增加m">
+<meta property="og:description" content="nextTick是Vue绕不开的一个方法，nextTick的实现变了，莫名的bug就会出现，再举一个例子。 首先，Vue升级引发nextTick的bug(一)提到，Vue2.5.2中的nextTick是宏任务 -&amp;gt; 微任务 -&amp;gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。 我们的场景是view中有一个form组件，其内部有一个input-num">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="/images/clipboard2.png">
-<meta property="og:image" content="/images/clipboard1.png">
-<meta property="og:image" content="/images/clipboard.png">
-<meta property="og:updated_time" content="2018-11-11T04:26:58.000Z">
+<meta property="og:image" content="http://img-ys011.didistatic.com/static/dc2img/do1_96rC48y3RhuUTb1e5xSk">
+<meta property="og:image" content="https://img-ys011.didistatic.com/static/dc2img/do1_RaSpWcBtIY6jM8Pgsy79">
+<meta property="og:image" content="https://img-ys011.didistatic.com/static/dc2img/do1_DJv1lVGZvksjimDrdD8E">
+<meta property="og:image" content="https://img-ys011.didistatic.com/static/dc2img/axiosNum2.6.10.png">
+<meta property="og:updated_time" content="2021-01-27T08:55:45.504Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="bakery性能优化">
-<meta name="twitter:description" content="香满苑蛋糕屋的微信站bakery运行在了亚马逊云（1G内存+1核+8G硬盘），俄亥俄洲的主机上，平均有300ms的延迟，因为是试运行所以暂时也没有换的打算。在“时间就是金钱的”21世纪，性能优化就显得更为重要，主页load时间过长会让用户失去耐心，前端后台以及mongodb数据库的优化变得不可或缺。 这里分前端、后台和数据库三部分来记录一下我说做的工作。 web前端的优化 代码的合并、压缩、增加m">
-<meta name="twitter:image" content="/images/clipboard2.png">
+<meta name="twitter:title" content="5.Vue升级引发nextTick的bug(二)">
+<meta name="twitter:description" content="nextTick是Vue绕不开的一个方法，nextTick的实现变了，莫名的bug就会出现，再举一个例子。 首先，Vue升级引发nextTick的bug(一)提到，Vue2.5.2中的nextTick是宏任务 -&amp;gt; 微任务 -&amp;gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。 我们的场景是view中有一个form组件，其内部有一个input-num">
+<meta name="twitter:image" content="http://img-ys011.didistatic.com/static/dc2img/do1_96rC48y3RhuUTb1e5xSk">
   <!-- Canonical links -->
-  <link rel="canonical" href="guguji5.github.io/bakery性能优化/index.html">
+  <link rel="canonical" href="guguji5.github.io/5.Vue升级引发nextTick的bug(二)/index.html">
   
     <link rel="alternate" href="/atom.xml" title="咕咕鸡的前端博客" type="application/atom+xml">
   
@@ -326,14 +326,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-bakery性能优化" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <article id="post-5.Vue升级引发nextTick的bug(二)" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      bakery性能优化
+      5.Vue升级引发nextTick的bug(二)
     </h1>
   
 
@@ -341,17 +341,12 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/bakery性能优化/" class="article-date">
-	  <time datetime="2018-11-11T03:15:17.000Z" itemprop="datePublished">2018-11-11</time>
+	<a href="/5.Vue升级引发nextTick的bug(二)/" class="article-date">
+	  <time datetime="2021-01-27T03:34:37.000Z" itemprop="datePublished">2021-01-27</time>
 	</a>
 </span>
         
         
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/优化/">优化</a>
-  </span>
-
 
         
 	<span class="article-read hidden-xs">
@@ -362,48 +357,40 @@
 	</span>
 
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/bakery性能优化/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/5.Vue升级引发nextTick的bug(二)/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 761(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 442(字)</span>
 	
 	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 2(分)</span>
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
 	
 
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <p>香满苑蛋糕屋的微信站bakery运行在了亚马逊云（1G内存+1核+8G硬盘），俄亥俄洲的主机上，平均有300ms的延迟，因为是试运行所以暂时也没有换的打算。在“时间就是金钱的”21世纪，性能优化就显得更为重要，主页load时间过长会让用户失去耐心，前端后台以及mongodb数据库的优化变得不可或缺。</p>
-<p>这里分前端、后台和数据库三部分来记录一下我说做的工作。</p>
-<h3 id="web前端的优化"><a href="#web前端的优化" class="headerlink" title="web前端的优化"></a>web前端的优化</h3><ol>
-<li>代码的合并、压缩、增加md5的版本都是webpack做的，以及把文件打包成几个bundle文件。减少请求次数。</li>
-<li>小图标根据需要缩小，不使用大图。1024<em>1024的图标直减为20</em>20。</li>
-<li>小图标的合并，css雪碧图的使用，减少请求次数。</li>
-<li>大量图片（包括雪碧图）从服务器拉取比较慢，上传到新浪微博的图床。</li>
-<li>code split。</li>
-<li>webpack热重载慢，webpack2升级到webpack3速度提高10倍；开发过程中就用普通路由，懒加载路由在webpack中会使cache失效。</li>
-</ol>
-<div align="center"><br><img src="/images/clipboard2.png"><br></div>
-
-<p>   从webpack的analysis中可以看出，资源文件打包成两个包。vendor较大，230k左右，app很小几十K。手机端浏览器大部分会同时拉取4个资源，根据木桶原理，最终完毕时间肯定由最慢的一个资源决定。所以将mint-ui的内容从vendor中转移到app中，两个大小都在150k左右。</p>
-<div align="center"><br><img src="/images/clipboard1.png"><br></div>
-
-<h3 id="node后台的优化"><a href="#node后台的优化" class="headerlink" title="node后台的优化"></a>node后台的优化</h3><ol>
-<li>设置一个设置favicon.ico，不然每次都返回404。</li>
-<li>后台开启gzip超级有效，大概压缩率打到75%，从上边code split中可以看出159k的可以直接压缩成54k传过来。（有关gzip还专门翻译了一篇文章：<a href="https://github.com/guguji5/blogs/blob/master/how%20to%20optimieze%20your%20site%20with%20gzip.md" target="_blank" rel="noopener">how to optimieze your site with gzip</a>）</li>
-<li>占据渲染时间大半壁江山的都是图片，图片缓存很重要，从新浪图床上下载下来的，新浪服务器缓存的很好。少量从我服务器上的图通过IF-Modified-since/last-modified last-modified和if-none-match/etags来设置好缓存。未过期的值或者未变化的值浏览器端直接读取缓存。<br><img src="/images/clipboard.png" alt="设置过期时间"></li>
-</ol>
-<h3 id="数据库和微信（菜鸟备忘）"><a href="#数据库和微信（菜鸟备忘）" class="headerlink" title="数据库和微信（菜鸟备忘）"></a>数据库和微信（菜鸟备忘）</h3><ol>
-<li><p>指定需要返回的键</p>
-<p> db.users.find({},{“username”:1,”email”:1})   比db.users.find() 然后再解析数据肯定是要快。</p>
-</li>
-<li>mongodb启动时候要加用户名密码dbpath -auth，裸奔很危险。</li>
-<li>用户表（user ）的收货人数组的id通过生成随机数的方式来使其保证唯一，可以换成$ne或者$addToSet来将数组作为数据集使用，保证数组内的元素不会重复。</li>
-<li>评论放在产品详情（productDetail）表，然后把name和头像url都存进去。<br>db.blog.update({“title”:”a blog post”},<br>{$push:{“commit”:<br>{“name”:”jone”,”headimgurl”:”<a href="http://www.example.com/1.jpg&quot;" target="_blank" rel="noopener">www.example.com/1.jpg&quot;</a>,<br>“content”:”nice post”}}})</li>
-<li>微信端jsapi_ticket,access_token等数据都有每日最大请求次数和过期时间，需要缓存在数据库，通过<a href="https://docs.mongodb.com/manual/tutorial/expire-data/" target="_blank" rel="noopener">TTL</a>的设置来实现过期expires。</li>
-</ol>
+        <p>nextTick是Vue绕不开的一个方法，nextTick的实现变了，莫名的bug就会出现，再举一个例子。</p>
+<p>首先，<a href="https://zhuanlan.zhihu.com/p/347234558" target="_blank" rel="noopener">Vue升级引发nextTick的bug(一)</a>提到，Vue2.5.2中的nextTick是宏任务 -&gt; 微任务 -&gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。</p>
+<p>我们的场景是view中有一个form组件，其内部有一个input-number组件。用户填写完信息后submit。</p>
+<p><img src="http://img-ys011.didistatic.com/static/dc2img/do1_96rC48y3RhuUTb1e5xSk" alt=""></p>
+<p>顺便介绍一下input-number，可以参考el-input-number，返回值是数字，当输入其他非法类型时，回弹为上一次有效数字。这一过程会在nextTick中完成。</p>
+<p>submit的入参为params {num: string}。为啥num要传string，额~~ 一言难尽。</p>
+<p>如何将input-number组件的<strong>数字num</strong>,转成字符串呢，form组件中有个方法来处理数据<code>transData</code>。</p>
+<p>每次reactive的数据变化都会触发nextTick。</p>
+<p><img src="https://img-ys011.didistatic.com/static/dc2img/do1_RaSpWcBtIY6jM8Pgsy79" alt=""></p>
+<p>所以提交动作的事件流为：</p>
+<p><strong>submit -&gt; $refs.form.transData() -&gt; axios request</strong></p>
+<p>但是，input-number为form的子组件，当子组件值变化时，会改变form中的值，引用传递，不用多讲啦。</p>
+<p>所以<strong>Vue2.5.2</strong>完整的事件流为：</p>
+<p><strong>submit -&gt; $refs.form.transData() -&gt; axios request -&gt; num回弹为数字</strong></p>
+<p><img src="https://img-ys011.didistatic.com/static/dc2img/do1_DJv1lVGZvksjimDrdD8E" alt=""></p>
+<p>axios的拦截器中是使用promise来处理数据，promise的then为微任务。</p>
+<p>而根据上一篇的讨论，<a href=""></a> num值的变化是在nextTick中完成的。所以当<strong>Vue升级成2.6.10</strong>，nextTick变成微任务后，事件流为：</p>
+<p><strong>submit -&gt; num回弹为数字 -&gt; $refs.form.transData() -&gt; axios request</strong></p>
+<p><img src="https://img-ys011.didistatic.com/static/dc2img/axiosNum2.6.10.png" alt=""></p>
+<p>从console中可以看到，在Vue2.5.2中是先axios请求，然后值回弹为数字，所以发送的num为字符串，符合预期。</p>
+<p>而升级为Vue2.6.10后，会先回弹，再发送数据，所以发送的num为数字，bug出现。</p>
 
       
     </div>
@@ -413,7 +400,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="guguji5.github.io/bakery性能优化/" title="bakery性能优化" target="_blank" rel="external">guguji5.github.io/bakery性能优化/</a>
+      <a href="guguji5.github.io/5.Vue升级引发nextTick的bug(二)/" title="5.Vue升级引发nextTick的bug(二)" target="_blank" rel="external">guguji5.github.io/5.Vue升级引发nextTick的bug(二)/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -459,13 +446,9 @@
   
   <ul class="pager pull-left">
     
-    <li class="prev">
-      <a href="/Hexo-Github搭建静态博客-二/" title="Hexo + Github搭建静态博客(二)"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
-    </li>
-    
     
     <li class="next">
-      <a href="/如何使用GZIP来优化你的网站/" title="如何使用GZIP来优化你的网站"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/4.Vue升级引发nextTick的bug(一)/" title="4.Vue升级引发nextTick的bug(一)"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
