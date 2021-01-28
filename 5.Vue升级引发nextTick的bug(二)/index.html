@@ -18,21 +18,22 @@
   
   
   <title>5.Vue升级引发nextTick的bug(二) | 咕咕鸡的前端博客</title>
-  <meta name="description" content="nextTick是Vue绕不开的一个方法，nextTick的实现变了，莫名的bug就会出现，再举一个例子。 首先，Vue升级引发nextTick的bug(一)提到，Vue2.5.2中的nextTick是宏任务 -&amp;gt; 微任务 -&amp;gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。 我们的场景是view中有一个form组件，其内部有一个input-num">
+  <meta name="description" content="nextTick是Vue绕不开的一个方法，nextTick的实现变了，莫名的bug就会出现，再举一个例子。 首先，Vue升级引发nextTick的bug(一)/)提到，Vue2.5.2中的nextTick是宏任务 -&amp;gt; 微任务 -&amp;gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。 我们的场景是view中有一个form组件，其内部有一个input-n">
+<meta name="keywords" content="Bugfix">
 <meta property="og:type" content="article">
 <meta property="og:title" content="5.Vue升级引发nextTick的bug(二)">
 <meta property="og:url" content="guguji5.github.io/5.Vue升级引发nextTick的bug(二)/index.html">
 <meta property="og:site_name" content="咕咕鸡的前端博客">
-<meta property="og:description" content="nextTick是Vue绕不开的一个方法，nextTick的实现变了，莫名的bug就会出现，再举一个例子。 首先，Vue升级引发nextTick的bug(一)提到，Vue2.5.2中的nextTick是宏任务 -&amp;gt; 微任务 -&amp;gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。 我们的场景是view中有一个form组件，其内部有一个input-num">
+<meta property="og:description" content="nextTick是Vue绕不开的一个方法，nextTick的实现变了，莫名的bug就会出现，再举一个例子。 首先，Vue升级引发nextTick的bug(一)/)提到，Vue2.5.2中的nextTick是宏任务 -&amp;gt; 微任务 -&amp;gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。 我们的场景是view中有一个form组件，其内部有一个input-n">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://img-ys011.didistatic.com/static/dc2img/do1_96rC48y3RhuUTb1e5xSk">
 <meta property="og:image" content="https://img-ys011.didistatic.com/static/dc2img/do1_RaSpWcBtIY6jM8Pgsy79">
 <meta property="og:image" content="https://img-ys011.didistatic.com/static/dc2img/do1_DJv1lVGZvksjimDrdD8E">
 <meta property="og:image" content="https://img-ys011.didistatic.com/static/dc2img/axiosNum2.6.10.png">
-<meta property="og:updated_time" content="2021-01-27T08:55:45.504Z">
+<meta property="og:updated_time" content="2021-01-28T12:47:31.556Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="5.Vue升级引发nextTick的bug(二)">
-<meta name="twitter:description" content="nextTick是Vue绕不开的一个方法，nextTick的实现变了，莫名的bug就会出现，再举一个例子。 首先，Vue升级引发nextTick的bug(一)提到，Vue2.5.2中的nextTick是宏任务 -&amp;gt; 微任务 -&amp;gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。 我们的场景是view中有一个form组件，其内部有一个input-num">
+<meta name="twitter:description" content="nextTick是Vue绕不开的一个方法，nextTick的实现变了，莫名的bug就会出现，再举一个例子。 首先，Vue升级引发nextTick的bug(一)/)提到，Vue2.5.2中的nextTick是宏任务 -&amp;gt; 微任务 -&amp;gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。 我们的场景是view中有一个form组件，其内部有一个input-n">
 <meta name="twitter:image" content="http://img-ys011.didistatic.com/static/dc2img/do1_96rC48y3RhuUTb1e5xSk">
   <!-- Canonical links -->
   <link rel="canonical" href="guguji5.github.io/5.Vue升级引发nextTick的bug(二)/index.html">
@@ -207,7 +208,7 @@
   <div class="widget">
     <h3 class="widget-title">标签</h3>
     <div class="widget-body">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bugfix/">Bugfix</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angular/">angular</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/component/">component</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/优化/">优化</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微前端-single-spa/">微前端 single-spa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器人/">机器人</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动化测试/">自动化测试</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bugfix/">Bugfix</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angular/">angular</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/component/">component</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/优化/">优化</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微前端-single-spa/">微前端 single-spa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器人/">机器人</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动化测试/">自动化测试</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -347,6 +348,11 @@
 </span>
         
         
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/Bugfix/">Bugfix</a>
+  </span>
+
 
         
 	<span class="article-read hidden-xs">
@@ -371,7 +377,7 @@
     <div class="article-entry marked-body" itemprop="articleBody">
       
         <p>nextTick是Vue绕不开的一个方法，nextTick的实现变了，莫名的bug就会出现，再举一个例子。</p>
-<p>首先，<a href="https://zhuanlan.zhihu.com/p/347234558" target="_blank" rel="noopener">Vue升级引发nextTick的bug(一)</a>提到，Vue2.5.2中的nextTick是宏任务 -&gt; 微任务 -&gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。</p>
+<p>首先，<a href="https://guguji5.github.io/4.Vue%E5%8D%87%E7%BA%A7%E5%BC%95%E5%8F%91nextTick%E7%9A%84bug(%E4%B8%80">Vue升级引发nextTick的bug(一)</a>/)提到，Vue2.5.2中的nextTick是宏任务 -&gt; 微任务 -&gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。</p>
 <p>我们的场景是view中有一个form组件，其内部有一个input-number组件。用户填写完信息后submit。</p>
 <p><img src="http://img-ys011.didistatic.com/static/dc2img/do1_96rC48y3RhuUTb1e5xSk" alt=""></p>
 <p>顺便介绍一下input-number，可以参考el-input-number，返回值是数字，当输入其他非法类型时，回弹为上一次有效数字。这一过程会在nextTick中完成。</p>

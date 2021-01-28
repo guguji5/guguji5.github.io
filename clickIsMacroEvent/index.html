@@ -110,16 +110,6 @@
                 console.log('this is inner promise')
             })
         })
-
-        inner.addEventListener('click', function(){
-            console.log('inner2')
-            setTimeout(function() {
-                console.log('this is inner2 settimeout')
-            })
-            Promise.resolve(111).then(res =>{
-                console.log('this is inner2 promise')
-            })
-        })
     </script>
 </body>
 </html>
