@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>15 Puzzle Problem</title>
+    <style>
+        *{
+            padding: 0px;
+            margin: 0px;
+        }
+        #eightPuzzle{
+            padding: 15px;
+        }
+        .header{
+            display: flex;
+            justify-content: space-evenly;
+        }
+        .header span, .wrap span{
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            font-weight: bold;
+            font-size: 20px;
+            border: 1px solid #2f81f9;
+            display: inline-block;
+        }
+        span.warn{
+            background: red;
+        }
+        .title{
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .wrap{
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .wrap .title{
+            margin-top: 20px;
+        }
+        .wrap div{
+            margin-left: 10px;
+        }
+        .target{
+            margin-left: 100px;
+        }
+        .btns{
+            position: fixed;
+            top: 50px;
+            left: 50px;
+        }
+        .warning{
+            position: fixed;
+            top: 50px;
+            right: 50px;
+            width: 135px;
+            color: #2f81f9;
+            font-weight: bold;
+            font-size: 15px;
+        }
+        .btns button{
+            padding: 10px;
+            margin: 10px;
+            background: white;
+            border: 1px solid #dcdfe6;
+            color: #2f81f9;
+            font-weight: bold;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .btns button:hover{
+            border: 1px solid #2f81f9;
+        }
+        .btns button:active{
+            background: #eaf2fe;
+        }
+    </style>
+</head>
+<body>
+    <div id="eightPuzzle">
+        <div class="header">
+            <div class='origin'>
+                <p class="title">Origin</p>
+                <p v-for="(item, row) in list">
+                    <span v-for="(num, col) in item"  :class='{"warn": closeList[closeList.length-1] && closeList[closeList.length-1].position && closeList[closeList.length-1].position.row === row && closeList[closeList.length-1].position.col === col }'>
+                        {{ num }}
+                        </span>
+                </p> 
+            </div>
+            <div class='origin'>
+                <p class="title">Target</p>
+                <p v-for="item in target">
+                    <span v-for="num in item">
+                        {{ num }}
+                        </span>
+                </p> 
+            </div>
+        </div>
+        
+        <div class="wrap">
+            <div  v-for="(node, i) in closeList">
+                <p class="title">Step {{node.step}}</p>
+                <p v-for="(item, row) in node.list">
+                    <span v-for="(num, col) in item" :class='{"warn": closeList[i+1] && closeList[i+1].position.row === row && closeList[i+1].position.col === col }'>
+                        {{ num }}
+                        </span>
+                </p> 
+            </div>
+
+        </div>
+
+        <!-- <button @click="moveZero('up')">Up</button>
+        <button @click="moveZero('down')">Down</button>
+        <button @click="moveZero('right')">Right</button>
+        <button @click="moveZero('left')">Left</button> -->
+        <!-- <button @click="show">show </button> -->
+        <div class="warning">
+            下方Step图中红框为<span style="color: red">数字0</span>的最快到达Target的最佳移动位置。
+        </div>
+
+        <div class="btns">
+            <button @click="generateNextList(false)" v-if="!disable" > Next </button>
+            <button @click="generateNextList(true)" v-if="!disable"> Auto </button>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="./index.js"></script>
+</body>
+</html>

@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>一次项目合并经历 | 咕咕鸡的前端博客</title>
+  <meta name="description" content="我所在的组有很多项目，其中一个是对外供用户使用的以下简称项目A，还有一个是对内进行资源管理提高效率的以下简称项目B。项目Acss解析用postcss，ui组件用element ui，项目B css解析用less，ui组件使用内部开发的一套ui库。 接到一个需求：同事辛辛苦苦做的在A项目中的某个功能（六七个页面）能不能一股脑的嵌入B项目呢？最好不用开发，你们前端不都是Vue 组件么？复用一下噻？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一次项目合并经历">
+<meta property="og:url" content="guguji5.github.io/一次项目合并经历/index.html">
+<meta property="og:site_name" content="咕咕鸡的前端博客">
+<meta property="og:description" content="我所在的组有很多项目，其中一个是对外供用户使用的以下简称项目A，还有一个是对内进行资源管理提高效率的以下简称项目B。项目Acss解析用postcss，ui组件用element ui，项目B css解析用less，ui组件使用内部开发的一套ui库。 接到一个需求：同事辛辛苦苦做的在A项目中的某个功能（六七个页面）能不能一股脑的嵌入B项目呢？最好不用开发，你们前端不都是Vue 组件么？复用一下噻？">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-07-25T07:53:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一次项目合并经历">
+<meta name="twitter:description" content="我所在的组有很多项目，其中一个是对外供用户使用的以下简称项目A，还有一个是对内进行资源管理提高效率的以下简称项目B。项目Acss解析用postcss，ui组件用element ui，项目B css解析用less，ui组件使用内部开发的一套ui库。 接到一个需求：同事辛辛苦苦做的在A项目中的某个功能（六七个页面）能不能一股脑的嵌入B项目呢？最好不用开发，你们前端不都是Vue 组件么？复用一下噻？">
+  <!-- Canonical links -->
+  <link rel="canonical" href="guguji5.github.io/一次项目合并经历/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="咕咕鸡的前端博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/guguji5" target="_blank">
+          <img class="img-circle img-rotate" src="/images/gangji.jpeg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Damon Du</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">菜鸡前端</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 滴滴云</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索">
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech="">
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope="" itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/guguji5" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/guguji5" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope="" itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/组件/">组件</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bugfix/">Bugfix</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angular/">angular</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/component/">component</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/优化/">优化</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微前端-single-spa/">微前端 single-spa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器人/">机器人</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动化测试/">自动化测试</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Bugfix/" style="font-size: 14px;">Bugfix</a> <a href="/tags/CSS/" style="font-size: 13px;">CSS</a> <a href="/tags/Hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/angular/" style="font-size: 13px;">angular</a> <a href="/tags/component/" style="font-size: 13px;">component</a> <a href="/tags/nginx/" style="font-size: 13px;">nginx</a> <a href="/tags/优化/" style="font-size: 13.67px;">优化</a> <a href="/tags/微前端-single-spa/" style="font-size: 13px;">微前端 single-spa</a> <a href="/tags/机器人/" style="font-size: 13px;">机器人</a> <a href="/tags/自动化测试/" style="font-size: 13px;">自动化测试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020年微前端踩坑回顾/" class="title">2020年微前端踩坑回顾</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-02-01T06:23:11.000Z" itemprop="datePublished">2021-02-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/5.Vue升级引发nextTick的bug(二)/" class="title">5.Vue升级引发nextTick的bug(二)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-27T03:34:37.000Z" itemprop="datePublished">2021-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/4.Vue升级引发nextTick的bug(一)/" class="title">4.Vue升级引发nextTick的bug(一)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-26T10:15:07.000Z" itemprop="datePublished">2021-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/证明：Click是一个EventLoop宏任务/" class="title">证明：Click是一个EventLoop宏任务</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-26T01:39:14.000Z" itemprop="datePublished">2021-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/3.Referer理解错误导致的跨域/" class="title">3.Referer理解错误导致的跨域</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-21T11:54:06.000Z" itemprop="datePublished">2021-01-21</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-一次项目合并经历" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      一次项目合并经历
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/一次项目合并经历/" class="article-date">
+	  <time datetime="2019-09-29T07:01:27.000Z" itemprop="datePublished">2019-09-29</time>
+	</a>
+</span>
+        
+        
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/一次项目合并经历/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 3(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>我所在的组有很多项目，其中一个是对外供用户使用的以下简称项目A，还有一个是对内进行资源管理提高效率的以下简称项目B。项目Acss解析用postcss，ui组件用element ui，项目B css解析用less，ui组件使用内部开发的一套ui库。</p>
+<p>接到一个需求：同事辛辛苦苦做的在A项目中的某个功能（六七个页面）能不能一股脑的嵌入B项目呢？最好不用开发，你们前端不都是Vue 组件么？复用一下噻？</p>
+<p>刚接到需求的时候大脑里跑过了千万匹🐴，但是遇到困难不能躲啊。冷静思考一下，先iframe被排除了，因为iframe只能整体的嵌入，而我们想要的可能只是页面中的一部分。第一次尝试把A整个项目手动copy到B项目中，通过相对路径来引用。最开始的报错是postcss解析报错，费了半天劲解决后就是，js重名，css覆盖，字体冲突。总结一下遇到的问题list 如下：</p>
+<ol>
+<li>postcss loader配置失败</li>
+<li>嵌入A后A全局样式污染B全局样式</li>
+<li>B中嵌入的ui库和A的element组件冲突 (e.g. v-loading)</li>
+<li>登录状态如何保持</li>
+<li>webpack alias重名，都叫utils，都叫components</li>
+<li>A引入B后样式丢失</li>
+<li>自定义的组件覆盖了el样式</li>
+<li>B中的字体库和element中的冲突了（content: “\e69a”显示了不同的图标）</li>
+<li>build failed </li>
+</ol>
+<h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><ol>
+<li>vue-loader的设置不熟悉，按照官网的配置不生效。原来vue文件在解析的时候会根据language解析成不同后缀名的文件。只需要 <code>{ test: /\.postcss$/, use : cssLoaders(&#39;postcss&#39;) }</code> 即可。</li>
+<li>如我们所知A中有很多全局样式，引入部分页面缺了这部分全局样式又没法正常渲染，借助postcss-plugin-namespace可以给postcss的文件加一个前缀，确保不因小失大，污染整个B。</li>
+<li>因为element中的组件比内部开发的组件库健壮的多，大部分都是element覆盖之。</li>
+<li>A中页面要想正常工作首先是以登录为前提的。还有一条路就是在api上带上某个特定标识，由此也引发了一个小问题。需要改变location search,url会replace，刷新页面。还可以优化。</li>
+<li>A中的webpack alias我不敢改，我只能委曲求全改B中的，改成不重名的。</li>
+<li>A依赖了好多全局样式，一个一个引入。有些B中的样式跟A中的确实是冲突，确实影响到了。只好自己调整调整，但是需要调整的量很小，就两三处。</li>
+<li>有同事把element的源码拿到项目中使用。而且还稍加改动了css。删掉就好了。</li>
+<li>要想让A中页面正常渲染图标也必不可少，但是element中的字体是font-family: element-icons!important;非常强暴的把所有的图标都用自己的这套字体库。没办法，只好也把我们自己的字体库也加上了!important。</li>
+<li>最终以submodule的方式引入A。A中的.postcssrc.js 和B全局的冲突了。按照官方的options配置，但是还是没成功，只好在gitlab hook中删掉submodule中的.postcssrc.js。这样不好，但是能work。（<a href="https://github.com/postcss/postcss/issues/1295）" target="_blank" rel="noopener">https://github.com/postcss/postcss/issues/1295）</a></li>
+</ol>
+<h4 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h4><p>最终不是太完美的上线了，还有一些地方可以优化。<br>虽然嵌入的Acss样式不会影响B全局，但是B全局的样式还是会影响嵌入的A样式。<br>js方法最好能互不影响。</p>
+<p>微前端的材料看了不少，但还是没找到小成本能实现的方式，可能需要在规划两个或多个项目时就已经想好了实现的方式，有主项目，有include项目等等。对于两个已经成熟的项目如何互相include，甚至不同框架的项目怎么融合，啊~啊~啊~，这个题超纲了。</p>
+<p><em>参考资料</em></p>
+<p><a href="https://tech.meituan.com/2018/09/06/fe-tiny-spa.html" target="_blank" rel="noopener">https://tech.meituan.com/2018/09/06/fe-tiny-spa.html</a></p>
+<p><a href="https://forum.vuejs.org/t/advice-to-organize-multiple-vue-projects/15078" target="_blank" rel="noopener">https://forum.vuejs.org/t/advice-to-organize-multiple-vue-projects/15078</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="guguji5.github.io/一次项目合并经历/" title="一次项目合并经历" target="_blank" rel="external">guguji5.github.io/一次项目合并经历/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/guguji5" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/gangji.jpeg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/guguji5" target="_blank"><span class="text-dark">Damon Du</span><small class="ml-1x">菜鸡前端</small></a></h3>
+        <div>滴滴云</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom="">
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/gitlab-CI和Docker前端自动化/" title="gitlab-CI和Docker前端自动化"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/滴滴云控制台Selenium自动化测试初探/" title="滴滴云控制台Selenium自动化测试初探"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,wechat" data-mobile-sites="weibo,wechat"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope="" itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/guguji5" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/guguji5" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+<script src="/js/crypto-js/crypto-js.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/js/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'd2c2eed331f93213c11d',
+    clientSecret: 'df41c902c1854c3a80133f0096c625c6020609c2',
+    repo: 'guguji5.github.io',
+    owner: 'guguji5',
+    admin: ['guguji5'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>

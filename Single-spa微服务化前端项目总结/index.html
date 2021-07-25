@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>滴滴云MIS Single-spa微服务化项目总结 | 咕咕鸡的前端博客</title>
+  <meta name="description" content="我们为什么要用微前端 ？当然微前端的优势有很多，具体到我们应用大概就以下三点：  因为滴滴云有三个项目，滴滴云官网，滴滴云控制台，滴滴云MIS。滴滴云官网和控制台是对外提供服务，MIS是对内提供服务。MIS如何复用控制台和官网的组件？在单页应用的架构下，目前没有能力，从去年冬天，我们开始探索微前端的结构。 MIS中功能较为独立，一部分模块改动频繁，另外一些可以说基本不更新。作为一个整体应用，这些原">
+<meta name="keywords" content="微前端 single-spa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="滴滴云MIS Single-spa微服务化项目总结">
+<meta property="og:url" content="guguji5.github.io/Single-spa微服务化前端项目总结/index.html">
+<meta property="og:site_name" content="咕咕鸡的前端博客">
+<meta property="og:description" content="我们为什么要用微前端 ？当然微前端的优势有很多，具体到我们应用大概就以下三点：  因为滴滴云有三个项目，滴滴云官网，滴滴云控制台，滴滴云MIS。滴滴云官网和控制台是对外提供服务，MIS是对内提供服务。MIS如何复用控制台和官网的组件？在单页应用的架构下，目前没有能力，从去年冬天，我们开始探索微前端的结构。 MIS中功能较为独立，一部分模块改动频繁，另外一些可以说基本不更新。作为一个整体应用，这些原">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="/images/how_single-spa_works.png">
+<meta property="og:updated_time" content="2021-07-25T07:53:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="滴滴云MIS Single-spa微服务化项目总结">
+<meta name="twitter:description" content="我们为什么要用微前端 ？当然微前端的优势有很多，具体到我们应用大概就以下三点：  因为滴滴云有三个项目，滴滴云官网，滴滴云控制台，滴滴云MIS。滴滴云官网和控制台是对外提供服务，MIS是对内提供服务。MIS如何复用控制台和官网的组件？在单页应用的架构下，目前没有能力，从去年冬天，我们开始探索微前端的结构。 MIS中功能较为独立，一部分模块改动频繁，另外一些可以说基本不更新。作为一个整体应用，这些原">
+<meta name="twitter:image" content="/images/how_single-spa_works.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="guguji5.github.io/Single-spa微服务化前端项目总结/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="咕咕鸡的前端博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/guguji5" target="_blank">
+          <img class="img-circle img-rotate" src="/images/gangji.jpeg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Damon Du</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">菜鸡前端</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 滴滴云</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索">
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech="">
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope="" itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/guguji5" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/guguji5" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope="" itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/组件/">组件</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bugfix/">Bugfix</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angular/">angular</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/component/">component</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/优化/">优化</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微前端-single-spa/">微前端 single-spa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器人/">机器人</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动化测试/">自动化测试</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Bugfix/" style="font-size: 14px;">Bugfix</a> <a href="/tags/CSS/" style="font-size: 13px;">CSS</a> <a href="/tags/Hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/angular/" style="font-size: 13px;">angular</a> <a href="/tags/component/" style="font-size: 13px;">component</a> <a href="/tags/nginx/" style="font-size: 13px;">nginx</a> <a href="/tags/优化/" style="font-size: 13.67px;">优化</a> <a href="/tags/微前端-single-spa/" style="font-size: 13px;">微前端 single-spa</a> <a href="/tags/机器人/" style="font-size: 13px;">机器人</a> <a href="/tags/自动化测试/" style="font-size: 13px;">自动化测试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020年微前端踩坑回顾/" class="title">2020年微前端踩坑回顾</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-02-01T06:23:11.000Z" itemprop="datePublished">2021-02-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/5.Vue升级引发nextTick的bug(二)/" class="title">5.Vue升级引发nextTick的bug(二)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-27T03:34:37.000Z" itemprop="datePublished">2021-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/4.Vue升级引发nextTick的bug(一)/" class="title">4.Vue升级引发nextTick的bug(一)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-26T10:15:07.000Z" itemprop="datePublished">2021-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/证明：Click是一个EventLoop宏任务/" class="title">证明：Click是一个EventLoop宏任务</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-26T01:39:14.000Z" itemprop="datePublished">2021-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/3.Referer理解错误导致的跨域/" class="title">3.Referer理解错误导致的跨域</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-21T11:54:06.000Z" itemprop="datePublished">2021-01-21</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Single-spa微服务化前端项目总结" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      滴滴云MIS Single-spa微服务化项目总结
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/Single-spa微服务化前端项目总结/" class="article-date">
+	  <time datetime="2020-05-30T07:42:15.000Z" itemprop="datePublished">2020-05-30</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/微前端-single-spa/">微前端 single-spa</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/Single-spa微服务化前端项目总结/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2.3k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 9(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="我们为什么要用微前端-？"><a href="#我们为什么要用微前端-？" class="headerlink" title="我们为什么要用微前端 ？"></a>我们为什么要用微前端 ？</h2><p>当然微前端的优势有很多，具体到我们应用大概就以下三点：</p>
+<ul>
+<li>因为滴滴云有三个项目，滴滴云官网，滴滴云控制台，滴滴云MIS。滴滴云官网和控制台是对外提供服务，MIS是对内提供服务。MIS如何复用控制台和官网的组件？在单页应用的架构下，目前没有能力，从去年冬天，我们开始探索微前端的结构。</li>
+<li>MIS中功能较为独立，一部分模块改动频繁，另外一些可以说基本不更新。作为一个整体应用，这些原本不需要改动的代码既增加了整体编译，发布，开发时热部署的耗时，多个功能并行开发，也增加了产生BUG的可能性。</li>
+<li>前端技术栈更迭非常快，微前端可以让我们更自由的选择我们感兴趣的，更新更强的技术栈及配套。</li>
+</ul>
+<p>所以我们决定拆分MIS，一方面做优化，另一方面为滴滴云控制台这个庞然大物探索一个解决方案。</p>
+<h2 id="Why-single-spa"><a href="#Why-single-spa" class="headerlink" title="Why single-spa ?"></a>Why single-spa ?</h2><p>其实微前端的实现方案有很多，这方面无论Way社区还是掘金知乎上讲的很多了。我们不想失去单页应用优秀的用户体验，不想去触碰容易导致各种诡异问题的iframe，也不想去尝试目前兼容性还有待提高的Web Components。在我们体验了single-spa 在线demo，开箱即用的脚手架，再加上其核心团队快速的响应能力，我们决定试水single-spa。</p>
+<p>打动我的还有作者<a href="https://single-spa.js.org/docs/getting-started-overview#architectural-overview" target="_blank" rel="noopener">文档上的一段话</a> :</p>
+<blockquote>
+<p>single-spa takes inspiration from modern framework component lifecycles by applying lifecycles to entire applications. It was born out of Canopy’s desire to use React + react-router instead of being forever stuck with our AngularJS + ui-router application, and now single-spa supports almost any framework. Since JavaScript is notorious for the short-life of its many frameworks, we decided to make it easy to use whichever frameworks you want.</p>
+</blockquote>
+<p>这正是在我之前公司遇到的困境，如何把AngularJS升级到Angular 5.0 ，简直是雷锋和雷峰塔的区别。我们选择了重写了项目，新旧项目双线作战，而single-spa的做法却别出心裁。</p>
+<h2 id="使用single-spa我们需要了解什么"><a href="#使用single-spa我们需要了解什么" class="headerlink" title="使用single-spa我们需要了解什么"></a>使用single-spa我们需要了解什么</h2><p>首先简单看一下single-spa重构项目的结构，有一个基座html，多个子应用按需插入基础，不需要的子应用，从基座拔出。</p>
+<p><img src="/images/how_single-spa_works.png" alt="gitlab-runner"></p>
+<p>在了解single-spa本身Api之前，我觉得有必要了解一下<a href="https://github.com/systemjs/systemjs" target="_blank" rel="noopener">SystemJs</a>，import maps的使用，<a href="[https://cn.vuejs.org/v2/guide/installation.html#%E5%AF%B9%E4%B8%8D%E5%90%8C%E6%9E%84%E5%BB%BA%E7%89%88%E6%9C%AC%E7%9A%84%E8%A7%A3%E9%87%8A](https://cn.vuejs.org/v2/guide/installation.html#对不同构建版本的解释">不同构建版本包的使用</a>)。single-spa的核心团队的Joel Denning录了一系列讲解视频在<a href="https://www.youtube.com/playlist?list=PLLUD8RtHvsAOhtHnyGx57EYXoaNsxGrTU" target="_blank" rel="noopener">YouTube</a>和<a href="https://space.bilibili.com/495254378/" target="_blank" rel="noopener">Bilibili</a>，非常推荐。</p>
+<h2 id="实施single-spa遇到的问题"><a href="#实施single-spa遇到的问题" class="headerlink" title="实施single-spa遇到的问题"></a>实施single-spa遇到的问题</h2><ol>
+<li>子应用打包格式错误<br>single-spa 加载子应用的库是systemjs,并不是所有的js文件都可以加载，推荐使用 <code>libraryTarget: &#39;system&#39;</code>,<code>umd</code> 和 <code>amd</code> 亦可。<a href="https://webpack.js.org/configuration/output/#outputlibrarytarget" target="_blank" rel="noopener">参考链接</a><details><br><summary>了解更多</summary><br>Now, there are also various other formats and working with them all is a pain so systemjs has the ‘extras’ it uses in order to interop between them. umd and amd are good formats because they’re designed to work in the browser. But that means there’s a layer to unwrap/interop with so system should be preferred if possible.( from Carlos )<br></details>
+
+
+</li>
+</ol>
+<ol start="2">
+<li>跨域问题<br>这应该是single-spa开发中一定会遇到的一个问题，因为同时启动多个项目肯定在localhost的不同端口，将不同端口的服务加载到root-html中势必会跨域，所以解决它就好了。需要在webpack配置中中添加<br><code>&quot;Access-Control-Allow-Origin&quot;: “*”</code>即可。</li>
+</ol>
+<ol start="3">
+<li>single-spa 子应用挂载时把挂载的dom节点替换掉？<br>拿single-spa-vue为例，1.7.0 会把挂载节点替换掉。而1.8.0 会把挂载节点保留。根据自己的需要选择版本，可以在package-lock.json中锁定版本。</li>
+</ol>
+<ol start="4">
+<li><p>single-spa 的项目如何部署在nginx服务器？<br>single-spa，顾名思义，还是一个单页应用。我们不希望切换路由的时候浏览器发生跳转或者刷新。可以尝试如下配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">      try_files $uri $uri.html /index.html =404;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>System-importmap 存在哪里，如何修改？<br>根据官方的推荐，importmap建议存在S3存储，目前我们使用的内部gift服务，gift上目前没有一个支持https协议的域名，所以使用了cdn的域名。但这个cdn的下发有延迟，导致页面的刷新有些问题，后期考虑存到数据库。</p>
+</li>
+</ol>
+<ol start="6">
+<li>有关public path，external 和 systemjs-webpack-interop的解释<br>首先publicPath是配置项目中所有资源的一个基础路径；<br>externals提供了运行时从外部获取依赖的方法，external可以接受多种模块类型的资源；<br>systemjs-webpack-interop是一个搭配single-spa使用的组件，提供了简单方便修改运行时publicPath的方法。<details><br><summary>了解更多</summary><br>相信下边的链接一定能让你搞明白这两个概念。<br><a href="https://www.webpackjs.com/configuration/externals/" target="_blank" rel="noopener">https://www.webpackjs.com/configuration/externals/</a><br><a href="https://www.webpackjs.com/guides/public-path/#on-the-fly" target="_blank" rel="noopener">https://www.webpackjs.com/guides/public-path/#on-the-fly</a><br><a href="https://github.com/joeldenning/systemjs-webpack-interop" target="_blank" rel="noopener">https://github.com/joeldenning/systemjs-webpack-interop</a><br><a href="https://stackoverflow.com/questions/28846814/what-does-publicpath-in-webpack-do" target="_blank" rel="noopener">https://stackoverflow.com/questions/28846814/what-does-publicpath-in-webpack-do</a><br><a href="https://tomasalabes.me/blog/web-development/2016/12/11/Webpack-and-the-public-path.html" target="_blank" rel="noopener">https://tomasalabes.me/blog/web-development/2016/12/11/Webpack-and-the-public-path.html</a><br></details>
+
+
+</li>
+</ol>
+<ol start="7">
+<li>多个子应用共同依赖的css，组件如何共享，权限如何控制，全局状态如何维护？<br>根据<a href="https://single-spa.js.org/docs/recommended-setup/#utility-modules-styleguide-api-etc" target="_blank" rel="noopener">官方的推荐</a>，可以专门创建一个子应用来做这些事，公共样式，封装http服务，一些不想暴露在全局的状态也可以在这个应用里维护。这个模块可以配合external被其他模块引用。<details><br><summary>了解更多</summary><br><a href="https://single-spa.js.org/docs/faq/#how-can-i-share-application-state-between-applications" target="_blank" rel="noopener">https://single-spa.js.org/docs/faq/#how-can-i-share-application-state-between-applications</a><br></details>
+
+
+</li>
+</ol>
+<ol start="8">
+<li>Css 冲突怎么解决呢？<ol>
+<li>Namespace the CSS belonging to each app with a class, and wrap the app in that container class (such as BEM).</li>
+<li>Use CSS modules in your components <a href="https://create-react-app.dev/docs/adding-a-css-modules-stylesheet/" target="_blank" rel="noopener">https://create-react-app.dev/docs/adding-a-css-modules-stylesheet/</a>( <a href="https://vue-loader.vuejs.org/guide/css-modules.html#usage" target="_blank" rel="noopener">https://vue-loader.vuejs.org/guide/css-modules.html#usage</a>)</li>
+<li>Use a CSS-in-JS library like <a href="https://styled-components.com/" target="_blank" rel="noopener">https://styled-components.com/</a></li>
+<li>The ‘scoped’ attribute in style tag<br>我选的第一种，postcss-plugin-namespace 可以方便的将项目中所有的postcss 加一个prefix，成本很小。其他的都需要改造代码。</li>
+</ol>
+</li>
+</ol>
+<ol start="9">
+<li>不同子应用切换的时候白屏如何解决？<br>一种思路使用预加载；另一种思路是在侦测到有新应用加载时增加一个loading的过渡页；我选第二种。<a href="https://single-spa.js.org/docs/api" target="_blank" rel="noopener">single-spa api文档</a> 提供了 <code>single-spa:before-app-change</code> 和 <code>single-spa:app-change</code> 事件，可以在两个事件中间增加一个loading。(single-spa 5.5.0版本才支持，<a href="https://github.com/single-spa/single-spa/issues/545" target="_blank" rel="noopener">具体请见issue</a>)</li>
+</ol>
+<ol start="10">
+<li>一个完整spa项目想放入single-spa要做什么更改？<br>根据<a href="https://single-spa.js.org/docs/migrating-existing-spas" target="_blank" rel="noopener">官方的推荐</a>,需要两步。一，实现single-spa所需要的bootstrap，mount，unmount等生命周期钩子函数。二，保证你的外部链接报错css，JavaScript等可以独立工作。<strong> 除此之外 </strong>，如果你使用了webpack抽取了很多chunk，这可能会导致失败，因为不同的chunk包不会加载其他依赖的包。Joeldenning建议按路由懒加载进行拆包。</li>
+</ol>
+<ol start="11">
+<li>子应用如何部署，上线时如何更新importMap？<br>微前端的子应用可以独立部署，目前经过OE打包后，在弹性云或odin部署；目前importMap存储在gift，但是弹性云现有的镜像没有提供部署完后继续shell脚本的执行，所以自己做了一个镜像 registry.xiaojukeji.com/didionline/didiyun-mis-nginx-main:stable，它只不过在内部拉起nginx服务后，执行了一个shell脚本，它会更新gift链接中的内容。</li>
+</ol>
+<ol start="12">
+<li>不同子应用访问路径如何配置？<br>不同的子应用跑在不同的弹性云节点，可以通过不同的子域名来进行映射，odin的微前端就是采用这种方案。也可以通过不同的path映射到不同的ip机器上，地图团队的微前端使用的这种方案。我选的后者。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">upstream misaccount &#123;</span><br><span class="line">  server 10.1.2.3:8080;</span><br><span class="line">  server 10.4.5.6:8080;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location /mis-account/ &#123;</span><br><span class="line">    proxy_pass http://misaccount/;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="收益"><a href="#收益" class="headerlink" title="收益"></a>收益</h2><ol>
+<li>探索了使用single-spa的成本和难度，为改造滴滴云控制台提供了一种解决方案。</li>
+<li>拆分后的项目更独立，为技术栈的改造和升级降低了门槛。</li>
+<li>最最重要的给复用滴滴云控制台的代码提供了一种可维护的方案，目前滴滴云MIS中费用中心使用的是滴滴云控制台中现成的视图组件。</li>
+<li>改版后的MIS懒加载更合理，不同的用户使用MIS中某些特定的功能，真正做到不使用的应用不加载。</li>
+<li>给团队的同学分享和实践了一种可落地的微前端解决方案。</li>
+<li>全新的开发体验，做到开发哪里，替换哪里。(<a href="https://github.com/joeldenning/import-map-overrides" target="_blank" rel="noopener">import-map-overrides新体验</a>)</li>
+</ol>
+<h2 id="写在最后的话"><a href="#写在最后的话" class="headerlink" title="写在最后的话"></a>写在最后的话</h2><p>single-spa核心团队的Joeldenning是一个非常热情，阅历丰富，技术扎实的开发人员。在探索single-spa的过程中，向他学习到很多东西，他也总是能第一时间给出合理的解决方案，并且也是很热心的把再Youtube上的single-spa的介绍视频上传到bilibili一份，投桃报李，我们团队也利用周末时间，进行了<a href="https://zh-hans.single-spa.js.org/docs/getting-started-overview" target="_blank" rel="noopener">single-spa的中文翻译</a>工作，收获良多。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="guguji5.github.io/Single-spa微服务化前端项目总结/" title="滴滴云MIS Single-spa微服务化项目总结" target="_blank" rel="external">guguji5.github.io/Single-spa微服务化前端项目总结/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/guguji5" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/gangji.jpeg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/guguji5" target="_blank"><span class="text-dark">Damon Du</span><small class="ml-1x">菜鸡前端</small></a></h3>
+        <div>滴滴云</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom="">
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/JavaScript策略模式浅析/" title="JavaScript策略模式浅析"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/前端需要知道的nginx知识/" title="前端需要知道的nginx知识"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,wechat" data-mobile-sites="weibo,wechat"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope="" itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/guguji5" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/guguji5" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+<script src="/js/crypto-js/crypto-js.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/js/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'd2c2eed331f93213c11d',
+    clientSecret: 'df41c902c1854c3a80133f0096c625c6020609c2',
+    repo: 'guguji5.github.io',
+    owner: 'guguji5',
+    admin: ['guguji5'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>

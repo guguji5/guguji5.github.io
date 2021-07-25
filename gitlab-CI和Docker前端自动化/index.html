@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>gitlab-CI和Docker前端自动化 | 咕咕鸡的前端博客</title>
+  <meta name="description" content="DevOps已经不是什么新概念了，现在前端开发人员多，分支多，测试环境多，前端自动化的重要性不（无)言（形）而（装）喻（比）。本博客的目的是实现在代码更新后，通过gitlab的webhook自动将部署文件打包成docker镜像。然后通过拿镜像名称去服务器上部署。这里我们分三步走，第一步配置Dockerfile先在本地测试docker build的流程；第二部注册gitlab-runner；第三部配">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gitlab-CI和Docker前端自动化">
+<meta property="og:url" content="guguji5.github.io/gitlab-CI和Docker前端自动化/index.html">
+<meta property="og:site_name" content="咕咕鸡的前端博客">
+<meta property="og:description" content="DevOps已经不是什么新概念了，现在前端开发人员多，分支多，测试环境多，前端自动化的重要性不（无)言（形）而（装）喻（比）。本博客的目的是实现在代码更新后，通过gitlab的webhook自动将部署文件打包成docker镜像。然后通过拿镜像名称去服务器上部署。这里我们分三步走，第一步配置Dockerfile先在本地测试docker build的流程；第二部注册gitlab-runner；第三部配">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="/images/gitlab-runner.jpg">
+<meta property="og:image" content="/images/gitlab-runner-job.png">
+<meta property="og:image" content="/images/gitlab-runner-sample.png">
+<meta property="og:updated_time" content="2021-07-25T07:53:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="gitlab-CI和Docker前端自动化">
+<meta name="twitter:description" content="DevOps已经不是什么新概念了，现在前端开发人员多，分支多，测试环境多，前端自动化的重要性不（无)言（形）而（装）喻（比）。本博客的目的是实现在代码更新后，通过gitlab的webhook自动将部署文件打包成docker镜像。然后通过拿镜像名称去服务器上部署。这里我们分三步走，第一步配置Dockerfile先在本地测试docker build的流程；第二部注册gitlab-runner；第三部配">
+<meta name="twitter:image" content="/images/gitlab-runner.jpg">
+  <!-- Canonical links -->
+  <link rel="canonical" href="guguji5.github.io/gitlab-CI和Docker前端自动化/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="咕咕鸡的前端博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/guguji5" target="_blank">
+          <img class="img-circle img-rotate" src="/images/gangji.jpeg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Damon Du</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">菜鸡前端</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 滴滴云</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索">
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech="">
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope="" itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/guguji5" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/guguji5" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope="" itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/组件/">组件</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bugfix/">Bugfix</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angular/">angular</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/component/">component</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/优化/">优化</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微前端-single-spa/">微前端 single-spa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器人/">机器人</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动化测试/">自动化测试</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Bugfix/" style="font-size: 14px;">Bugfix</a> <a href="/tags/CSS/" style="font-size: 13px;">CSS</a> <a href="/tags/Hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/angular/" style="font-size: 13px;">angular</a> <a href="/tags/component/" style="font-size: 13px;">component</a> <a href="/tags/nginx/" style="font-size: 13px;">nginx</a> <a href="/tags/优化/" style="font-size: 13.67px;">优化</a> <a href="/tags/微前端-single-spa/" style="font-size: 13px;">微前端 single-spa</a> <a href="/tags/机器人/" style="font-size: 13px;">机器人</a> <a href="/tags/自动化测试/" style="font-size: 13px;">自动化测试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020年微前端踩坑回顾/" class="title">2020年微前端踩坑回顾</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-02-01T06:23:11.000Z" itemprop="datePublished">2021-02-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/5.Vue升级引发nextTick的bug(二)/" class="title">5.Vue升级引发nextTick的bug(二)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-27T03:34:37.000Z" itemprop="datePublished">2021-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/4.Vue升级引发nextTick的bug(一)/" class="title">4.Vue升级引发nextTick的bug(一)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-26T10:15:07.000Z" itemprop="datePublished">2021-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/证明：Click是一个EventLoop宏任务/" class="title">证明：Click是一个EventLoop宏任务</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-26T01:39:14.000Z" itemprop="datePublished">2021-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/3.Referer理解错误导致的跨域/" class="title">3.Referer理解错误导致的跨域</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-21T11:54:06.000Z" itemprop="datePublished">2021-01-21</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-gitlab-CI和Docker前端自动化" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      gitlab-CI和Docker前端自动化
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/gitlab-CI和Docker前端自动化/" class="article-date">
+	  <time datetime="2019-10-14T12:15:59.000Z" itemprop="datePublished">2019-10-14</time>
+	</a>
+</span>
+        
+        
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/gitlab-CI和Docker前端自动化/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.9k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 8(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>DevOps已经不是什么新概念了，现在前端开发人员多，分支多，测试环境多，前端自动化的重要性不（无)言（形）而（装）喻（比）。本博客的目的是实现在代码更新后，通过gitlab的webhook自动将部署文件打包成docker镜像。然后通过拿镜像名称去服务器上部署。这里我们分三步走，第一步配置Dockerfile先在本地测试docker build的流程；第二部注册gitlab-runner；第三部配置.gitlab-ci.yml监听代码更新后触发docker build流程并push到docker的hub。</p>
+<h2 id="docker-配置"><a href="#docker-配置" class="headerlink" title="docker 配置"></a><a name="docker_config">docker 配置</a></h2><p>前端的部署环境很简单，无论你是react，vue还是Angular，部署的时候都是启动一个nginx，然后将build的静态文件放到nginx的共享目录就好了。这里我们不关心前端功能的具体打包过程，直接打包一个简单的html文件到镜像里就好。</p>
+<h4 id="1-安装"><a href="#1-安装" class="headerlink" title="1. 安装"></a>1. 安装</h4><p>docker安装很简单，针对不同的系统提供了不同的方法，参照官方文档<a href="https://docs.docker.com/v17.09/engine/installation/" target="_blank" rel="noopener">Install Docker</a>安装即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ docker</span><br><span class="line"></span><br><span class="line">Usage:	docker [OPTIONS] COMMAND</span><br><span class="line"></span><br><span class="line">A self-sufficient runtime for containers</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">      --config string      Location of client config files (default &quot;/Users/dida/.docker&quot;)</span><br><span class="line">  -D, --debug              Enable debug mode</span><br><span class="line">  -H, --host list          Daemon socket(s) to connect to</span><br><span class="line">  -l, --log-level string   Set the logging level (&quot;debug&quot;|&quot;info&quot;|&quot;warn&quot;|&quot;error&quot;|&quot;fatal&quot;) (default &quot;info&quot;)</span><br><span class="line">      --tls                Use TLS; implied by --tlsverify</span><br><span class="line">      --tlscacert string   Trust certs signed only by this CA (default &quot;/Users/dida/.docker/ca.pem&quot;)</span><br><span class="line">      --tlscert string     Path to TLS certificate file (default &quot;/Users/dida/.docker/cert.pem&quot;)</span><br><span class="line">      --tlskey string      Path to TLS key file (default &quot;/Users/dida/.docker/key.pem&quot;)</span><br><span class="line">      --tlsverify          Use TLS and verify the remote</span><br><span class="line">  -v, --version            Print version information and quit</span><br><span class="line"></span><br><span class="line">Management Commands:</span><br><span class="line">  builder     Manage builds</span><br><span class="line">  config      Manage Docker configs</span><br><span class="line">  container   Manage containers</span><br><span class="line">  image       Manage images</span><br><span class="line">  network     Manage networks</span><br><span class="line">  node        Manage Swarm nodes</span><br><span class="line">  plugin      Manage plugins</span><br><span class="line">  secret      Manage Docker secrets</span><br><span class="line">  service     Manage services</span><br><span class="line">  stack       Manage Docker stacks</span><br><span class="line">  swarm       Manage Swarm</span><br><span class="line">  system      Manage Docker</span><br><span class="line">  trust       Manage trust on Docker images</span><br><span class="line">  volume      Manage volumes</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure></p>
+<p>执行<code>docker</code>即为安装成功。</p>
+<h4 id="2-镜像制作"><a href="#2-镜像制作" class="headerlink" title="2. 镜像制作"></a>2. 镜像制作</h4><p>我们需要一个有nginx的镜像，可以nginx依赖一个操作系统。我们用ubuntu为base镜像，在里边安装nginx，然后再讲我们准备好的html（假设其为build后的前端工程）放到nginx的目录。docker build镜像可以用docker commit 也可以用Dockerfile，后者更为灵活，使用也更为广泛。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:14.04</span><br><span class="line">RUN apt-get -yqq update &amp;&amp; apt-get -yqq install nginx</span><br><span class="line">RUN mkdir -p /var/www/html/website</span><br><span class="line">ADD index.html /var/www/html/website</span><br><span class="line">RUN chmod -R 777 /var/www/html/website</span><br><span class="line">ADD nginx/global.conf /etc/nginx/conf.d/</span><br><span class="line">ADD nginx/nginx.conf /etc/nginx/nginx.conf</span><br><span class="line">EXPOSE 80</span><br></pre></td></tr></table></figure>
+<p>Dockerfile的内容包括以下几项：</p>
+<ul>
+<li>使用ubuntu 14.04为基础镜像</li>
+<li>更新并安装nginx</li>
+<li>在容器中创建一个/var/www/html/website目录</li>
+<li>将静态html文件拷贝到上述目录</li>
+<li>将上述目录权限改为可读，可写，可执行</li>
+<li>将准备好的nginx配置copy到容器中</li>
+<li>暴露出来80端口</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># global.conf</span><br><span class="line">server &#123;</span><br><span class="line">        listen          0.0.0.0:80;</span><br><span class="line">        server_name     _;</span><br><span class="line"></span><br><span class="line">        root            /var/www/html/website;</span><br><span class="line">        index           index.html index.htm;</span><br><span class="line"></span><br><span class="line">        access_log      /var/log/nginx/default_access.log;</span><br><span class="line">        error_log       /var/log/nginx/default_error.log;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"># nginx.conf</span><br><span class="line">user www-data;</span><br><span class="line">worker_processes 4;</span><br><span class="line">pid /run/nginx.pid;</span><br><span class="line">daemon off;</span><br><span class="line"></span><br><span class="line">events &#123;  &#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">  sendfile on;</span><br><span class="line">  tcp_nopush on;</span><br><span class="line">  tcp_nodelay on;</span><br><span class="line">  keepalive_timeout 65;</span><br><span class="line">  types_hash_max_size 2048;</span><br><span class="line">  include /etc/nginx/mime.types;</span><br><span class="line">  default_type application/octet-stream;</span><br><span class="line">  access_log /var/log/nginx/access.log;</span><br><span class="line">  error_log /var/log/nginx/error.log;</span><br><span class="line">  gzip on;</span><br><span class="line">  gzip_disable &quot;msie6&quot;;</span><br><span class="line">  include /etc/nginx/conf.d/*.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>具体代码可见 <a href="https://github.com/guguji5/demo/tree/master/try-ci" target="_blank" rel="noopener">https://github.com/guguji5/demo/tree/master/try-ci</a></p>
+<p>打包命令<code>docker build -t [name]:[tag] .</code><br>然后<code>docker images</code>查看本地镜像</p>
+<h4 id="2-镜像上传"><a href="#2-镜像上传" class="headerlink" title="2. 镜像上传"></a>2. 镜像上传</h4><p>制作好的镜像需要推到远端，就像我们的代码需要git push到仓库一样。首先你需要注册一个<a href="https://hub.docker.com/" target="_blank" rel="noopener">docker账号</a>，<code>docker login</code>测试是否登录成功，成功后<code>docker push [name]:[tag]</code>推到远端</p>
+<h4 id="3-测试镜像"><a href="#3-测试镜像" class="headerlink" title="3. 测试镜像"></a>3. 测试镜像</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 8081:80 [name]:[tag] nginx</span><br></pre></td></tr></table></figure>
+<p>查看本地8081端口是否能访问到镜像中的80服务</p>
+<h2 id="gitlab-runner注册"><a href="#gitlab-runner注册" class="headerlink" title="gitlab-runner注册"></a>gitlab-runner注册</h2><h4 id="1-安装-1"><a href="#1-安装-1" class="headerlink" title="1.安装"></a>1.安装</h4><p>根据<a href="https://docs.gitlab.com/runner/install/" target="_blank" rel="noopener">https://docs.gitlab.com/runner/install/</a> 选择对应平台安装<br>根据<a href="https://docs.gitlab.com/runner/register/" target="_blank" rel="noopener">https://docs.gitlab.com/runner/register/</a> 进行注册,Runner executor选择shell就好。<br>注册成功后可以在Settings下边的CI/CD中的Runners看到刚注册的机器。<br><img src="/images/gitlab-runner.jpg" alt="gitlab-runner"></p>
+<h4 id="2-测试"><a href="#2-测试" class="headerlink" title="2.测试"></a>2.测试</h4><p>新建.gitlab-ci.yml并写入如下简单的命令测试job是否能执行成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># 执行job的阶段 按顺序串行执行</span><br><span class="line">stages:</span><br><span class="line">  - upload</span><br><span class="line">job2: # 自定义名字</span><br><span class="line">  stage: upload # 指定这阶段操作的名称</span><br><span class="line">  only: # 指定那些分支会进入该处理流程</span><br><span class="line">    - master # 正式环境</span><br><span class="line">  variables:</span><br><span class="line">    VERSION: &apos;damon&apos; # 除了后面会说到的私密变量 还可以在这里定义变量</span><br><span class="line">  before_script:</span><br><span class="line"></span><br><span class="line">  script:</span><br><span class="line">    - echo &quot;It is a job2,&quot;</span><br><span class="line">    - echo $&#123;VERSION&#125;</span><br><span class="line">    - your_name=&quot;qinjx&quot;</span><br><span class="line">    - echo $your_name</span><br><span class="line">    - echo $&#123;your_name&#125;</span><br></pre></td></tr></table></figure>
+<p>每当master有新的提交时，出触发上述脚本的运行。我们可以在CI/CD - Pipelines中看到对应的job。</p>
+<p><img src="/images/gitlab-runner-job.png" alt="gitlab-runner-job"></p>
+<h2 id="自动化打包镜像"><a href="#自动化打包镜像" class="headerlink" title="自动化打包镜像"></a>自动化打包镜像</h2><p>我们的最终目的是每当代码更新后，自动打包成docker镜像，部署的每台服务器都用同一镜像部署就好。Build Once, Deploy Everywhere.</p>
+<p>每当代码更新后gitlab 的hook会自动触发，我们只需要把<a href="#docker_config">第一步</a>中的打包和上传的流程放到hook中即可。.gitlab-ci.yml如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">stages:</span><br><span class="line">  - build</span><br><span class="line"> </span><br><span class="line"># 自定义阶段build的job流程</span><br><span class="line">job1: # 自定义名字</span><br><span class="line">  stage: build # 指定这阶段操作的名称</span><br><span class="line">  only: # 指定那些分支会进入该处理流程</span><br><span class="line">    - master # 正式环境</span><br><span class="line">    - pre # 预发环境</span><br><span class="line">  before_script:</span><br><span class="line"></span><br><span class="line">  script:</span><br><span class="line">    - docker login -u $USERNAME -p $PASSWORD</span><br><span class="line">    - IMAGE_ID=`docker build . | tail -n 1 | awk -F &quot;Successfully built &quot; &apos;&#123;print $2&#125;&apos; | sed &apos;s/^ *\| *$//g&apos;`</span><br><span class="line">    - echo &quot;IMAGE_ID=$IMAGE_ID&quot;</span><br><span class="line">    - DATE=`date +%Y%m%d`;</span><br><span class="line">    - docker tag $IMAGE_ID guguji/forth:$DATE.$CI_JOB_ID;</span><br><span class="line">    - docker push guguji/forth:$DATE.$CI_JOB_ID;</span><br><span class="line">    - docker rmi guguji/forth:$DATE.$CI_JOB_ID;</span><br><span class="line">    - echo &quot;--------------------------------------------------------------------------------&quot;;</span><br><span class="line">    - echo &quot;guguji/forth:$DATE.$CI_JOB_ID&quot;;</span><br></pre></td></tr></table></figure></p>
+<p>其中的$USERNAME $PASSWORD是Setting - CI/CD - Variables 中存入的变量。其含义依次是：</p>
+<ul>
+<li>登录docker</li>
+<li>执行docker build 并将输出的将镜像ID赋值给IMAGE_ID</li>
+<li>给上述镜像打上标签</li>
+<li>上传到docker hub</li>
+<li>删除本地镜像</li>
+<li>输出镜像名称</li>
+</ul>
+<p>结果如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">Running with gitlab-runner 12.3.0 (a8a019e0)</span><br><span class="line">  on damon test xXUC7Le6</span><br><span class="line">Using Shell executor...</span><br><span class="line">Running on 10-254-203-137...</span><br><span class="line">Fetching changes...</span><br><span class="line">Reinitialized existing Git repository in /home/gitlab-runner/builds/xXUC7Le6/0/guguji5/try-ci/.git/</span><br><span class="line">From https://gitlab.com/guguji5/try-ci</span><br><span class="line"> * [new ref]         refs/pipelines/89119102 -&gt; refs/pipelines/89119102</span><br><span class="line">   7aeff9e..6d585aa  master     -&gt; origin/master</span><br><span class="line">Checking out 6d585aa7 as master...</span><br><span class="line">Skipping Git submodules setup</span><br><span class="line">$ docker login -u $USERNAME -p $PASSWORD</span><br><span class="line">WARNING! Using --password via the CLI is insecure. Use --password-stdin.</span><br><span class="line">WARNING! Your password will be stored unencrypted in /home/gitlab-runner/.docker/config.json.</span><br><span class="line">Configure a credential helper to remove this warning. See</span><br><span class="line">https://docs.docker.com/engine/reference/commandline/login/#credentials-store</span><br><span class="line"></span><br><span class="line">Login Succeeded</span><br><span class="line">$ IMAGE_ID=`docker build . | tail -n 1 | awk -F &quot;Successfully built &quot; &apos;&#123;print $2&#125;&apos; | sed &apos;s/^ *\| *$//g&apos;`</span><br><span class="line">$ echo &quot;IMAGE_ID=$IMAGE_ID&quot;</span><br><span class="line">IMAGE_ID=41555aab3b76</span><br><span class="line">$ DATE=`date +%Y%m%d`;</span><br><span class="line">$ docker tag $IMAGE_ID guguji/forth:$DATE.$CI_JOB_ID;</span><br><span class="line">$ docker push guguji/forth:$DATE.$CI_JOB_ID;</span><br><span class="line">The push refers to repository [docker.io/guguji/forth]</span><br><span class="line">82ce84f6435c: Preparing</span><br><span class="line">8f360e1cf4bb: Preparing</span><br><span class="line">8f360e1cf4bb: Pushed</span><br><span class="line">29c9093a1ab9: Pushed</span><br><span class="line">66285ac4bf24: Layer already exists</span><br><span class="line">48334332ed8d: Layer already exists</span><br><span class="line">82ce84f6435c: Pushed</span><br><span class="line">b057ab380990: Layer already exists</span><br><span class="line">bc89fbcf9125: Pushed</span><br><span class="line">46c1a22ffea5: Layer already exists</span><br><span class="line">b17e63608209: Layer already exists</span><br><span class="line">20191016.322211021: digest: sha256:971e8c83827b10e1ffb9d109f7b2507e26622b56113f5ee183b92bdc8e0acd8a size: 2401</span><br><span class="line">$ docker rmi guguji/forth:$DATE.$CI_JOB_ID;</span><br><span class="line">Untagged: guguji/forth:20191016.322211021</span><br><span class="line">Untagged: guguji/forth@sha256:971e8c83827b10e1ffb9d109f7b2507e26622b56113f5ee183b92bdc8e0acd8a</span><br><span class="line">Deleted: sha256:41555aab3b76a88fbde71a02afd7c400973d8ec9f1ab7ce533d4d7cc6dfdb17e</span><br><span class="line">Deleted: sha256:854ac28d0ceabc1b910aa58e96d1fabe577a63a60c3459ca7ee6152f00630cc1</span><br><span class="line">$ echo &quot;--------------------------------------------------------------------------------&quot;;</span><br><span class="line">--------------------------------------------------------------------------------</span><br><span class="line">$ echo &quot;guguji/forth:$DATE.$CI_JOB_ID&quot;;</span><br><span class="line">guguji/forth:20191016.322211021</span><br><span class="line">Job succeeded</span><br></pre></td></tr></table></figure></p>
+<p><em>如果有如下报错</em><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Got permission denied while trying to connect to the Docker daemon socket</span><br></pre></td></tr></table></figure></p>
+<p>原因是gitlab-runner执行时 是以 gitlab-runner用户来执行的 该用户不属于docker group，需将该用户加入该组。<br>首先查询 是否有该用户 <code>cut -d : -f 1 /etc/passwd</code><br>然后查询 是否存在docker组<code>sudo groupadd docker</code><br>然后执行 将gitlab-runner加入docker组 <code>sudo gpasswd -a gitlab-runner docker</code></p>
+<p><strong>我们想要的效果</strong>是在服务器上拉取我们刚build并上传的镜像，并run 起来就好。我们可以在本地用如下命令测试刚打包的镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull guguji/forth:20191016.322211021</span><br><span class="line">docker run -d -p 8080:80 guguji/forth:20191016.322211021 nginx</span><br></pre></td></tr></table></figure>
+<p>效果如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ docker pull guguji/forth:20191016.322211021</span><br><span class="line">20191016.322211021: Pulling from guguji/forth</span><br><span class="line">a7344f52cb74: Already exists</span><br><span class="line">515c9bb51536: Already exists</span><br><span class="line">e1eabe0537eb: Already exists</span><br><span class="line">4701f1215c13: Already exists</span><br><span class="line">b9999057545e: Pull complete</span><br><span class="line">57c313e6fd56: Pull complete</span><br><span class="line">76ac29208590: Pull complete</span><br><span class="line">ebec49c77172: Pull complete</span><br><span class="line">c514c1fe8afa: Pull complete</span><br><span class="line">de4ad1f5b5dc: Pull complete</span><br><span class="line">Digest: sha256:971e8c83827b10e1ffb9d109f7b2507e26622b56113f5ee183b92bdc8e0acd8a</span><br><span class="line">Status: Downloaded newer image for guguji/forth:20191016.322211021</span><br><span class="line">➜  ~ docker run -d -p 8080:80 guguji/forth:20191016.322211021 nginx</span><br><span class="line">330efb99cafab59b46ddaf61a62221bf94722e9c76be59523b538cb3a49bd651</span><br><span class="line">➜  ~</span><br></pre></td></tr></table></figure></p>
+<p><img src="/images/gitlab-runner-sample.png" alt="gitlab-runner-sample"></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="guguji5.github.io/gitlab-CI和Docker前端自动化/" title="gitlab-CI和Docker前端自动化" target="_blank" rel="external">guguji5.github.io/gitlab-CI和Docker前端自动化/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/guguji5" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/gangji.jpeg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/guguji5" target="_blank"><span class="text-dark">Damon Du</span><small class="ml-1x">菜鸡前端</small></a></h3>
+        <div>滴滴云</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom="">
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/fork项目自动同步机器人/" title="fork项目自动同步机器人"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/一次项目合并经历/" title="一次项目合并经历"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,wechat" data-mobile-sites="weibo,wechat"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope="" itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/guguji5" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/guguji5" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+<script src="/js/crypto-js/crypto-js.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/js/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'd2c2eed331f93213c11d',
+    clientSecret: 'df41c902c1854c3a80133f0096c625c6020609c2',
+    repo: 'guguji5.github.io',
+    owner: 'guguji5',
+    admin: ['guguji5'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>

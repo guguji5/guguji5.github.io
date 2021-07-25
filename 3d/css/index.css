@@ -1,0 +1,78 @@
+@charset 'utf-8';
+
+html{
+	height:100%;
+}
+
+li{
+	list-style:none;
+}
+
+body{
+	background:#023b3b url(../img/bg.png) no-repeat center;
+	height:100%;
+	overflow:hidden;
+	perspective:800px; /*景深*/
+}
+
+#main{
+	width:0px;
+	height:0px;
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform-style:preserve-3d; /* 变换风格：3D */
+	transform:translateZ(-2000px) rotateX(0deg) rotateY(0deg);
+}
+
+#main li{
+	width:120px;
+	height:160px;
+	background:rgba(0,127,127,0.5);
+	border:1px solid rgba(127,255,255,0.25);
+	box-shadow:0 0 12px rgba(0,255,255,0.5);
+	cursor:pointer;
+	position:absolute;
+	top:-80px;
+	left:-60px;
+	transform:translateZ(0px);
+	transition:4s ease-in-out;
+	/*transform:translate(0px,0px); transform变换  translate变换里面的一种-位移 第一个值是水平偏移 第二个值是垂直偏移*/
+}
+
+#main li:hover{
+	box-shadow:0 0 12px rgba(0,255,255,0.75);
+	border:1px solid rgba(127,255,255,0.75);
+}
+
+#styleBtn{
+	width:290px;
+	height:40px;
+	position:fixed;
+	bottom:15px;
+	left:15px;
+}
+
+#styleBtn li{
+	color:rgba(127,255,255,0.75);
+	border:1px solid rgba(127,255,255,0.75);
+	font-size:12px;
+	font-weight:bold;
+	font-family:'Microsoft yahei';
+	padding:8px 12px;
+	float:left;
+	cursor:pointer;
+	border-radius:3px;
+	margin:0 5px;
+}
+
+#styleBtn li:hover{
+	background:rgba(0,255,255,0.5);
+}
+
+#styleBtn li:active{
+	color:#000;
+}
+
+
+

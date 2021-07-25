@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>2020年微前端踩坑回顾 | 咕咕鸡的前端博客</title>
+  <meta name="description" content="2020年已经过去，在家办公了小半年，回顾过去，Time flies。 今年听说是微前端的大年，应该每个前端都会听说过微前端的概念，就像几年前angular，vue，react流行时那样。我个人是特别的佩服single-spa的作者John Denning。大概2016-2017年的样子，Angularjs出了巨大变更的Angular，React在国外也风光无两。同样是面对新旧框架不兼容的情况，我">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2020年微前端踩坑回顾">
+<meta property="og:url" content="guguji5.github.io/2020年微前端踩坑回顾/index.html">
+<meta property="og:site_name" content="咕咕鸡的前端博客">
+<meta property="og:description" content="2020年已经过去，在家办公了小半年，回顾过去，Time flies。 今年听说是微前端的大年，应该每个前端都会听说过微前端的概念，就像几年前angular，vue，react流行时那样。我个人是特别的佩服single-spa的作者John Denning。大概2016-2017年的样子，Angularjs出了巨大变更的Angular，React在国外也风光无两。同样是面对新旧框架不兼容的情况，我">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://img-ys011.didistatic.com/static/dc2img/do1_erbRkYpYxwlqUBsp57i5">
+<meta property="og:updated_time" content="2021-07-25T07:53:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2020年微前端踩坑回顾">
+<meta name="twitter:description" content="2020年已经过去，在家办公了小半年，回顾过去，Time flies。 今年听说是微前端的大年，应该每个前端都会听说过微前端的概念，就像几年前angular，vue，react流行时那样。我个人是特别的佩服single-spa的作者John Denning。大概2016-2017年的样子，Angularjs出了巨大变更的Angular，React在国外也风光无两。同样是面对新旧框架不兼容的情况，我">
+<meta name="twitter:image" content="http://img-ys011.didistatic.com/static/dc2img/do1_erbRkYpYxwlqUBsp57i5">
+  <!-- Canonical links -->
+  <link rel="canonical" href="guguji5.github.io/2020年微前端踩坑回顾/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="咕咕鸡的前端博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/guguji5" target="_blank">
+          <img class="img-circle img-rotate" src="/images/gangji.jpeg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Damon Du</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">菜鸡前端</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 滴滴云</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索">
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech="">
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope="" itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/guguji5" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/guguji5" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope="" itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/组件/">组件</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bugfix/">Bugfix</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angular/">angular</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/component/">component</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/优化/">优化</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微前端-single-spa/">微前端 single-spa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器人/">机器人</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动化测试/">自动化测试</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Bugfix/" style="font-size: 14px;">Bugfix</a> <a href="/tags/CSS/" style="font-size: 13px;">CSS</a> <a href="/tags/Hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/angular/" style="font-size: 13px;">angular</a> <a href="/tags/component/" style="font-size: 13px;">component</a> <a href="/tags/nginx/" style="font-size: 13px;">nginx</a> <a href="/tags/优化/" style="font-size: 13.67px;">优化</a> <a href="/tags/微前端-single-spa/" style="font-size: 13px;">微前端 single-spa</a> <a href="/tags/机器人/" style="font-size: 13px;">机器人</a> <a href="/tags/自动化测试/" style="font-size: 13px;">自动化测试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020年微前端踩坑回顾/" class="title">2020年微前端踩坑回顾</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-02-01T06:23:11.000Z" itemprop="datePublished">2021-02-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/5.Vue升级引发nextTick的bug(二)/" class="title">5.Vue升级引发nextTick的bug(二)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-27T03:34:37.000Z" itemprop="datePublished">2021-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/4.Vue升级引发nextTick的bug(一)/" class="title">4.Vue升级引发nextTick的bug(一)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-26T10:15:07.000Z" itemprop="datePublished">2021-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/证明：Click是一个EventLoop宏任务/" class="title">证明：Click是一个EventLoop宏任务</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-26T01:39:14.000Z" itemprop="datePublished">2021-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/3.Referer理解错误导致的跨域/" class="title">3.Referer理解错误导致的跨域</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-21T11:54:06.000Z" itemprop="datePublished">2021-01-21</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-2020年微前端踩坑回顾" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      2020年微前端踩坑回顾
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020年微前端踩坑回顾/" class="article-date">
+	  <time datetime="2021-02-01T06:23:11.000Z" itemprop="datePublished">2021-02-01</time>
+	</a>
+</span>
+        
+        
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020年微前端踩坑回顾/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.8k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 6(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>2020年已经过去，在家办公了小半年，回顾过去，Time flies。</p>
+<p>今年听说是微前端的大年，应该每个前端都会听说过微前端的概念，就像几年前angular，vue，react流行时那样。我个人是特别的佩服single-spa的作者John Denning。大概2016-2017年的样子，Angularjs出了巨大变更的Angular，React在国外也风光无两。同样是面对新旧框架不兼容的情况，我们的方案是重构，用Angular5重构项目，同时轮流负责修改之前Angularjs1.4的bug。而John写了第一版的single-spa来解决了这个问题，在新feature上使用React，已有页面维持旧项目来逐步过渡。</p>
+<p>今年先后试用了single-spa和qiankun来对两个项目做了重构，使用<a href="https://guguji5.github.io/Single-spa%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%8C%96%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/">single-spa来改造Mis的过往总结在这</a>。这篇文字注意记录一下使用qiankun遇到的问题。这里的问题必须解释一下不是qiankun的问题，而是我们项目中case by case的问题。</p>
+<h4 id="项目背景"><a href="#项目背景" class="headerlink" title="项目背景"></a>项目背景</h4><p>先介绍一下为啥要用qiankun来拆分滴滴云控制台，当时考虑我们的<strong>控制台开发体验差，热更新慢，太臃肿，无法引入新的技术栈、升级组件库，为了更好支持平台化建设项目。遂考虑微服务拆分项目。</strong><br>这里来盗个kuitos知乎上的图，如果想做一个长长久久公有云控制台，考虑迭代和升级越早收益越高。</p>
+<p><img src="http://img-ys011.didistatic.com/static/dc2img/do1_erbRkYpYxwlqUBsp57i5" alt=""></p>
+<h4 id="愿景"><a href="#愿景" class="headerlink" title="愿景"></a>愿景</h4><p>希望将控制台庖丁解牛，拆分成几个独立的项目。每一个可以独立部署，独立开发。<strong>自由选择和升级技术栈，UI库，热更新快速。</strong></p>
+<h4 id="框架对比"><a href="#框架对比" class="headerlink" title="框架对比"></a>框架对比</h4><table>
+<thead>
+<tr>
+<th>框架</th>
+<th>github stars（2020.10.29）</th>
+<th>主应用</th>
+<th>共享依赖</th>
+<th>子应用可否单独开发调试</th>
+<th>部署</th>
+<th>entry</th>
+<th>js，css隔离</th>
+<th>路由控制</th>
+<th>应用间通信</th>
+<th>工程化</th>
+<th>官方支持</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>飞冰</td>
+<td>906</td>
+<td>必须react</td>
+<td>无</td>
+<td>可独立启动的子应用，可以</td>
+<td>如飞冰的截图，子应用单独部署</td>
+<td>html，js，简单如iframe</td>
+<td><a href="https://ice.work/docs/icestark/guide/sandbox" target="_blank" rel="noopener">暂未完善</a></td>
+<td>简单的路由规则</td>
+<td><a href="https://ice.work/docs/icestark/guide/interaction" target="_blank" rel="noopener">有方案</a></td>
+<td>无</td>
+<td>没有专门的群，效率差</td>
+</tr>
+<tr>
+<td>qiankun</td>
+<td>7.3k</td>
+<td>qiankun</td>
+<td>无</td>
+<td>可独立启动的子应用，可以</td>
+<td>子应用单独部署</td>
+<td>html，js，简单如iframe</td>
+<td><a href="https://zhuanlan.zhihu.com/p/200775337" target="_blank" rel="noopener">js沙箱，css shadow dom等方案</a></td>
+<td>基于single-spa</td>
+<td><a href="https://zhuanlan.zhihu.com/p/200775337" target="_blank" rel="noopener">没方案，但有一些建议</a></td>
+<td>无</td>
+<td>有群，效率一般</td>
+</tr>
+<tr>
+<td>single-spa</td>
+<td>7.6k</td>
+<td>single-spa</td>
+<td><a href="https://single-spa.js.org/docs/recommended-setup#utility-modules-styleguide-api-etc" target="_blank" rel="noopener">utility-modules-styleguide-api-etc</a></td>
+<td>import-map-override完美解决</td>
+<td>子应用部署，需更新import-map</td>
+<td>需要systemjs，有一定成本</td>
+<td>官方未提供建议</td>
+<td>精准的路由控制</td>
+<td><a href="https://single-spa.js.org/docs/recommended-setup/" target="_blank" rel="noopener">有方案</a></td>
+<td>有</td>
+<td>slack，效率一般。有热心John</td>
+</tr>
+</tbody>
+</table>
+<p>大概对比下来，single-spa和qiankun各有千秋。但是single-spa要求的是子项目单文件入口，如果html中插入了多个chunk，single-spa无法保证其按顺序加载，对我们的项目冲击较大，而qiankun是根据html解析，将其css script链接进行加载，无需改动，最后选择了qiankun，趟一趟水。</p>
+<h4 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h4><p>因为这次重构和其他需求是并行的，将任务拆解为以下几项</p>
+<ol>
+<li>涉及到梳理业务模块及依赖关系，根据依赖关系抽取公共模块。</li>
+<li>将必要模块放在root应用中，如登录，权限，导航等等。</li>
+<li>如何几个子项目如何构建，部署，上线</li>
+<li>项目结束后如何跟旧项目的feature 解决冲突</li>
+<li>抽取公共模块后，原项目的引用路径会变化，如何使用脚本来做这件事。</li>
+</ol>
+<h4 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h4><p>重构嘛，肯定会遇到问题。但是qiankun没有太多问题，花费我巨量时间的还是项目中的一些问题，举一两个小例子吧，没太多营养，也不想浪费笔墨。</p>
+<ol>
+<li>将公共样式和公共JS逻辑抽取到公共模块后，使用了import-html-entry加载，但是css的加载顺序会变化。如此脆弱的css，顺序变一下最终渲染的就会不同。</li>
+<li>公共模块中的postcss解析不对，postcss-nested这个插件，在webpack升级后需要升级，但是升级到最新Version 5会报错，还原到原来Version 1还是还会报错，试着往下降了一版到Version 4，可以work。难受。</li>
+<li>脚手架从webpack使用vue-cli后icon，竟然无法展示，具体记录在<a href="https://guguji5.github.io/2.%E8%AE%B0%E4%B8%80%E6%AC%A1Icon%E6%B2%A1%E5%B1%95%E7%A4%BA%E7%9A%84bugfix/">记一次Icon没展示的bugfix</a></li>
+<li>store如何控制，因为是项目拆分，原来公用一个的vuex现在还想维持原状，不想做过多改动，最后使用<code>registerModule</code>将子应用的store注册为主应用的一个module，幸运的是大部分代码都是用getter来获取store中的值，getter的注册具有<a href="https://vuex.vuejs.org/zh/guide/modules.html#%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4" target="_blank" rel="noopener">全局命名空间</a>，无论真是的store是在全局还是子模块。</li>
+<li>不想每次都启动N+1个项目，如何处理呢，临时使用npm-run-all来过渡。</li>
+<li>权限如何控制？ 其实本来权限也有后端设置的cookie来决定，但是原来是一个spa项目，404页面和* 页面，都需要处理。因为不属于该项目的路由，需要去适配其他的子应用，而不是展示一个404。</li>
+<li>子应用之前切换路由，不能使用vue-router的 name，而需要用path。</li>
+</ol>
+<h4 id="待解决的问题"><a href="#待解决的问题" class="headerlink" title="待解决的问题"></a>待解决的问题</h4><ol>
+<li>不想每次都启动N+1个项目，考虑实现一个类似 import-map-overrides 的工具。可以动态改变publicPath，只启动需要调试的子项目即可。</li>
+<li>多个Vue子项目同时启动后，vue-devtool时不时的失效。说不清就加载哪一个项目的状态，我在使用single-spa时没有这个问题。有待深入调查</li>
+<li>对于使用镜像来部署的场景，每个镜像中跑一个nginx，里边serve一个html感觉有点浪费，因为js，css，font，img等等全都放cdn上，对于一个三个子项目的项目，每个项目2个节点，有点浪费。</li>
+</ol>
+<h4 id="写在最后的话"><a href="#写在最后的话" class="headerlink" title="写在最后的话"></a>写在最后的话</h4><p>回到最初的愿景，我们还没实现，因为拆分才是我们重构的第一步，下一步要进一步细分，将服务拆的更小，然后才好进行无论是Vue升级，还是UI库升级。</p>
+<p>项目上线灰度结束，发现花时间最多的</p>
+<ol>
+<li>是处理cookie鉴权</li>
+<li>多个项目间路由的处理</li>
+<li>并行项目间合并代码</li>
+<li>多个项目构建太慢如何优化</li>
+</ol>
+<p>为了分析组件间的依赖关系，通过数据说话来决定哪些utils和components需要抽取到公共模块（被依赖太多和被main.js所依赖都需要抽取），自己实现了nodejs脚本来分析webpack的stat文件。<br>通过自动合并代码及查看diff，又写了个nodejs脚本来自动合并。<br>也很有趣。</p>
+<h4 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h4><ol>
+<li>飞冰官网：<a href="https://ice.work/docs/icestark/about" target="_blank" rel="noopener">https://ice.work/docs/icestark/about</a></li>
+<li>飞冰作者分享：<a href="https://zhuanlan.zhihu.com/p/88449415" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/88449415</a></li>
+<li>qiankun官网：<a href="https://qiankun.umijs.org/zh" target="_blank" rel="noopener">https://qiankun.umijs.org/zh</a></li>
+<li>qiankun作者博客：<a href="https://zhuanlan.zhihu.com/p/95085796" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/95085796</a>  </li>
+<li>qiankun作者博客：<a href="https://zhuanlan.zhihu.com/p/200775337" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/200775337</a> </li>
+<li><a href="https://juejin.im/post/6856569463950639117#heading-15" target="_blank" rel="noopener">https://juejin.im/post/6856569463950639117#heading-15</a> </li>
+<li>signle-spa官网：<a href="https://single-spa.js.org/" target="_blank" rel="noopener">https://single-spa.js.org/</a></li>
+</ol>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="guguji5.github.io/2020年微前端踩坑回顾/" title="2020年微前端踩坑回顾" target="_blank" rel="external">guguji5.github.io/2020年微前端踩坑回顾/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/guguji5" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/gangji.jpeg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/guguji5" target="_blank"><span class="text-dark">Damon Du</span><small class="ml-1x">菜鸡前端</small></a></h3>
+        <div>滴滴云</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom="">
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/5.Vue升级引发nextTick的bug(二)/" title="5.Vue升级引发nextTick的bug(二)"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,wechat" data-mobile-sites="weibo,wechat"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope="" itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/guguji5" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/guguji5" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+<script src="/js/crypto-js/crypto-js.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/js/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'd2c2eed331f93213c11d',
+    clientSecret: 'df41c902c1854c3a80133f0096c625c6020609c2',
+    repo: 'guguji5.github.io',
+    owner: 'guguji5',
+    admin: ['guguji5'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>

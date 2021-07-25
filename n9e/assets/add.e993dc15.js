@@ -1,0 +1,1 @@
+import{r as e,v as r}from"./vendor.6a8dc018.js";import{P as t}from"./index.366ccd84.js";import{O as a}from"./operateForm.17fdc8a4.js";import"./index.de3aaf26.js";export default()=>e.createElement(t,{title:"新建告警屏蔽",showBack:!0},e.createElement(r,{style:{background:"#eee"}},e.createElement(a,null)));

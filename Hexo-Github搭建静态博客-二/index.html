@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>Hexo + Github搭建静态博客(二) | 咕咕鸡的前端博客</title>
+  <meta name="description" content="快速介绍本文是接Hexo + Github搭建静态博客(一)，Hexo环境的搭建，依赖的下载请根据上文自行配置。本文主要介绍Hexo的归档，标签，分类，以及依靠插件支持的评论，站内搜索，字数统计等功能。 归档，分类，标签三者是众多博客模板的必要元素，而在文档中却没有详细的解释，匆匆一笔带过。笔者阅历浅薄，结合自己的理解，强行解释一波，通过对比将意思表达的更清楚。 归档（archives）是按照">
+<meta name="keywords" content="Hexo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo + Github搭建静态博客(二)">
+<meta property="og:url" content="guguji5.github.io/Hexo-Github搭建静态博客-二/index.html">
+<meta property="og:site_name" content="咕咕鸡的前端博客">
+<meta property="og:description" content="快速介绍本文是接Hexo + Github搭建静态博客(一)，Hexo环境的搭建，依赖的下载请根据上文自行配置。本文主要介绍Hexo的归档，标签，分类，以及依靠插件支持的评论，站内搜索，字数统计等功能。 归档，分类，标签三者是众多博客模板的必要元素，而在文档中却没有详细的解释，匆匆一笔带过。笔者阅历浅薄，结合自己的理解，强行解释一波，通过对比将意思表达的更清楚。 归档（archives）是按照">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="/images/search.jpg">
+<meta property="og:image" content="/images/repo.jpg">
+<meta property="og:updated_time" content="2021-07-25T07:53:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo + Github搭建静态博客(二)">
+<meta name="twitter:description" content="快速介绍本文是接Hexo + Github搭建静态博客(一)，Hexo环境的搭建，依赖的下载请根据上文自行配置。本文主要介绍Hexo的归档，标签，分类，以及依靠插件支持的评论，站内搜索，字数统计等功能。 归档，分类，标签三者是众多博客模板的必要元素，而在文档中却没有详细的解释，匆匆一笔带过。笔者阅历浅薄，结合自己的理解，强行解释一波，通过对比将意思表达的更清楚。 归档（archives）是按照">
+<meta name="twitter:image" content="/images/search.jpg">
+  <!-- Canonical links -->
+  <link rel="canonical" href="guguji5.github.io/Hexo-Github搭建静态博客-二/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="咕咕鸡的前端博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/guguji5" target="_blank">
+          <img class="img-circle img-rotate" src="/images/gangji.jpeg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Damon Du</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">菜鸡前端</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 滴滴云</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索">
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech="">
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope="" itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/guguji5" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/guguji5" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope="" itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/组件/">组件</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bugfix/">Bugfix</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angular/">angular</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/component/">component</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/优化/">优化</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微前端-single-spa/">微前端 single-spa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器人/">机器人</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动化测试/">自动化测试</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Bugfix/" style="font-size: 14px;">Bugfix</a> <a href="/tags/CSS/" style="font-size: 13px;">CSS</a> <a href="/tags/Hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/angular/" style="font-size: 13px;">angular</a> <a href="/tags/component/" style="font-size: 13px;">component</a> <a href="/tags/nginx/" style="font-size: 13px;">nginx</a> <a href="/tags/优化/" style="font-size: 13.67px;">优化</a> <a href="/tags/微前端-single-spa/" style="font-size: 13px;">微前端 single-spa</a> <a href="/tags/机器人/" style="font-size: 13px;">机器人</a> <a href="/tags/自动化测试/" style="font-size: 13px;">自动化测试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020年微前端踩坑回顾/" class="title">2020年微前端踩坑回顾</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-02-01T06:23:11.000Z" itemprop="datePublished">2021-02-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/5.Vue升级引发nextTick的bug(二)/" class="title">5.Vue升级引发nextTick的bug(二)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-27T03:34:37.000Z" itemprop="datePublished">2021-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/4.Vue升级引发nextTick的bug(一)/" class="title">4.Vue升级引发nextTick的bug(一)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-26T10:15:07.000Z" itemprop="datePublished">2021-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/证明：Click是一个EventLoop宏任务/" class="title">证明：Click是一个EventLoop宏任务</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-26T01:39:14.000Z" itemprop="datePublished">2021-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/3.Referer理解错误导致的跨域/" class="title">3.Referer理解错误导致的跨域</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-21T11:54:06.000Z" itemprop="datePublished">2021-01-21</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Hexo-Github搭建静态博客-二" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Hexo + Github搭建静态博客(二)
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/Hexo-Github搭建静态博客-二/" class="article-date">
+	  <time datetime="2018-11-11T08:43:29.000Z" itemprop="datePublished">2018-11-11</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/Hexo/">Hexo</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/Hexo-Github搭建静态博客-二/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.1k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 4(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h3 id="快速介绍"><a href="#快速介绍" class="headerlink" title="快速介绍"></a>快速介绍</h3><p>本文是接Hexo + Github搭建静态博客(一)，Hexo环境的搭建，依赖的下载请根据<a href="https://guguji5.github.io/Hexo-Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-%E4%B8%80/">上文</a>自行配置。本文主要介绍Hexo的<strong>归档，标签，分类</strong>，以及依靠插件支持的<strong>评论，站内搜索，字数统计</strong>等功能。</p>
+<h3 id="归档，分类，标签"><a href="#归档，分类，标签" class="headerlink" title="归档，分类，标签"></a>归档，分类，标签</h3><p>三者是众多博客模板的必要元素，而在文档中却没有详细的解释，匆匆一笔带过。笔者阅历浅薄，结合自己的理解，强行解释一波，通过对比将意思表达的更清楚。</p>
+<p>归档（archives）是按照一定的周期对博客进行分类，大多数是按年，月等。</p>
+<p>分类（categories）和 标签（tags）都是用来描述博客的内容，但却又不尽相同。分类 定义博客的常规主题，而标签会深入反应内容。分类会构成博客的大纲，反应博客的基本结构，而标签会更具体一些。（其实还是会让人confuse）下边我希望通过一个小故事解释清“分类”和“标签”的不同。</p>
+<p>假如我们运营着一个关于电子产品（3C）的博客，有众多的博文，可能会有以下的分类</p>
+<ul>
+<li>笔记本</li>
+<li>手机</li>
+<li>存储设备</li>
+<li>数码相机</li>
+</ul>
+<p>当新出iphone的时候，我们可能会写一个新产品开箱博客，他分类肯定是”手机“，而标签会是”iphone“。</p>
+<p>创建对应的页面也很简单，只需一行命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo new page &quot;archives&quot;</span><br><span class="line">hexo new page &quot;tags&quot;</span><br><span class="line">hexo new page &quot;categories&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="站内搜索"><a href="#站内搜索" class="headerlink" title="站内搜索"></a>站内搜索</h3><p>方式有以下三种，insight、swiftype、baidu。</p>
+<p>insight只需安装hexo-generator-json-content组件即可。<br>swiftype需要去其官网注册key。<br>baidu搜索的话需要禁用其他两种。</p>
+<p>三种都很简单，这里展示第一种的效果图。</p>
+<p><img src="/images/search.jpg" alt="站内搜索"></p>
+<h3 id="评论"><a href="#评论" class="headerlink" title="评论"></a>评论</h3><p>评论是博客必不可少的一项功能。而Hexo作为一个静态博客，没有WordPress那样的server和数据库，评论的功能可想而知肯定是用的第三方的评论系统。大浪淘沙，对比各色的需求，接下来我们XXX。</p>
+<ul>
+<li>来必力 : 504报错，跨域</li>
+<li>Hypercomments: 付费</li>
+<li>畅言 : 畅言</li>
+<li>Valine : sound good</li>
+<li>多说 : 关闭</li>
+<li>网易云跟帖 : 关闭</li>
+<li>disqus : 科学上网</li>
+<li>gitalk : 需要Github账号</li>
+<li>搜狐畅言 : 备案</li>
+</ul>
+<p>这个topic展开的话会很冗长，搜索引擎上也有很多这类的文章。我最后选择了gittalk，简单大方，技术类的文章，Github不是门槛。</p>
+<h3 id="字数统计，阅读时间统计"><a href="#字数统计，阅读时间统计" class="headerlink" title="字数统计，阅读时间统计"></a>字数统计，阅读时间统计</h3><p>这一部分比较简单，只需要安装hexo-wordcount插件，传入博客的内容即可计算得出。先安装插件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i --save hexo-wordcount</span><br></pre></td></tr></table></figure></p>
+<p>在主题模板文件中即可使用wordcount方法计算字数统计和阅读时长。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if(theme.postCount.enable)&#123;  %&gt;</span><br><span class="line">	&lt;% if(theme.postCount.wordcount)&#123;  %&gt;</span><br><span class="line">		&lt;span class=&quot;post-wordcount hidden-xs&quot; itemprop=&quot;wordCount&quot;&gt;&lt;%= __(&apos;article.wordcount&apos;) %&gt;: &lt;%= wordcount(post.content) %&gt;(&lt;%= __(&apos;unit.word&apos;) %&gt;)&lt;/span&gt;</span><br><span class="line">	&lt;% &#125; %&gt;</span><br><span class="line">	&lt;% if(theme.postCount.min2read)&#123;  %&gt;</span><br><span class="line">		&lt;span class=&quot;post-readcount hidden-xs&quot; itemprop=&quot;timeRequired&quot;&gt;&lt;%= __(&apos;article.readcount&apos;) %&gt;: &lt;%= min2read(post.content) %&gt;(&lt;%= __(&apos;unit.time&apos;) %&gt;)&lt;/span&gt;</span><br><span class="line">	&lt;% &#125; %&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="如何在博客展示自己github托管的项目"><a href="#如何在博客展示自己github托管的项目" class="headerlink" title="如何在博客展示自己github托管的项目"></a>如何在博客展示自己github托管的项目</h3><p>作为一个程序员，GitHub开源项目是程序员展示编程技术和工作阅历，释放程序员个人魅力的宽广舞台。所以，很有必要在博客的核心页面展示自己GitHub的repository。Hexo可以在主题内通过ejs或swig模板引擎来构建页面，GitHub提供开源api支持获取repo列表。所以我们可以通过调用引入JavaScript请求api。展示效果如下</p>
+<p><img src="/images/repo.jpg" alt="repository"></p>
+<p>问题出在Github的未授权状态的api每小时只可以请求60次，而超出次数就会403。而授权的api每小时可以访问50000次。所以需要去<a href="https://developer.github.com/v3/auth/#basic-authentication" target="_blank" rel="noopener">https://developer.github.com/v3/auth/#basic-authentication</a>申请授权，我们搭建的Hexo静态博客，没有Server，所以oauth2的方式不可取，这里我用的access_token来对api授权，Github出于安全的考虑，不允许我们把access_token上传到Github仓库，所以我们需要借助你擅长的加密方式，对access_token加密，运行时解密。伪代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var key = &apos;U2FsdGVkX1+VWdiIkoA3PCbz9KKGlKilMs6UztGd2VQuYuSAoZLyCi8fM2qxUbviYt35kf/tpFvEqNmtY3WppQ=&apos;</span><br><span class="line">var access_token = CryptoJS.AES.decrypt(key, &apos;guguji5&apos;).toString(CryptoJS.enc.Utf8);</span><br><span class="line">$.get(&quot;https://api.github.com/users/&lt;%=theme.github.username%&gt;/repos?access_token=&quot;+access_token, function(result) &#123;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p><em>参考链接</em></p>
+<p><a href="https://developer.github.com/v3/auth/#basic-authentication" target="_blank" rel="noopener">https://developer.github.com/v3/auth/#basic-authentication</a></p>
+<p><a href="https://developer.github.com/v3/#rate-limiting" target="_blank" rel="noopener">https://developer.github.com/v3/#rate-limiting</a></p>
+<p><a href="https://amylynnandrews.com/categories-vs-tags/" target="_blank" rel="noopener">https://amylynnandrews.com/categories-vs-tags/</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="guguji5.github.io/Hexo-Github搭建静态博客-二/" title="Hexo + Github搭建静态博客(二)" target="_blank" rel="external">guguji5.github.io/Hexo-Github搭建静态博客-二/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/guguji5" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/gangji.jpeg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/guguji5" target="_blank"><span class="text-dark">Damon Du</span><small class="ml-1x">菜鸡前端</small></a></h3>
+        <div>滴滴云</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom="">
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/SVG-Sprite优化滴滴云项目中的图标/" title="SVG Sprite优化滴滴云项目中的图标"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/bakery性能优化/" title="bakery性能优化"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,wechat" data-mobile-sites="weibo,wechat"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope="" itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/guguji5" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/guguji5" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+<script src="/js/crypto-js/crypto-js.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/js/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'd2c2eed331f93213c11d',
+    clientSecret: 'df41c902c1854c3a80133f0096c625c6020609c2',
+    repo: 'guguji5.github.io',
+    owner: 'guguji5',
+    admin: ['guguji5'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>

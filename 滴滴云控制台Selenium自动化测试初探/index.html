@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>滴滴云控制台Selenium自动化测试初探 | 咕咕鸡的前端博客</title>
+  <meta name="description" content="Selenium是一系列基于Web的自动化工具，提供一套测试函数，用于支持Web自动化测试。函数非常灵活，能够完成界面元素定位、窗口跳转、结果比较。具有如下特点：  多浏览器支持。如IE、Firefox、Safari、Chrome、Android手机浏览器等。 支持多种语言。如Java、C#、Python、Ruby、PHP等。 支持多种操作系统。如Windows、Linux、IOS、Android">
+<meta name="keywords" content="自动化测试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="滴滴云控制台Selenium自动化测试初探">
+<meta property="og:url" content="guguji5.github.io/滴滴云控制台Selenium自动化测试初探/index.html">
+<meta property="og:site_name" content="咕咕鸡的前端博客">
+<meta property="og:description" content="Selenium是一系列基于Web的自动化工具，提供一套测试函数，用于支持Web自动化测试。函数非常灵活，能够完成界面元素定位、窗口跳转、结果比较。具有如下特点：  多浏览器支持。如IE、Firefox、Safari、Chrome、Android手机浏览器等。 支持多种语言。如Java、C#、Python、Ruby、PHP等。 支持多种操作系统。如Windows、Linux、IOS、Android">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-07-25T07:53:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="滴滴云控制台Selenium自动化测试初探">
+<meta name="twitter:description" content="Selenium是一系列基于Web的自动化工具，提供一套测试函数，用于支持Web自动化测试。函数非常灵活，能够完成界面元素定位、窗口跳转、结果比较。具有如下特点：  多浏览器支持。如IE、Firefox、Safari、Chrome、Android手机浏览器等。 支持多种语言。如Java、C#、Python、Ruby、PHP等。 支持多种操作系统。如Windows、Linux、IOS、Android">
+  <!-- Canonical links -->
+  <link rel="canonical" href="guguji5.github.io/滴滴云控制台Selenium自动化测试初探/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="咕咕鸡的前端博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/guguji5" target="_blank">
+          <img class="img-circle img-rotate" src="/images/gangji.jpeg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Damon Du</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">菜鸡前端</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 滴滴云</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索">
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech="">
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope="" itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/guguji5" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/guguji5" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope="" itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/组件/">组件</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bugfix/">Bugfix</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angular/">angular</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/component/">component</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/优化/">优化</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微前端-single-spa/">微前端 single-spa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器人/">机器人</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动化测试/">自动化测试</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Bugfix/" style="font-size: 14px;">Bugfix</a> <a href="/tags/CSS/" style="font-size: 13px;">CSS</a> <a href="/tags/Hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/angular/" style="font-size: 13px;">angular</a> <a href="/tags/component/" style="font-size: 13px;">component</a> <a href="/tags/nginx/" style="font-size: 13px;">nginx</a> <a href="/tags/优化/" style="font-size: 13.67px;">优化</a> <a href="/tags/微前端-single-spa/" style="font-size: 13px;">微前端 single-spa</a> <a href="/tags/机器人/" style="font-size: 13px;">机器人</a> <a href="/tags/自动化测试/" style="font-size: 13px;">自动化测试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020年微前端踩坑回顾/" class="title">2020年微前端踩坑回顾</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-02-01T06:23:11.000Z" itemprop="datePublished">2021-02-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/5.Vue升级引发nextTick的bug(二)/" class="title">5.Vue升级引发nextTick的bug(二)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-27T03:34:37.000Z" itemprop="datePublished">2021-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/4.Vue升级引发nextTick的bug(一)/" class="title">4.Vue升级引发nextTick的bug(一)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-26T10:15:07.000Z" itemprop="datePublished">2021-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/证明：Click是一个EventLoop宏任务/" class="title">证明：Click是一个EventLoop宏任务</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-26T01:39:14.000Z" itemprop="datePublished">2021-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/3.Referer理解错误导致的跨域/" class="title">3.Referer理解错误导致的跨域</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-21T11:54:06.000Z" itemprop="datePublished">2021-01-21</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-滴滴云控制台Selenium自动化测试初探" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      滴滴云控制台Selenium自动化测试初探
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/滴滴云控制台Selenium自动化测试初探/" class="article-date">
+	  <time datetime="2019-02-13T06:23:21.000Z" itemprop="datePublished">2019-02-13</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/自动化测试/">自动化测试</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/滴滴云控制台Selenium自动化测试初探/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2.1k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 9(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>Selenium是一系列基于Web的自动化工具，提供一套测试函数，用于支持Web自动化测试。函数非常灵活，能够完成界面元素定位、窗口跳转、结果比较。具有如下特点：</p>
+<ol>
+<li>多浏览器支持。如IE、Firefox、Safari、Chrome、Android手机浏览器等。</li>
+<li>支持多种语言。如Java、C#、Python、Ruby、PHP等。</li>
+<li>支持多种操作系统。如Windows、Linux、IOS、Android等。</li>
+<li>开源免费。官网：<a href="http://www.seleniumhg.org/" target="_blank" rel="noopener">http://www.seleniumhg.org/</a></li>
+</ol>
+<h2 id="Selenium组成部分"><a href="#Selenium组成部分" class="headerlink" title="Selenium组成部分"></a>Selenium组成部分</h2><h3 id="一、Selenium-IDE"><a href="#一、Selenium-IDE" class="headerlink" title="一、Selenium IDE"></a>一、Selenium IDE</h3><p>该工具是一个用于构建脚本的初级工具，其实是FireFox的一个插件，拥有一个易于使用的界面。它拥有记录功能，能够记录用户执行的操作，并可以导出为可重复使用的脚本。如果没有编程经验，可以通过Selenium IDE来快速熟悉Selenium的命令。较少使用。</p>
+<h3 id="二、Selenium-RC"><a href="#二、Selenium-RC" class="headerlink" title="二、Selenium RC"></a>二、Selenium RC</h3><p>Selenium RC是selenium家族核心部分。Selenium RC支持多种不同的语言编写自动化测试脚本，通过SeleniumRC的服务器作为代理服务器去访问应用，从而达到测试的目的。</p>
+<h3 id="三、Selenium-WebDriver"><a href="#三、Selenium-WebDriver" class="headerlink" title="三、Selenium WebDriver"></a>三、Selenium WebDriver</h3><p>当Selenium2.x提出了WebDriver的概念之后，它提供了完全另外的一种方式与浏览器交互。那就是利用浏览器原生的API，封装成一套更加面向对象的SeleniumWebDriver API，直接操作浏览器页面里的元素，甚至操作浏览器本身（截屏，窗口大小，启动，关闭，安装插件，配置证书之类的）。由于使用的是浏览器原生的API，速度大大提高，而且调用的稳定性交给了浏览器厂商本身，显然是更加科学。然而带来的一些副作用就是，不同的浏览器厂商，对Web元素的操作和呈现多少会有一些差异，这就直接导致了Selenium WebDriver要分浏览器厂商不同，而提供不同的实现。例如Firefox就有专门的FirefoxDriver，Chrome就有专门的ChromeDriver等等。（甚至包括了AndroidDriver和iOS WebDriver）</p>
+<h3 id="四、Selenium-Grid"><a href="#四、Selenium-Grid" class="headerlink" title="四、Selenium Grid"></a>四、Selenium Grid</h3><p>Selenium Grid通过在许多服务器上同时运行测试，将Selenium Remote Control带到另一个层次，从而减少了测试多个浏览器或操作系统所需的时间。</p>
+<hr>
+<p>这里借助Selenium WebDriver，以<a href="https://app.didiyun.com/#/" target="_blank" rel="noopener">滴滴云控制台</a>的<strong>默认选中</strong>为例展示Selenium如何解放测试人员的双手。</p>
+<p><a href="https://app.didiyun.com/#/" target="_blank" rel="noopener">滴滴云控制台</a>的<a href="https://app.didiyun.com/#/dc2/add" target="_blank" rel="noopener">DC2创建页</a>承载着复杂的业务逻辑，众多页面都需要跳转到此，并需要根据URL上的参数而对DC2的配置做默认选中。当多人开发对业务逻辑耦合时，众多逻辑均会对默认选中的结果造成影响，难以避免导致BUG的产生。在手动测试的情况下，需要回归测试整个页面的所有功能点，而用Selenium如何如何保证页面的稳定呢？</p>
+<h3 id="Selenium安装"><a href="#Selenium安装" class="headerlink" title="Selenium安装"></a>Selenium安装</h3><p>Selenium支持多种语言，python最受欢迎，安装也比较简单。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install selenium</span><br></pre></td></tr></table></figure></p>
+<p>然后需要根据<a href="https://sites.google.com/a/chromium.org/chromedriver/downloads" target="_blank" rel="noopener">链接</a>下载chromedriver 到/usr/local/bin。</p>
+<p>执行以下代码检测你的环境已经安装完毕<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># coding = utf-8</span><br><span class="line">from selenium import webdriver</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line">browser = webdriver.Chrome()</span><br><span class="line">browser.get(&quot;http://www.baidu.com&quot;)</span><br><span class="line">browser.find_element_by_id(&quot;kw&quot;).send_keys(&quot;selenium&quot;)</span><br><span class="line">browser.find_element_by_id(&quot;su&quot;).click()</span><br><span class="line">time.sleep(3)</span><br><span class="line">browser.quit()</span><br></pre></td></tr></table></figure></p>
+<p>如果程序能正常打开你的Chrome浏览器，输入selenium并搜索，则说明Selenium安装成功。</p>
+<h3 id="Selenium定位页面元素"><a href="#Selenium定位页面元素" class="headerlink" title="Selenium定位页面元素"></a>Selenium定位页面元素</h3><p>webdriver提供了一系列的对象定位方法，常用的有id,name,class name,link text,partial link text,tag name,xpath,css selector，针对百度的网页可以有一下多种方法定位页面元素。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">#coding=utf-8</span><br><span class="line"></span><br><span class="line">from selenium import webdriver</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line">browser = webdriver.Chrome()</span><br><span class="line"></span><br><span class="line">browser.get(&quot;http://www.baidu.com&quot;)</span><br><span class="line">time.sleep(2)</span><br><span class="line"></span><br><span class="line">#########百度输入框的定位方式##########</span><br><span class="line"></span><br><span class="line">#通过id方式定位</span><br><span class="line">browser.find_element_by_id(&quot;kw&quot;).send_keys(&quot;selenium&quot;)</span><br><span class="line"></span><br><span class="line">#通过name方式定位</span><br><span class="line">browser.find_element_by_name(&quot;wd&quot;).send_keys(&quot;selenium&quot;)</span><br><span class="line"></span><br><span class="line">#通过tag name方式定位</span><br><span class="line">browser.find_element_by_tag_name(&quot;input&quot;).send_keys(&quot;selenium&quot;)</span><br><span class="line"></span><br><span class="line">#通过class name 方式定位</span><br><span class="line">browser.find_element_by_class_name(&quot;s_ipt&quot;).send_keys(&quot;selenium&quot;)</span><br><span class="line"></span><br><span class="line">#通过CSS方式定位</span><br><span class="line">browser.find_element_by_css_selector(&quot;#kw&quot;).send_keys(&quot;selenium&quot;)</span><br><span class="line"></span><br><span class="line">#通过xpath方式定位</span><br><span class="line">browser.find_element_by_xpath(&quot;//input[@id=&apos;kw&apos;]&quot;).send_keys(&quot;selenium&quot;)</span><br><span class="line"></span><br><span class="line">############################################</span><br><span class="line"></span><br><span class="line">browser.find_element_by_id(&quot;su&quot;).click()</span><br><span class="line">time.sleep(3)</span><br><span class="line">browser.quit()</span><br></pre></td></tr></table></figure>
+<h3 id="测试登录"><a href="#测试登录" class="headerlink" title="测试登录"></a>测试登录</h3><p>因为滴滴云控制台部分页面需登录后方可打开，所以测试的第一步打开首页，填入用户名密码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#coding=utf-8</span><br><span class="line">from selenium import webdriver</span><br><span class="line"></span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line">driver = webdriver.Chrome()</span><br><span class="line">driver.get(&quot;http://app.didiyun.com&quot;)</span><br><span class="line"></span><br><span class="line">driver.find_element_by_css_selector(&apos;input[type=&quot;text&quot;]&apos;).send_keys(&quot;189****3932&quot;)</span><br><span class="line">driver.find_element_by_css_selector(&apos;input[type=&quot;password&quot;]&apos;).send_keys(&quot;3e****FV&quot;)</span><br><span class="line">time.sleep(2)</span><br><span class="line"></span><br><span class="line">subbutton=driver.find_element_by_css_selector(&apos;button[type=&quot;submit&quot;]&apos;)</span><br><span class="line"></span><br><span class="line">subbutton.click()</span><br><span class="line"></span><br><span class="line">time.sleep(3)</span><br></pre></td></tr></table></figure>
+<p>检查程序可以打开滴滴云控制台首页，并成功登录dashboard页，则登录验证成功。</p>
+<h3 id="测试默认项选中"><a href="#测试默认项选中" class="headerlink" title="测试默认项选中"></a>测试默认项选中</h3><p>本次自动化测试的目的为检测从官网跳转到控制台时，进入<a href="https://app.didiyun.com/#/dc2/add?srvType=ebs&amp;systemDiskType=HE&amp;zoneId=gz01" target="_blank" rel="noopener">https://app.didiyun.com/#/dc2/add?srvType=ebs&amp;systemDiskType=HE&amp;zoneId=gz01</a> 页，能否默认选中广州一区，标准云服务器，系统盘为高效云盘。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">#coding=utf-8</span><br><span class="line">from selenium import webdriver</span><br><span class="line"></span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line">driver = webdriver.Chrome()</span><br><span class="line">driver.get(&quot;http://app.didiyun.com&quot;)</span><br><span class="line"></span><br><span class="line">driver.find_element_by_css_selector(&apos;input[type=&quot;text&quot;]&apos;).send_keys(&quot;18903393932&quot;)</span><br><span class="line">driver.find_element_by_css_selector(&apos;input[type=&quot;password&quot;]&apos;).send_keys(&quot;3edc$RFV%TGB&quot;)</span><br><span class="line">time.sleep(2)</span><br><span class="line"></span><br><span class="line">#测试的最终结果</span><br><span class="line">TEST_PASS = True</span><br><span class="line"></span><br><span class="line">subbutton=driver.find_element_by_css_selector(&apos;button[type=&quot;submit&quot;]&apos;)</span><br><span class="line"></span><br><span class="line">subbutton.click()</span><br><span class="line"></span><br><span class="line">time.sleep(3)</span><br><span class="line">if (driver.current_url == &apos;https://app.didiyun.com/#/&apos;):</span><br><span class="line">	print &apos;Success our dashboard login&apos;</span><br><span class="line"></span><br><span class="line">print &quot;Opening our target page&quot;</span><br><span class="line">driver.get(&apos;https://app.didiyun.com/#/dc2/add?srvType=ebs&amp;systemDiskType=HE&amp;zoneId=gz01&apos;)</span><br><span class="line"></span><br><span class="line">#浏览器打开需要时间</span><br><span class="line">time.sleep(3)</span><br><span class="line">if (driver.current_url == &apos;https://app.didiyun.com/#/dc2/add?srvType=ebs&amp;systemDiskType=HE&amp;zoneId=gz01&apos;):</span><br><span class="line">	print &apos;Opened the dc2 add page&apos;</span><br><span class="line">#################################################</span><br><span class="line">regionName = driver.find_element_by_css_selector(&apos;div.region-select3-item.active .region-head span&apos;).text</span><br><span class="line"></span><br><span class="line">zoneName = driver.find_element_by_css_selector(&apos;div.region-select3-item.active .zone-item.active span&apos;).text</span><br><span class="line">if(regionName != u&apos;广州&apos;):</span><br><span class="line">	TEST_PASS = False</span><br><span class="line">	print u&quot;期望区域是广州，但实际选中是%s&quot; %(regionName)</span><br><span class="line">else:</span><br><span class="line">	if(zoneName != &apos;1&apos;):</span><br><span class="line">		TEST_PASS = False</span><br><span class="line">		print u&quot;期望1区，但实际选中是%s区&quot; %(zoneName)</span><br><span class="line">#################################################</span><br><span class="line">serverType = driver.find_elements_by_xpath(&apos;//*[@id=&quot;app&quot;]/div[2]/div/form/div[3]/div[1]/div/div[1]/div/div[2]/div/span[1]&apos;)[0].text</span><br><span class="line"></span><br><span class="line">if(serverType != u&apos;标准云服务器&apos;):</span><br><span class="line">	 TEST_PASS = False</span><br><span class="line">	 print u&quot;期望服务器类型是标准云服务器，但实际选中是%s&quot; %(serverType)</span><br><span class="line">##################################################</span><br><span class="line">serverVerion = driver.find_elements_by_xpath(&apos;//*[@id=&quot;app&quot;]/div[2]/div/form/div[3]/div[2]/div[1]/div/label[1]/span/span&apos;)[0].text</span><br><span class="line"></span><br><span class="line">if(serverVerion != u&apos;通用型&apos;):</span><br><span class="line">	TEST_PASS = False</span><br><span class="line">	print u&quot;期望服务器类型是通用型，但实际选中是%s&quot; %(serverVerion)</span><br><span class="line">#################################################</span><br><span class="line">diskType = driver.find_element_by_css_selector(&apos;div.selector-wrapper input&apos;).get_attribute(&apos;value&apos;)</span><br><span class="line">if(diskType != u&apos;高效云盘&apos;):</span><br><span class="line">	TEST_PASS = False</span><br><span class="line">	print u&quot;期望的系统盘类型是高效云盘，但实际选中是%s&quot; %(diskType)</span><br><span class="line"></span><br><span class="line">if(TEST_PASS):</span><br><span class="line">	print &apos;SUCCESS 从官网跳到控制台dc2创建页，选中了对应的配置&apos;</span><br><span class="line">else:</span><br><span class="line">	print &apos;FAIL 从官网跳到控制台dc2创建页，未选中了对应的配置&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">time.sleep(3)</span><br><span class="line">driver.close()</span><br></pre></td></tr></table></figure>
+<p>如果有如下输出，则测试失败，需要我们手动进入对应页面查看默认选中项的情况。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(venv) ➜  ~ python test.py</span><br><span class="line">Success our dashboard login</span><br><span class="line">Opening our target page</span><br><span class="line">期望的系统盘类型是高效云盘，但实际选中是普通云盘</span><br><span class="line">FAIL 从官网跳到控制台dc2创建页，未选中了对应的配置</span><br><span class="line">(venv) ➜  ~</span><br></pre></td></tr></table></figure>
+<p>如果有如下输出，则通过测试。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(venv) ➜  ~ python test.py</span><br><span class="line">Success our dashboard login</span><br><span class="line">Opening our target page</span><br><span class="line">Opened the dc2 add page</span><br><span class="line">SUCCESS 从官网跳到控制台dc2创建页，选中了对应的配置</span><br><span class="line">(venv) ➜  ~</span><br></pre></td></tr></table></figure></p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>我们知道，selenium是一个很优秀的web框架，提供了很丰富的API，使用它结合进行做web的自动化测试真的很完美，但是在实际的情况中，理想与现实总是存在那么一点距离，这点距离主要是难维护，难维护的最核心是页面元素经常改变，测试过程中数据很多，不知道怎么进行维护，页面元素确实经常改变，很难改变，另外一个就是数据问题，比如我们验证N个表单在不同输入情况下的提示信息，会有不同的提示信息，都得需要验证。</p>
+<p>本文只是一个菜鸡前端为减少重复劳动而对自动化测试所做的一个探索，专业的自动化测试肯定会封装的更加易用，可读，可维护。断言，日志都会用更加专业的框架。</p>
+<p>期待自动化测试可以为滴滴云的稳定性出一份力。</p>
+<p>参考链接：</p>
+<p>Selenium官网：<a href="https://www.seleniumhq.org" target="_blank" rel="noopener">https://www.seleniumhq.org</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="guguji5.github.io/滴滴云控制台Selenium自动化测试初探/" title="滴滴云控制台Selenium自动化测试初探" target="_blank" rel="external">guguji5.github.io/滴滴云控制台Selenium自动化测试初探/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/guguji5" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/gangji.jpeg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/guguji5" target="_blank"><span class="text-dark">Damon Du</span><small class="ml-1x">菜鸡前端</small></a></h3>
+        <div>滴滴云</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom="">
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/一次项目合并经历/" title="一次项目合并经历"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/SVG-Sprite优化滴滴云项目中的图标/" title="SVG Sprite优化滴滴云项目中的图标"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,wechat" data-mobile-sites="weibo,wechat"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope="" itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/guguji5" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/guguji5" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+<script src="/js/crypto-js/crypto-js.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/js/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'd2c2eed331f93213c11d',
+    clientSecret: 'df41c902c1854c3a80133f0096c625c6020609c2',
+    repo: 'guguji5.github.io',
+    owner: 'guguji5',
+    admin: ['guguji5'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,1 @@
+import{S as t,T as e,V as n}from"./index.366ccd84.js";const a=function(a){return t(`${e}/api/n9e/mutes`,{method:n.Get,params:a})},o=function(a){return t(`${e}/api/n9e/mutes`,{method:n.Post,data:a})},s=function(a){return t(`${e}/api/n9e/mute/${a}`,{method:n.Get})},r=function(a){return t(`${e}/api/n9e/mute/${a}`,{method:n.Delete})};export{o as a,r as d,a as g,s as v};

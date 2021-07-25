@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>SameSite的解释和跨域cookie问题的解决 | 咕咕鸡的前端博客</title>
+  <meta name="description" content="问题提出现在大多项目的前后端都是分离的，部署在不同的 IP 及域名上，之前遇到一个测试环境的问题，虽然解决了但一直不明所以。前端项目测试环境部署在 10.155.18.1 环境的 8080 端口，而后端项目测试环境部署在 10.155.19.2 环境的 8126 端口，通过 sso 登录后回调后端的接口中 Set-Cookie 一个 q 字段来给前端保持登录的状态。但是，后续的后端请求都没有带上该">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SameSite的解释和跨域cookie问题的解决">
+<meta property="og:url" content="guguji5.github.io/cross-site-cookies/index.html">
+<meta property="og:site_name" content="咕咕鸡的前端博客">
+<meta property="og:description" content="问题提出现在大多项目的前后端都是分离的，部署在不同的 IP 及域名上，之前遇到一个测试环境的问题，虽然解决了但一直不明所以。前端项目测试环境部署在 10.155.18.1 环境的 8080 端口，而后端项目测试环境部署在 10.155.19.2 环境的 8126 端口，通过 sso 登录后回调后端的接口中 Set-Cookie 一个 q 字段来给前端保持登录的状态。但是，后续的后端请求都没有带上该">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://webdev.imgix.net/samesite-cookies-explained/cross-site-set-cookie-response-header.png">
+<meta property="og:image" content="https://webdev.imgix.net/samesite-cookies-explained/cross-site-cookie-request-header.png">
+<meta property="og:image" content="https://webdev.imgix.net/samesite-cookies-explained/samesite-none-lax-strict.png">
+<meta property="og:updated_time" content="2021-07-25T07:53:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SameSite的解释和跨域cookie问题的解决">
+<meta name="twitter:description" content="问题提出现在大多项目的前后端都是分离的，部署在不同的 IP 及域名上，之前遇到一个测试环境的问题，虽然解决了但一直不明所以。前端项目测试环境部署在 10.155.18.1 环境的 8080 端口，而后端项目测试环境部署在 10.155.19.2 环境的 8126 端口，通过 sso 登录后回调后端的接口中 Set-Cookie 一个 q 字段来给前端保持登录的状态。但是，后续的后端请求都没有带上该">
+<meta name="twitter:image" content="https://webdev.imgix.net/samesite-cookies-explained/cross-site-set-cookie-response-header.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="guguji5.github.io/cross-site-cookies/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="咕咕鸡的前端博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/guguji5" target="_blank">
+          <img class="img-circle img-rotate" src="/images/gangji.jpeg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Damon Du</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">菜鸡前端</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 滴滴云</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索">
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech="">
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope="" itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/guguji5" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/guguji5" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope="" itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/组件/">组件</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bugfix/">Bugfix</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angular/">angular</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/component/">component</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/优化/">优化</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微前端-single-spa/">微前端 single-spa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器人/">机器人</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动化测试/">自动化测试</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Bugfix/" style="font-size: 14px;">Bugfix</a> <a href="/tags/CSS/" style="font-size: 13px;">CSS</a> <a href="/tags/Hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/angular/" style="font-size: 13px;">angular</a> <a href="/tags/component/" style="font-size: 13px;">component</a> <a href="/tags/nginx/" style="font-size: 13px;">nginx</a> <a href="/tags/优化/" style="font-size: 13.67px;">优化</a> <a href="/tags/微前端-single-spa/" style="font-size: 13px;">微前端 single-spa</a> <a href="/tags/机器人/" style="font-size: 13px;">机器人</a> <a href="/tags/自动化测试/" style="font-size: 13px;">自动化测试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020年微前端踩坑回顾/" class="title">2020年微前端踩坑回顾</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-02-01T06:23:11.000Z" itemprop="datePublished">2021-02-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/5.Vue升级引发nextTick的bug(二)/" class="title">5.Vue升级引发nextTick的bug(二)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-27T03:34:37.000Z" itemprop="datePublished">2021-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/4.Vue升级引发nextTick的bug(一)/" class="title">4.Vue升级引发nextTick的bug(一)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-26T10:15:07.000Z" itemprop="datePublished">2021-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/证明：Click是一个EventLoop宏任务/" class="title">证明：Click是一个EventLoop宏任务</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-26T01:39:14.000Z" itemprop="datePublished">2021-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/3.Referer理解错误导致的跨域/" class="title">3.Referer理解错误导致的跨域</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-21T11:54:06.000Z" itemprop="datePublished">2021-01-21</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-cross-site-cookies" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SameSite的解释和跨域cookie问题的解决
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/cross-site-cookies/" class="article-date">
+	  <time datetime="2020-11-01T12:14:41.000Z" itemprop="datePublished">2020-11-01</time>
+	</a>
+</span>
+        
+        
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/cross-site-cookies/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.8k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 6(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h3 id="问题提出"><a href="#问题提出" class="headerlink" title="问题提出"></a>问题提出</h3><p>现在大多项目的前后端都是分离的，部署在不同的 IP 及域名上，之前遇到一个测试环境的问题，虽然解决了但一直不明所以。前端项目测试环境部署在 10.155.18.1 环境的 8080 端口，而后端项目测试环境部署在 10.155.19.2 环境的 8126 端口，通过 sso 登录后回调后端的接口中 <code>Set-Cookie</code> 一个 q 字段来给前端保持登录的状态。但是，后续的后端请求都没有带上该 cookie，在浏览器的本地缓存中查看该 cookie 也是存在的。问题就是为啥明明设置了，后续请求却丢失了该 cookie。</p>
+<p>我猜想 cookie 在 IP 上是不是有什么问题，我就本地配了两个 host，分别为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">10.155.18.1 mis.example.io</span><br><span class="line">10.155.19.2 api.example.io</span><br></pre></td></tr></table></figure>
+<p>通过<code>mis.example.io:8080</code>来访问，回调<code>api.example.io:8126</code>，cookie 中的 q 会一直带着。一直想不通，这域名跟 IP 有啥不同，反正都是跨域。为啥用 IP 不行，用域名就可以了呢？</p>
+<p>直到看到了<a href="https://web.dev/samesite-cookies-explained/" target="_blank" rel="noopener">samesite-cookies-explained</a>，了解到了 samesite 对 cookie 的限制。文章讲了 cookie 的由来，因为 http 协议是无状态的，而 cookie 可以使状态持久化，通过 key=value 的状态来使用，通过 headers 中的 Set-Cookie 来进行设置等等 cookie 的基本概念（这些大家都知道，而跟题目无关）</p>
+<h3 id="什么是-first-party-和-third-party-的-cookie？"><a href="#什么是-first-party-和-third-party-的-cookie？" class="headerlink" title="什么是 first-party 和 third-party 的 cookie？"></a>什么是 first-party 和 third-party 的 cookie？</h3><p>让我们举个例子，你可能会注意到一个网站不仅仅是当前你正在访问的域名，而是有很多不同域名的 cookies 组成。Cookies 会匹配当前网站（在浏览器地址栏的网址）会被认为 first-party cookies，类似的，来自其他域名的 cookies 则被认为 third-party cookies，这不是一个绝对的概念，它会根据用户访问的站点来变化。同一个 cookie 根据当前访问站点的不同，可能会被认为 first-party 或者 third-party。<br><img src="https://webdev.imgix.net/samesite-cookies-explained/cross-site-set-cookie-response-header.png" alt="cross-site-set-cookie-response-header"></p>
+<p>让我们继续上边的例子，假如你的博客上有一个非常迷人的猫咪图片，它被托管在<code>/blog/img/amazing-cat.png</code>。因为它非常的特别，所以其他人会直接把地址放在自己的网站里（其实上图我就是直接粘的原博客的链接）。当有访客访问你的博客时，有一个<code>promo_shown</code>的 cookie（在原网站中可能是用来控制弹出框是否展示），然后他访问其他人的网站时，也会带上这个 cookie，但它在其网站上可能没有任何意义，所以有些多余。</p>
+<p>如果这是一个意想不到的效果，你为什么要这样做呢?当站点在第三方上下文中使用时，正是这种机制允许站点维护状态。例如，如果你在你的网站上嵌入一个 YouTube 视频，那么访问者将会在播放器中看到一个“稍后观看”的选项。如果访问者已经登录了 YouTube,该有效期的会话会使用第三方嵌入式播放器 cookie，这意味着“稍后观看”按钮将保存视频,而不是弹出对话框提示他们去注册或者迫使用户离开你的页面并导航到 YouTube。<br><img src="https://webdev.imgix.net/samesite-cookies-explained/cross-site-cookie-request-header.png" alt="cross-site-cookie-request-header"></p>
+<p>网络最大的特性就是开放，这也是许多人去创造和记录 blog 的原因之一，然而这也会带来一些安全和隐私方面的问题。CSRF（跨站请求伪造）的实现依赖于 cookie 的这一属性，无论谁发起的请求，它都会被携带在 http 请求上。为了更好的解释 third-party，再举一个例子，当你访问<code>evil.example</code>时，它会向<code>your-blog.example</code>发起请求，然后浏览器自然而然的会带上对应的 cookie，如果你的博客网站没有很好的验证和处理好它，那么这些请求就会做一些危险操作，比如删除博文，或者添加一些“evil”想要的内容。</p>
+<p>用户也越来越了解如何使用 cookie 在多个站点跟踪他们的活动。然而，到目前为止，还没有一种方法可以明确地说明使用 cookie 的意图。</p>
+<h3 id="使用-SameSite-属性来明确-cookie-的使用范围"><a href="#使用-SameSite-属性来明确-cookie-的使用范围" class="headerlink" title="使用 SameSite 属性来明确 cookie 的使用范围"></a>使用 SameSite 属性来明确 cookie 的使用范围</h3><p>定义在<a href="https://tools.ietf.org/html/draft-ietf-httpbis-cookie-same-site-00" target="_blank" rel="noopener">RFC6265bis</a>的<code>SameSite</code>允许我们声明 cookie 可以用来 first-party 或者 same-site。它会明确的给出“网站”是指哪些（哪些可以带 cookie）。网站由域名后缀和域名前部分组成，比如<code>www.web.dev</code>是<code>web.dev</code>的一部分。</p>
+<h4 id="关键概念"><a href="#关键概念" class="headerlink" title="关键概念"></a>关键概念</h4><p>当用户在网站<code>www.web.dev</code>，向<code>static.web.dev</code>请求一个图片，这是一个<code>same-site</code>请求。</p>
+<p>不仅仅是顶级域名例如<code>.com</code>，也包括了一些公共服务<code>github.io</code>。有一个<a href="https://publicsuffix.org/list/" target="_blank" rel="noopener">公共后缀名单</a>定义了 sameSite 的范围，这使的<code>your-project.github.io</code>和<code>my-project.github.io</code>为两个站点，也就是跨域。<br><code>SameSite</code>属性提供了三种不同的方式来管理 cookie，你可以不指定这个属性（<code>None</code>），或者使用<code>Strict</code>和<code>Lax</code>来限制 cookie 的 same-site 请求。</p>
+<h4 id="Strict"><a href="#Strict" class="headerlink" title="Strict"></a>Strict</h4><p>如果<code>SameSite</code>设置为<code>Strict</code>，则 cookie 只能在 first-party 的内容中传输，在用户的层面，只有当访问的 url 匹配 cookie 的站点时才会带上 cookie。可以如下设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: promo_shown=1; SameSite=Strict</span><br></pre></td></tr></table></figure>
+<p>当用户通过一个链接进入你的网站，或者说从从有个你朋友发来的邮件链接中点开网站，cookie 不会起作用。这对于那些有功能性的 cookie（修改密码或者下单）很有益处，但是对于<code>promo_shown</code>这种仅仅用来展示弹出框的 cookie 来说有点过于限制了。</p>
+<h4 id="Lax"><a href="#Lax" class="headerlink" title="Lax"></a>Lax</h4><p>还记得迷人猫咪的图片么，假如猫咪的图片被人直接放在他的网站，并且放了一个链接在文章中，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;Look at this amazing cat!&lt;/p&gt;</span><br><span class="line">&lt;img src=&quot;https://blog.example/blog/img/amazing-cat.png&quot; /&gt;</span><br><span class="line">&lt;p&gt;Read the &lt;a href=&quot;https://blog.example/blog/cat.html&quot;&gt;article&lt;/a&gt;.&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+<p>cookie 会被这样设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: promo_shown=1; SameSite=Lax</span><br></pre></td></tr></table></figure>
+<p>当读者打开他的网站时，请求<code>amazint-cat.png</code>的时候不会带上 cookie，然而当用户点击链接，进入你博客时，cookie 会被使用。对于仅仅影响展示的 cookie 来说 <code>Lax</code> 是一个不错的选择。</p>
+<h4 id="None"><a href="#None" class="headerlink" title="None"></a>None</h4><p>将<code>SameSite</code>设置为<code>None</code>意味着，你明确的表示，在 third-party 发送请求时使用 cookie，你很清楚这样做的收益和后果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: widget_session=abc123; SameSite=None; Secure</span><br></pre></td></tr></table></figure>
+<p><img src="https://webdev.imgix.net/samesite-cookies-explained/samesite-none-lax-strict.png" alt="samesite-none-lax-strict"></p>
+<h4 id="最后两点"><a href="#最后两点" class="headerlink" title="最后两点"></a>最后两点</h4><ul>
+<li>没有设置<code>SameSite</code>会被认为<code>SameSite=Lax</code></li>
+<li>当设置<code>SameSite=None</code>时，必须同时设置<code>Secure</code></li>
+</ul>
+<p>谷歌浏览器在 version 84 默认开启该特性，火狐浏览器 69 可以再<code>about:config</code>中设置<code>network.cookie.sameSite.laxByDefault</code>来体验该特性。Edge 浏览器计划将该特性设为默认。</p>
+<p><strong>相信看到这，最开始的问题，也有了答案了吧。</strong></p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://web.dev/samesite-cookies-explained/" target="_blank" rel="noopener">samesite-cookies-explained</a><br><a href="https://www.chromestatus.com/feature/5088147346030592" target="_blank" rel="noopener">https://www.chromestatus.com/feature/5088147346030592</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="guguji5.github.io/cross-site-cookies/" title="SameSite的解释和跨域cookie问题的解决" target="_blank" rel="external">guguji5.github.io/cross-site-cookies/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/guguji5" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/gangji.jpeg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/guguji5" target="_blank"><span class="text-dark">Damon Du</span><small class="ml-1x">菜鸡前端</small></a></h3>
+        <div>滴滴云</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom="">
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2.记一次Icon没展示的bugfix/" title="2.记一次Icon没展示的bugfix"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/信封弹出特效-可能是从业以来最复杂的效果/" title="信封弹出特效(可能是从业以来最复杂的效果)"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,wechat" data-mobile-sites="weibo,wechat"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope="" itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/guguji5" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/guguji5" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+<script src="/js/crypto-js/crypto-js.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/js/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'd2c2eed331f93213c11d',
+    clientSecret: 'df41c902c1854c3a80133f0096c625c6020609c2',
+    repo: 'guguji5.github.io',
+    owner: 'guguji5',
+    admin: ['guguji5'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>

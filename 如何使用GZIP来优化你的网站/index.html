@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>如何使用GZIP来优化你的网站 | 咕咕鸡的前端博客</title>
+  <meta name="description" content="如果你想节省带宽提高网站速度，压缩是一种简单有效的方法。当我打算提高JavaScript的传输速率来开启GZIP压缩的时候，我犹豫了因为有旧版本浏览器的存在（IE6）。 然而在二十一世纪，我们大部分的流量来自于现代浏览器，坦白的讲，我们大部分的用户都是很懂技术的。我们不想让任何一个人在访问我们网站的时候卡顿，哪怕是他在用IE4.0和Wdinows95.谷歌和雅虎都开启了gzip压缩。一个现代的浏览">
+<meta name="keywords" content="优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何使用GZIP来优化你的网站">
+<meta property="og:url" content="guguji5.github.io/如何使用GZIP来优化你的网站/index.html">
+<meta property="og:site_name" content="咕咕鸡的前端博客">
+<meta property="og:description" content="如果你想节省带宽提高网站速度，压缩是一种简单有效的方法。当我打算提高JavaScript的传输速率来开启GZIP压缩的时候，我犹豫了因为有旧版本浏览器的存在（IE6）。 然而在二十一世纪，我们大部分的流量来自于现代浏览器，坦白的讲，我们大部分的用户都是很懂技术的。我们不想让任何一个人在访问我们网站的时候卡顿，哪怕是他在用IE4.0和Wdinows95.谷歌和雅虎都开启了gzip压缩。一个现代的浏览">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://betterexplained.com/wp-content/uploads/compression/HTTP_request.png">
+<meta property="og:image" content="https://betterexplained.com/wp-content/uploads/compression/HTTP_request_compressed.png">
+<meta property="og:image" content="https://betterexplained.com/wp-content/uploads/compression/yahoo.png">
+<meta property="og:image" content="https://betterexplained.com/wp-content/uploads/2007/04/chrome-gzip-header.png">
+<meta property="og:image" content="https://betterexplained.com/wp-content/uploads/2007/04/request-size.png">
+<meta property="og:updated_time" content="2021-07-25T07:53:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何使用GZIP来优化你的网站">
+<meta name="twitter:description" content="如果你想节省带宽提高网站速度，压缩是一种简单有效的方法。当我打算提高JavaScript的传输速率来开启GZIP压缩的时候，我犹豫了因为有旧版本浏览器的存在（IE6）。 然而在二十一世纪，我们大部分的流量来自于现代浏览器，坦白的讲，我们大部分的用户都是很懂技术的。我们不想让任何一个人在访问我们网站的时候卡顿，哪怕是他在用IE4.0和Wdinows95.谷歌和雅虎都开启了gzip压缩。一个现代的浏览">
+<meta name="twitter:image" content="https://betterexplained.com/wp-content/uploads/compression/HTTP_request.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="guguji5.github.io/如何使用GZIP来优化你的网站/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="咕咕鸡的前端博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/guguji5" target="_blank">
+          <img class="img-circle img-rotate" src="/images/gangji.jpeg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Damon Du</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">菜鸡前端</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 滴滴云</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索">
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech="">
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope="" itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/guguji5" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/guguji5" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope="" itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/组件/">组件</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bugfix/">Bugfix</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angular/">angular</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/component/">component</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/优化/">优化</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微前端-single-spa/">微前端 single-spa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器人/">机器人</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动化测试/">自动化测试</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Bugfix/" style="font-size: 14px;">Bugfix</a> <a href="/tags/CSS/" style="font-size: 13px;">CSS</a> <a href="/tags/Hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/angular/" style="font-size: 13px;">angular</a> <a href="/tags/component/" style="font-size: 13px;">component</a> <a href="/tags/nginx/" style="font-size: 13px;">nginx</a> <a href="/tags/优化/" style="font-size: 13.67px;">优化</a> <a href="/tags/微前端-single-spa/" style="font-size: 13px;">微前端 single-spa</a> <a href="/tags/机器人/" style="font-size: 13px;">机器人</a> <a href="/tags/自动化测试/" style="font-size: 13px;">自动化测试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020年微前端踩坑回顾/" class="title">2020年微前端踩坑回顾</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-02-01T06:23:11.000Z" itemprop="datePublished">2021-02-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/5.Vue升级引发nextTick的bug(二)/" class="title">5.Vue升级引发nextTick的bug(二)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-27T03:34:37.000Z" itemprop="datePublished">2021-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/4.Vue升级引发nextTick的bug(一)/" class="title">4.Vue升级引发nextTick的bug(一)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-26T10:15:07.000Z" itemprop="datePublished">2021-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/证明：Click是一个EventLoop宏任务/" class="title">证明：Click是一个EventLoop宏任务</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-26T01:39:14.000Z" itemprop="datePublished">2021-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/3.Referer理解错误导致的跨域/" class="title">3.Referer理解错误导致的跨域</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-21T11:54:06.000Z" itemprop="datePublished">2021-01-21</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-如何使用GZIP来优化你的网站" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      如何使用GZIP来优化你的网站
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/如何使用GZIP来优化你的网站/" class="article-date">
+	  <time datetime="2018-11-09T05:22:55.000Z" itemprop="datePublished">2018-11-09</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/优化/">优化</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/如何使用GZIP来优化你的网站/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 7(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>如果你想节省带宽提高网站速度，压缩是一种简单有效的方法。当我打算提高JavaScript的传输速率来开启GZIP压缩的时候，我犹豫了因为有旧版本浏览器的存在（IE6）。</p>
+<p>然而在二十一世纪，我们大部分的流量来自于现代浏览器，坦白的讲，我们大部分的用户都是很懂技术的。我们不想让任何一个人在访问我们网站的时候卡顿，哪怕是他在用IE4.0和Wdinows95.谷歌和雅虎都开启了gzip压缩。一个现代的浏览器要想不仅要享受到现代网络信息还要享受到现代互联网的速度，就必须开启gzip压缩。以下是如何设置。</p>
+<h2 id="等等，为什么我们要开启gzip压缩"><a href="#等等，为什么我们要开启gzip压缩" class="headerlink" title="等等，为什么我们要开启gzip压缩"></a>等等，为什么我们要开启gzip压缩</h2><p>在此之前，我有必要解释一下什么编码。当你在互联网上想请求一个文件时,比如<a href="http://www.yahoo.com/index.html，你的浏览器会和服务器有一个会话，大概如下如所示。" target="_blank" rel="noopener">http://www.yahoo.com/index.html，你的浏览器会和服务器有一个会话，大概如下如所示。</a><br><img src="https://betterexplained.com/wp-content/uploads/compression/HTTP_request.png" alt=""></p>
+<ol>
+<li>浏览器：嘿，给我来一个 index.html文件</li>
+<li>服务器：好的，让我去找找它是不是在~</li>
+<li>服务器：找到它了，我会返回一个成功的状态码（200 ok），我正在发送文件……</li>
+<li>浏览器：100kb？ 我滴天……等啊……等啊，好的，下载下来了</li>
+</ol>
+<p>当然，实际的请求头和协议会更加正规一点。</p>
+<p>但是，它生效了，我拿到了index.html文件。</p>
+<h2 id="那现在问题在哪呢？"><a href="#那现在问题在哪呢？" class="headerlink" title="那现在问题在哪呢？"></a>那现在问题在哪呢？</h2><p>好吧，这系统是正常的，但是太低效了，坦白讲100kb是一大段的文字，HTML是冗余的，每一个<html>,<table>,<div>都有一个几乎相同的闭合标签。虽然通篇文字都有重复，但是只要你砍掉任何的内容，html（以及它的一奶同胞xml）都不会正常显示。</div></table></html></p>
+<p>当文件太大的时候有什么好办法呢，就是gzip压缩它。</p>
+<p>如果我们传输一个替代原始大文件的zip的压缩文件给浏览器，就会节省带宽和下载时间。当浏览器可以下载zip文件，解压，并且渲染给用户。下载很快，页面加载也很快，用户心情就会very good。这个浏览器–服务器的会话大概是酱紫的：<br><img src="https://betterexplained.com/wp-content/uploads/compression/HTTP_request_compressed.png" alt=""></p>
+<ol>
+<li>浏览器：嘿，给我来一个index.html，如果要有，给我来一个压缩版的可以吗</li>
+<li>服务器：容我找找……好，满足你，如果找到了给你压缩以下，gzip格式的哦</li>
+<li>服务器：yep，找到了，正在压缩，马上传给你。</li>
+<li>浏览器：太棒了，只有10kb，我来解压，并且渲染给用户。</li>
+</ol>
+<p>情况很简单：文件越小，下载更快，用户感受更好。</p>
+<p>不相信我？雅虎主页的html部分通过压缩从101kb直接压到了15kb：<br><img src="https://betterexplained.com/wp-content/uploads/compression/yahoo.png" alt=""></p>
+<h2 id="残（淡）酷（定）的现实"><a href="#残（淡）酷（定）的现实" class="headerlink" title="残（淡）酷（定）的现实"></a>残（淡）酷（定）的现实</h2><p>变化的部分在于浏览器和服务器，它成功的发送过去一个压缩文件。对于gzip压缩的要点有两点：</p>
+<ul>
+<li>浏览器发送一个请求头，告诉服务器接受压缩版本的文件（gzip和deflate是两种压缩算法）Accept-Encoding:gzip,deflate</li>
+<li>如果文件压缩了,服务器返回一个头信息:Content-Encoding:gzip</li>
+</ul>
+<p>如果服务器没有返回Content-Encoding的头信息，意味着这文件是没压缩的（浏览器可以直接解析的）。请求头Accept-Encoding只是浏览器的一个请求，而不是命令。如果服务器不返回压缩文件，浏览器就不得不处理那庞大的源文件。</p>
+<h2 id="服务器设置"><a href="#服务器设置" class="headerlink" title="服务器设置"></a>服务器设置</h2><p>“好消息”是我们没办法控制浏览器。他发“Accept-encoding: gzip, deflat”或者不发，请求头就在那里，不增不减。</p>
+<p>我们需要做的只是给服务器配置，让它返回压缩版本。如果浏览器控制，我们可以为每一个人节省带宽。</p>
+<p>对于IIS服务器，启动压缩在“设置”里。</p>
+<p>如果你像我一样用nodejs来搭建服务器，那你中奖了，nodejs开启gzip非常的简单，只需增加两行代码搞定。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const express = require(&apos;express&apos;);</span><br><span class="line">const app = express();</span><br><span class="line"></span><br><span class="line">//express框架，前边肯定都是必要的，也就是只需安装compression组件，然后添加一下两句代码就好</span><br><span class="line">const compression = require(&apos;compression&apos;);</span><br><span class="line">app.use(compression());</span><br></pre></td></tr></table></figure>
+<p>对于Apache服务器，我们可以启动压缩输出也很简单直接。在你的.htaccess文件里增加如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># compress text, html, javascript, css, xml:</span><br><span class="line">AddOutputFilterByType DEFLATE text/plain</span><br><span class="line">AddOutputFilterByType DEFLATE text/html</span><br><span class="line">AddOutputFilterByType DEFLATE text/xml</span><br><span class="line">AddOutputFilterByType DEFLATE text/css</span><br><span class="line">AddOutputFilterByType DEFLATE application/xml</span><br><span class="line">AddOutputFilterByType DEFLATE application/xhtml+xml</span><br><span class="line">AddOutputFilterByType DEFLATE application/rss+xml</span><br><span class="line">AddOutputFilterByType DEFLATE application/javascript</span><br><span class="line">AddOutputFilterByType DEFLATE application/x-javascript</span><br><span class="line"></span><br><span class="line"># Or, compress certain file types by extension:</span><br><span class="line">&lt;files *.html&gt;</span><br><span class="line">SetOutputFilter DEFLATE</span><br><span class="line">&lt;/files&gt;</span><br></pre></td></tr></table></figure>
+<p>Apache服务器有两个压缩选择：</p>
+<ul>
+<li>mod_deflate 更简单设置更加标准。</li>
+<li>mod_gzip 看起来更加强大，可以预预缩文件。</li>
+</ul>
+<p>Deflate更快，所以我用的它；当然如果想更爽，用mod_gzip。无论你选那种，Apache会检查浏览器是否发送“Accept-encoding”请求头来判断是返回压缩文件还是源文件。然而，一些旧版本浏览器会带来麻烦，需要一些特别的指令来纠正它。</p>
+<p>如果你不能改你的.htaccess 文件，你可以用PHP来返回压缩的内容，给你的HTML文件一个.php 文件，把下边文件加在文件的最上边。<br>IN PHP :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php if (substr_count($_SERVER[‘HTTP_ACCEPT_ENCODING’], ‘gzip’)) ob_start(“ob_gzhandler”); else ob_start(); ?&gt;</span><br></pre></td></tr></table></figure></p>
+<p>我们会检查“Accept-encoding”头，返回gzip压缩版本的文件（不然就返回源文件）。这简直像是在建设你自己的web服务器。如果你确实在搭建服务器，请用Apache来压缩你的文件。你肯定不想下载你的文件 just like bearing。</p>
+<p><em>这有点给apache打广告的意思啊</em></p>
+<h2 id="验证压缩的效果"><a href="#验证压缩的效果" class="headerlink" title="验证压缩的效果"></a>验证压缩的效果</h2><p>一旦你配置好了你的服务器，检查他是不是生效了。</p>
+<ul>
+<li>在线查看：用<a href="http://www.gidnetwork.com/tools/gzip-test.php" target="_blank" rel="noopener">online gzip test</a>来检查你的网页是不是确实压缩了。</li>
+<li>浏览器查看：在chrome谷歌浏览器，F12打开 开发者工具–&gt; network页签（火狐和IE浏览器也是相似的）。刷新你的页面，点击这network航信息来查看。这“Content-encoding: gzip” 的头信息意味着内容压缩了传过来的。</li>
+</ul>
+<p><img src="https://betterexplained.com/wp-content/uploads/2007/04/chrome-gzip-header.png" alt="image"></p>
+<p>点击“use large rows”表情来查看更多信息。包含了压缩以后的大小和源文件的大小。</p>
+<p><img src="https://betterexplained.com/wp-content/uploads/2007/04/request-size.png" alt="image"></p>
+<p>奇迹般的，主页从187kb压缩到了59kb。</p>
+<h2 id="试试几个小栗子"><a href="#试试几个小栗子" class="headerlink" title="试试几个小栗子"></a>试试几个小栗子</h2><p>我做了个几个页和一个下载demo：</p>
+<ul>
+<li><a href="https://betterexplained.com/examples/compressed/index.html" target="_blank" rel="noopener">index.html</a> —— 默认压缩</li>
+<li><a href="https://betterexplained.com/examples/compressed/index.htm" target="_blank" rel="noopener">index.htm</a> —— 通过在Apache上的.htaccess文件 增加 *.htm规则来压缩</li>
+<li><a href="https://betterexplained.com/examples/compressed/index.php" target="_blank" rel="noopener">index.php</a> —— 通过php的头信息来压缩</li>
+</ul>
+<p>随意下载这些文件，放到你的服务器，调整你的服务器设置。</p>
+<h2 id="警告"><a href="#警告" class="headerlink" title="警告"></a>警告</h2><p>gzip压缩的出现如此的令人振奋，但是还有以下三个注意点：</p>
+<ul>
+<li>低版本浏览器：一些浏览器接受压缩文件还是有问题（他们说他们可以但是他们并不行），如果你的站点必须在window95的网景1.0浏览器上，你可能不想要压缩文件。Apache mod_deflate设置了一些忽略规则来专门为旧浏览器。</li>
+<li>已经压缩过的文件:大多数的图片，音乐和视频都已经压缩过了，不要浪费时间来压缩他们了。事实上，你可以只压缩那三巨头（HTML,CSS AND JAVARSCRIPT)。</li>
+<li>CPU负载：在传输过程中压缩文件耗费CPU但是节省带宽（用空间换时间）。通常压缩速率的选择需要权衡利弊。也存在一些预压缩静态文件的方法，但这要求更多的资源。考虑了cpu的耗费，压缩文件也是利大于弊。通过压缩实现更好的用户体验，更短的留白时间，值！</li>
+</ul>
+<hr>
+<p>开启gzip压缩是优化网站最快的方法之一。大胆的用吧，让你的用户体验更棒。</p>
+<p><em>本文为翻译文章，欲了解原文请点击<a href="https://betterexplained.com/articles/how-to-optimize-your-site-with-gzip-compression/" target="_blank" rel="noopener">原文链接</a></em></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="guguji5.github.io/如何使用GZIP来优化你的网站/" title="如何使用GZIP来优化你的网站" target="_blank" rel="external">guguji5.github.io/如何使用GZIP来优化你的网站/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/guguji5" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/gangji.jpeg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/guguji5" target="_blank"><span class="text-dark">Damon Du</span><small class="ml-1x">菜鸡前端</small></a></h3>
+        <div>滴滴云</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom="">
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/bakery性能优化/" title="bakery性能优化"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/Hexo-Github搭建静态博客-一/" title="Hexo + Github搭建静态博客(一)"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,wechat" data-mobile-sites="weibo,wechat"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope="" itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/guguji5" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/guguji5" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+<script src="/js/crypto-js/crypto-js.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/js/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'd2c2eed331f93213c11d',
+    clientSecret: 'df41c902c1854c3a80133f0096c625c6020609c2',
+    repo: 'guguji5.github.io',
+    owner: 'guguji5',
+    admin: ['guguji5'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>

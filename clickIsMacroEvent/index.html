@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click IS A Macro Event</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        .wrap{
+            width: 100%;
+            display: flex;
+            padding: 20px;
+        }
+        .wrap > div{
+            width: 50%;
+        }
+        #outter{
+            width: 500px;
+            height: 500px;
+            border: 3px solid red;
+        }
+        #inner{
+            width: 250px;
+            height: 250px;
+            border: 3px solid green;
+            margin: 10px auto;
+            line-height: 250px;
+            text-align: center;
+            font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei';
+            font-weight: 900;
+            position: relative;
+        }
+        #inner:hover{
+            background-color: #abcdef;
+            cursor: pointer;
+        }
+        #inner span{
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            line-height: 20px;
+        }
+        code{
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div id="outter">
+            outter
+            <div id="inner">
+                <span>inner</span>
+                点我，猜猜console
+            </div>
+        </div>
+        <pre>
+            <code>
+                var out = document.getElementById('outter')
+
+                var inner = document.getElementById('inner')
+
+                out.addEventListener('click', function(){
+                    console.log('outter')
+                    setTimeout(()=>{
+                        console.log('this is outter settimeout')
+                    })
+
+                    Promise.resolve(111).then(res =>{
+                        console.log('this is outter promise')
+                    })
+                })
+
+                inner.addEventListener('click', function(){
+                    console.log('inner')
+                    setTimeout(()=>{
+                        console.log('this is inner settimeout')
+                    })
+
+                    Promise.resolve(111).then(res =>{
+                        console.log('this is inner promise')
+                    })
+                })
+            </code>
+        </pre>
+    </div>
+
+    <script>
+        var out = document.getElementById('outter')
+        var inner = document.getElementById('inner')
+        out.addEventListener('click', function(){
+            console.log('outter')
+            setTimeout(function() {
+                console.log('this is outter settimeout')
+            })
+            Promise.resolve(111).then(res =>{
+                console.log('this is outter promise')
+            })
+        })
+
+        inner.addEventListener('click', function(){
+            console.log('inner')
+            setTimeout(function() {
+                console.log('this is inner settimeout')
+            })
+            Promise.resolve(111).then(res =>{
+                console.log('this is inner promise')
+            })
+        })
+    </script>
+</body>
+</html>
