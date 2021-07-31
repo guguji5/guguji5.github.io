@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>AST搞定i18n | 咕咕鸡的前端博客</title>
+  <meta name="description" content="最近的夜莺开发过程中虽然提前被告知过需要做好i18n的准备，但是开发过程很紧张，难点一个又一个，i18n就被低优考虑了，等快上线前补充这个功能的时候。已经有133 个文件，577 处需要被translation函数包裹，而且每个文件前都需要引入依赖，就变成一个纯粹的体力活。每个文件都需要如下的改动 1234567import React from &apos;react&apos;;+ import &amp;#123; u">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AST搞定i18n">
+<meta property="og:url" content="guguji5.github.io/AST搞定i18n/index.html">
+<meta property="og:site_name" content="咕咕鸡的前端博客">
+<meta property="og:description" content="最近的夜莺开发过程中虽然提前被告知过需要做好i18n的准备，但是开发过程很紧张，难点一个又一个，i18n就被低优考虑了，等快上线前补充这个功能的时候。已经有133 个文件，577 处需要被translation函数包裹，而且每个文件前都需要引入依赖，就变成一个纯粹的体力活。每个文件都需要如下的改动 1234567import React from &apos;react&apos;;+ import &amp;#123; u">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-07-31T07:53:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AST搞定i18n">
+<meta name="twitter:description" content="最近的夜莺开发过程中虽然提前被告知过需要做好i18n的准备，但是开发过程很紧张，难点一个又一个，i18n就被低优考虑了，等快上线前补充这个功能的时候。已经有133 个文件，577 处需要被translation函数包裹，而且每个文件前都需要引入依赖，就变成一个纯粹的体力活。每个文件都需要如下的改动 1234567import React from &apos;react&apos;;+ import &amp;#123; u">
+  <!-- Canonical links -->
+  <link rel="canonical" href="guguji5.github.io/AST搞定i18n/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="咕咕鸡的前端博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/guguji5" target="_blank">
+          <img class="img-circle img-rotate" src="/images/gangji.jpeg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Damon Du</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">菜鸡前端</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 滴滴云</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索">
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech="">
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope="" itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/guguji5" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/guguji5" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope="" itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/组件/">组件</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bugfix/">Bugfix</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angular/">angular</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/component/">component</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/优化/">优化</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微前端-single-spa/">微前端 single-spa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器人/">机器人</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动化测试/">自动化测试</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Bugfix/" style="font-size: 14px;">Bugfix</a> <a href="/tags/CSS/" style="font-size: 13px;">CSS</a> <a href="/tags/Hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/angular/" style="font-size: 13px;">angular</a> <a href="/tags/component/" style="font-size: 13px;">component</a> <a href="/tags/nginx/" style="font-size: 13px;">nginx</a> <a href="/tags/优化/" style="font-size: 13.67px;">优化</a> <a href="/tags/微前端-single-spa/" style="font-size: 13px;">微前端 single-spa</a> <a href="/tags/机器人/" style="font-size: 13px;">机器人</a> <a href="/tags/自动化测试/" style="font-size: 13px;">自动化测试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/AST搞定i18n/" class="title">AST搞定i18n</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-31T07:47:12.000Z" itemprop="datePublished">2021-07-31</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020年微前端踩坑回顾/" class="title">2020年微前端踩坑回顾</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-02-01T06:23:11.000Z" itemprop="datePublished">2021-02-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/5.Vue升级引发nextTick的bug(二)/" class="title">5.Vue升级引发nextTick的bug(二)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-27T03:34:37.000Z" itemprop="datePublished">2021-01-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/4.Vue升级引发nextTick的bug(一)/" class="title">4.Vue升级引发nextTick的bug(一)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-26T10:15:07.000Z" itemprop="datePublished">2021-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/证明：Click是一个EventLoop宏任务/" class="title">证明：Click是一个EventLoop宏任务</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-26T01:39:14.000Z" itemprop="datePublished">2021-01-26</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-AST搞定i18n" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      AST搞定i18n
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/AST搞定i18n/" class="article-date">
+	  <time datetime="2021-07-31T07:47:12.000Z" itemprop="datePublished">2021-07-31</time>
+	</a>
+</span>
+        
+        
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/AST搞定i18n/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.8k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 8(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>最近的夜莺开发过程中虽然提前被告知过需要做好i18n的准备，但是开发过程很紧张，难点一个又一个，i18n就被低优考虑了，等快上线前补充这个功能的时候。已经有133 个文件，577 处需要被translation函数包裹，而且每个文件前都需要引入依赖，就变成一个纯粹的体力活。每个文件都需要如下的改动</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line">+ <span class="keyword">import</span> &#123; useTranslation &#125; <span class="keyword">from</span> <span class="string">'react-i18next'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">About</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">+ <span class="keyword">const</span> &#123; t &#125; = useTranslation();</span><br><span class="line">-  <span class="keyword">return</span> &lt;h2&gt;关于&lt;/h2&gt;;</span><br><span class="line">+  <span class="keyword">return</span> &lt;h2&gt;t('关于')&lt;/h2&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我的第一个想法是拿nodejs脚本通过正则的手段来匹配dom中的中文，属性中的中文，模板字符串中的中文等进行对应的包裹，插入和替换。团队中的另一个小伙伴提出可以使用AST来做，我们就开始了babel的探索。</p>
+<p>babel以及AST的介绍我就不再赘述，以下链接都讲的非常清楚和深入。</p>
+<p>下边的链接都是精华</p>
+<ul>
+<li><p><a href="https://github.com/jamiebuilds/babel-handbook/blob/master/translations/en/plugin-handbook.md#babel-traverse" target="_blank" rel="noopener">https://github.com/jamiebuilds/babel-handbook/blob/master/translations/en/plugin-handbook.md#babel-traverse</a></p>
+</li>
+<li><p><a href="https://babeljs.io/docs/en/babel-types" target="_blank" rel="noopener">https://babeljs.io/docs/en/babel-types</a></p>
+</li>
+<li><p><a href="https://astexplorer.net/" target="_blank" rel="noopener">https://astexplorer.net/</a></p>
+</li>
+<li><p><a href="https://www.cnblogs.com/jyybeam/p/13375179.html" target="_blank" rel="noopener">https://www.cnblogs.com/jyybeam/p/13375179.html</a></p>
+</li>
+<li><p><a href="https://lihautan.com/step-by-step-guide-for-writing-a-babel-transformation/" target="_blank" rel="noopener">https://lihautan.com/step-by-step-guide-for-writing-a-babel-transformation/</a></p>
+</li>
+<li><p><a href="https://lihautan.com/manipulating-ast-with-javascript/#creating-a-node" target="_blank" rel="noopener">https://lihautan.com/manipulating-ast-with-javascript/#creating-a-node</a></p>
+</li>
+</ul>
+<p>上边那么多的链（血）接（泪）告诉我们几个事实。</p>
+<ul>
+<li>AST的Node类型很多，很复杂，变幻多端；但是可以对不同的类型进行精准操作很方便。</li>
+<li>看起来用字符串处理能轻松搞定的事，AST费死老劲</li>
+<li>AST一定要用最新的包，看最新的文档。babel-types，babel-traverse等等都是过时的包，最新的包都在@babel的目录下</li>
+</ul>
+<p>举个简单的例子吧，我们写一个最简单的代码<code>const habit = t(&quot;running&quot;);</code>如果用AST来构造是什么样子的呢？</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> t = <span class="built_in">require</span>(<span class="string">'@babel/types'</span>);</span><br><span class="line"><span class="keyword">const</span> generate = <span class="built_in">require</span>(<span class="string">'@babel/generator'</span>).default;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Identifier = t.Identifier(<span class="string">'habit'</span>)</span><br><span class="line"><span class="keyword">const</span> callee = t.Identifier(<span class="string">'t'</span>)</span><br><span class="line"><span class="keyword">const</span> <span class="built_in">arguments</span> =t.StringLiteral(<span class="string">'running'</span>)</span><br><span class="line"><span class="keyword">const</span> CallExpression = t.CallExpression(callee, [<span class="built_in">arguments</span>])</span><br><span class="line"><span class="keyword">const</span> VariableDeclarator = t.VariableDeclarator(Identifier, CallExpression)</span><br><span class="line"><span class="keyword">const</span> variableDeclaration = t.variableDeclaration(<span class="string">'const'</span>,[VariableDeclarator])</span><br><span class="line"><span class="keyword">const</span> output = generate(variableDeclaration);</span><br><span class="line"><span class="built_in">console</span>.log(output.code);   <span class="comment">// 输出 const habit = t("running");</span></span><br></pre></td></tr></table></figure>
+<p>天壤之别。所以根据 <a href="https://lihautan.com/manipulating-ast-with-javascript/#creating-a-node" target="_blank" rel="noopener">https://lihautan.com/manipulating-ast-with-javascript/#creating-a-node</a> 的推荐，使用@babel/parse将需要的结构直接解析。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> babelParser = <span class="built_in">require</span>(<span class="string">'@babel/parser'</span>);</span><br><span class="line"><span class="keyword">const</span> generate = <span class="built_in">require</span>(<span class="string">'@babel/generator'</span>).default;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> expectNode = babelParser.parse(<span class="string">`const habit = t("running")`</span>).program.body[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">const</span> output = generate(expectNode);</span><br><span class="line"><span class="built_in">console</span>.log(output.code);   <span class="comment">// 输出 const habit = t("running");</span></span><br></pre></td></tr></table></figure>
+<p>回到正题，我们想要的是什么？</p>
+<ol>
+<li>插入依赖</li>
+<li>调用useTranslation hook</li>
+<li>包裹字符串</li>
+</ol>
+<p>第一个插入依赖，使用上边提到的方法找到对应的节点插入即可。</p>
+<p>第二个插入hook，粗暴的在所有返回JSX 函数组件顶层添加一个useTranslation 调用即可。</p>
+<p>第三个使用t方法包裹字符串则比较麻烦，需要根据dom，属性，以及模板字符串中的分别记性处理。</p>
+<p>普通字符串处理比较简单，直接在traverse中调用<code>path.replaceWithSourceString(&#39;t(&quot;&#39;+node.value+&#39;&quot;)&#39;)</code>就好。但是要处理好所有的场景需要分别对StringLiteral，JSXText，TemplateLiteral，ReturnStatement，Program等类型分别进行处理。</p>
+<p>假设我们要处理的原文件如下：</p>
+<p>source javascript</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Input &#125; <span class="keyword">from</span> <span class="string">'antd'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">About</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> name = <span class="string">'咕咕鸡'</span>;</span><br><span class="line">    <span class="keyword">const</span> habit = <span class="string">'跑步'</span>;</span><br><span class="line">    <span class="keyword">const</span> description = <span class="string">`<span class="subst">$&#123;name&#125;</span> 是个boy`</span>;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">        &lt;h2&gt;关于&lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">        &lt;p&gt;</span></span><br><span class="line"><span class="regexp">        我的名字： &#123;name&#125;, 我的兴趣： &#123;habit + '网球'&#125;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>p&gt;</span><br><span class="line">        &lt;p&gt;&#123;description&#125;&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">        &lt;Input placeholder='请输入你的年龄' /</span>&gt;</span><br><span class="line">    &lt;<span class="regexp">/&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>完整的babel脚本</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="keyword">const</span> babelParser = <span class="built_in">require</span>(<span class="string">'@babel/parser'</span>);</span><br><span class="line"><span class="keyword">const</span> traverse = <span class="built_in">require</span>(<span class="string">'@babel/traverse'</span>).default;</span><br><span class="line"><span class="keyword">const</span> generate = <span class="built_in">require</span>(<span class="string">'@babel/generator'</span>).default;</span><br><span class="line"><span class="keyword">const</span> t = <span class="built_in">require</span>(<span class="string">'@babel/types'</span>);</span><br><span class="line"><span class="keyword">const</span> core = <span class="built_in">require</span>(<span class="string">'@babel/core'</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">const</span> srcPath = path.resolve(<span class="string">'../'</span>, <span class="string">'src'</span>, <span class="string">'pages'</span>, <span class="string">'about.tsx'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> includeSpace = <span class="function"><span class="params">v</span> =&gt;</span> /[\f\r\t\n\s]/.test(v);</span><br><span class="line"><span class="keyword">const</span> includesChinese = <span class="function"><span class="params">v</span> =&gt;</span><span class="regexp">/^[\u4e00-\u9fa5]+/g</span>.test(v);</span><br><span class="line"><span class="keyword">const</span> extractChinese = <span class="function"><span class="params">str</span> =&gt;</span> str.match(<span class="regexp">/[\u4e00-\u9fa5]+/g</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> code = fs.readFileSync(srcPath, <span class="string">'utf8'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> ast = babelParser.parse(code, &#123;</span><br><span class="line">    sourceType: <span class="string">'module'</span>, <span class="comment">// default: "script"</span></span><br><span class="line">    plugins: [<span class="string">'typescript'</span>, <span class="string">'jsx'</span>],</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// transform the ast</span></span><br><span class="line">traverse(ast, &#123;</span><br><span class="line">    StringLiteral(path)&#123;</span><br><span class="line">        <span class="keyword">const</span> &#123; node, parent &#125; = path;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(includesChinese(node.value))&#123;</span><br><span class="line">            <span class="comment">// console.log('StringLiteral', node.value, parent)</span></span><br><span class="line">            <span class="keyword">if</span>(t.isJSXAttribute(parent))&#123;</span><br><span class="line">                <span class="comment">// &lt;Input placeholder='请输入你的年龄' /&gt; =&gt; &lt;Input placeholder=&#123;t('请输入你的年龄')&#125; /&gt;</span></span><br><span class="line">                <span class="comment">// 按说应该这么写 path.replaceWith(t.jsxExpressionContainer(t.callExpression(t.identifier('t'),[t.stringLiteral(node.value)])))</span></span><br><span class="line">                <span class="comment">// 但是结果是 &lt;Input placeholder=&#123;t(t("请输入你的年龄"))&#125; /&gt; </span></span><br><span class="line">                <span class="comment">// 明显被下边的逻辑重复处理了所以可以简单点。只处理成字符串,再经过下边逻辑时就变成我们想要的结果</span></span><br><span class="line">                path.replaceWith(t.jsxExpressionContainer(t.stringLiteral(node.value)))</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                path.replaceWithSourceString(<span class="string">'t("'</span>+node.value+<span class="string">'")'</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        path.skip()</span><br><span class="line">    &#125;,</span><br><span class="line">    JSXText(path)&#123;</span><br><span class="line">        <span class="keyword">const</span> &#123; node, parent &#125; = path;</span><br><span class="line">        <span class="keyword">const</span> &#123; value &#125; = node;</span><br><span class="line">        <span class="keyword">if</span>(includesChinese(node.value))&#123;</span><br><span class="line">            <span class="keyword">if</span>(!includeSpace(node.value))&#123;</span><br><span class="line">                path.replaceWith(t.jsxExpressionContainer(t.stringLiteral(node.value)))</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">const</span> newAstNode = []</span><br><span class="line">                <span class="keyword">let</span> chineseArr = extractChinese(node.value)</span><br><span class="line">                chineseArr.forEach(<span class="function"><span class="params">str</span> =&gt;</span>&#123;</span><br><span class="line">                    <span class="keyword">let</span> preIndex = node.value.indexOf(str)</span><br><span class="line">                    newAstNode.push(t.jSXText(node.value.slice(<span class="number">0</span>,preIndex)))</span><br><span class="line">                    newAstNode.push(t.jsxExpressionContainer(t.stringLiteral(str)))</span><br><span class="line">                &#125;)</span><br><span class="line">                path.replaceWithMultiple(newAstNode)</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">                <span class="comment">// console.log(value.length, value.replace(/[\u4e00-\u9fa5]+/,function(value)&#123;return `&#123;t('$&#123;value&#125;')&#125;`&#125;) )</span></span><br><span class="line">                <span class="comment">// path.replaceWithSourceString(value.replace(/[\u4e00-\u9fa5]+/,function(value)&#123;return `&#123;t('$&#123;value&#125;')&#125;`&#125;))</span></span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        path.skip()</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 模版字符串</span></span><br><span class="line">    TemplateLiteral: <span class="function"><span class="keyword">function</span> (<span class="params">path</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">const</span> &#123; node &#125; = path;</span><br><span class="line">        <span class="comment">// expressions 表达式</span></span><br><span class="line">        <span class="comment">// quasis 表示表达式中的间隙字符串, 每个表达式中间都必须有quasis, 同时首尾也必须是quasis,其中末尾元素需要是tail = true</span></span><br><span class="line">        <span class="comment">// 其中 quasis: &#123;</span></span><br><span class="line">        <span class="comment">//    value: 值, 如果为‘’,一般表示给表达式的占位符</span></span><br><span class="line">        <span class="comment">//     tail: 是否为末尾</span></span><br><span class="line">        <span class="comment">// &#125;</span></span><br><span class="line">        <span class="keyword">const</span> &#123; expressions, quasis &#125; = node;</span><br><span class="line">        <span class="comment">// todo 获取所有quasis中value 不为空和数字的, 如果不为末尾,记录前面有几个''</span></span><br><span class="line">        <span class="comment">// 生成函数, 插入expressions数组中, 修改quasis节点value为空</span></span><br><span class="line">        <span class="comment">// 如果字符串为最后一个节点,还需要生成一个空白的节点</span></span><br><span class="line">        <span class="keyword">let</span> hasTail = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">let</span> enCountExpressions = <span class="number">0</span>;</span><br><span class="line">        quasis.forEach(<span class="function">(<span class="params">node, index</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> &#123;</span><br><span class="line">            value: &#123; raw &#125;,</span><br><span class="line">            tail,</span><br><span class="line">            &#125; = node;</span><br><span class="line">            <span class="keyword">if</span> (!includesChinese(raw)) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> newCall = t.stringLiteral(raw);</span><br><span class="line">            expressions.splice(index + enCountExpressions, <span class="number">0</span>, newCall);</span><br><span class="line">            enCountExpressions++;</span><br><span class="line">            node.value = &#123;</span><br><span class="line">                raw: <span class="string">''</span>,</span><br><span class="line">                cooked: <span class="string">''</span>,</span><br><span class="line">            &#125;;</span><br><span class="line">            <span class="comment">// 每增添一个表达式都需要变化原始节点,并新增下一个字符节点</span></span><br><span class="line">            quasis.push(</span><br><span class="line">                t.templateElement(</span><br><span class="line">                &#123;</span><br><span class="line">                    raw: <span class="string">''</span>,</span><br><span class="line">                    cooked: <span class="string">''</span>,</span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="literal">false</span>,</span><br><span class="line">                ),</span><br><span class="line">            );</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        quasis[quasis.length - <span class="number">1</span>].tail = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;,</span><br><span class="line">    ReturnStatement(path) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123; node, parent, parentPath &#125; = path;</span><br><span class="line">        <span class="keyword">const</span> &#123; body &#125; = parent;</span><br><span class="line">        body.unshift(</span><br><span class="line">            babelParser.parse(<span class="string">'const &#123; t &#125; = useTranslation()'</span>).program.body[<span class="number">0</span>],</span><br><span class="line">        );</span><br><span class="line">    &#125;,</span><br><span class="line">    Program(path) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123; node &#125; = path;</span><br><span class="line">        <span class="keyword">const</span> &#123; body &#125; = node;</span><br><span class="line">        </span><br><span class="line">        body.unshift(babelParser.parse(<span class="string">"import &#123; useTranslation &#125; from 'react-i18next'"</span>,&#123;<span class="attr">sourceType</span>: <span class="string">'module'</span>&#125;).program.body[<span class="number">0</span>])</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> output = generate(ast);</span><br><span class="line"><span class="built_in">console</span>.log(output.code);</span><br></pre></td></tr></table></figure>
+<p>target javascript</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useTranslation &#125; <span class="keyword">from</span> <span class="string">'react-i18next'</span>;</span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Input &#125; <span class="keyword">from</span> <span class="string">'antd'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">About</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> &#123;</span><br><span class="line">    t</span><br><span class="line">    &#125; = useTranslation();</span><br><span class="line">    <span class="keyword">const</span> name = t(<span class="string">"咕咕鸡"</span>);</span><br><span class="line">    <span class="keyword">const</span> habit = t(<span class="string">"跑步"</span>);</span><br><span class="line">    <span class="keyword">const</span> description = <span class="string">`<span class="subst">$&#123;name&#125;</span><span class="subst">$&#123;t(<span class="string">" 是个boy"</span>)&#125;</span>`</span>;</span><br><span class="line">    <span class="keyword">return</span> &lt;&gt;</span><br><span class="line">        &lt;h2&gt;&#123;t("关于")&#125;&lt;/h2&gt;</span><br><span class="line">        &lt;p&gt;</span><br><span class="line">        &#123;t("我的名字")&#125;&#123;name&#125;, &#123;t("我的兴趣")&#125;&#123;habit + t("网球")&#125;</span><br><span class="line">        &lt;/p&gt;</span><br><span class="line">        &lt;p&gt;&#123;description&#125;&lt;/p&gt;</span><br><span class="line">        &lt;Input placeholder=&#123;t("请输入你的年龄")&#125; /&gt;</span><br><span class="line">    &lt;/&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这次的i18n的过程中学到了很多，第一次手写一个babel的visitor方法，不断的调试中感受到尤大能把vue转成JavaScript的loader是真的不易。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="guguji5.github.io/AST搞定i18n/" title="AST搞定i18n" target="_blank" rel="external">guguji5.github.io/AST搞定i18n/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/guguji5" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/gangji.jpeg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/guguji5" target="_blank"><span class="text-dark">Damon Du</span><small class="ml-1x">菜鸡前端</small></a></h3>
+        <div>滴滴云</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom="">
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2020年微前端踩坑回顾/" title="2020年微前端踩坑回顾"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,wechat" data-mobile-sites="weibo,wechat"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope="" itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/guguji5" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/guguji5" target="_blank" title="Weibo" data-toggle="tooltip" data-placement="top"><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+<script src="/js/crypto-js/crypto-js.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/js/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'd2c2eed331f93213c11d',
+    clientSecret: 'df41c902c1854c3a80133f0096c625c6020609c2',
+    repo: 'guguji5.github.io',
+    owner: 'guguji5',
+    admin: ['guguji5'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>
