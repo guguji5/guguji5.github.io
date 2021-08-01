@@ -17,26 +17,23 @@
   <meta http-equiv="window-target" content="_top">
   
   
-  <title>5.Vue升级引发nextTick的bug(二) | 咕咕鸡的前端博客</title>
-  <meta name="description" content="nextTick是Vue绕不开的一个方法，nextTick的实现变了，莫名的bug就会出现，再举一个例子。 首先，Vue升级引发nextTick的bug(一)/)提到，Vue2.5.2中的nextTick是宏任务 -&amp;gt; 微任务 -&amp;gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。 我们的场景是view中有一个form组件，其内部有一个input-n">
-<meta name="keywords" content="Bugfix">
+  <title>记录一个bug | 咕咕鸡的前端博客</title>
+  <meta name="description" content="接口格式该字段是 string，多个id可以通过空格分割，如下图。虽然我们是ts，但是只能把类型写成string 1&amp;#123;notify_groups: &quot;2 1&quot; &amp;#125; 新增时，用户操作完，需要按空格 join 1transportData.notify_groups = transportData.notify_groups.join(&apos; &apos;); 编辑时从接口获取数据再按空格sp">
 <meta property="og:type" content="article">
-<meta property="og:title" content="5.Vue升级引发nextTick的bug(二)">
-<meta property="og:url" content="guguji5.github.io/5.Vue升级引发nextTick的bug(二)/index.html">
+<meta property="og:title" content="记录一个bug">
+<meta property="og:url" content="guguji5.github.io/记录一个bug/index.html">
 <meta property="og:site_name" content="咕咕鸡的前端博客">
-<meta property="og:description" content="nextTick是Vue绕不开的一个方法，nextTick的实现变了，莫名的bug就会出现，再举一个例子。 首先，Vue升级引发nextTick的bug(一)/)提到，Vue2.5.2中的nextTick是宏任务 -&amp;gt; 微任务 -&amp;gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。 我们的场景是view中有一个form组件，其内部有一个input-n">
+<meta property="og:description" content="接口格式该字段是 string，多个id可以通过空格分割，如下图。虽然我们是ts，但是只能把类型写成string 1&amp;#123;notify_groups: &quot;2 1&quot; &amp;#125; 新增时，用户操作完，需要按空格 join 1transportData.notify_groups = transportData.notify_groups.join(&apos; &apos;); 编辑时从接口获取数据再按空格sp">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://img-ys011.didistatic.com/static/dc2img/do1_96rC48y3RhuUTb1e5xSk">
-<meta property="og:image" content="https://img-ys011.didistatic.com/static/dc2img/do1_RaSpWcBtIY6jM8Pgsy79">
-<meta property="og:image" content="https://img-ys011.didistatic.com/static/dc2img/do1_DJv1lVGZvksjimDrdD8E">
-<meta property="og:image" content="https://img-ys011.didistatic.com/static/dc2img/axiosNum2.6.10.png">
-<meta property="og:updated_time" content="2021-07-25T07:53:39.000Z">
+<meta property="og:image" content="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b76ecb9a-6268-4a0b-9190-6ca42cb4e9dc/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210801%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210801T015722Z&X-Amz-Expires=86400&X-Amz-Signature=51cf6fcda55f9b38a2760e587997ecec7ec0bfa7a6c93edbb5b02b839f3ffa47&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22">
+<meta property="og:image" content="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/cd6ace6a-0092-41f5-8b86-af3474ed7e39/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210801%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210801T015907Z&X-Amz-Expires=86400&X-Amz-Signature=229db94740b110c9e24a227966a10e66a1c6377f631d4bb072cb5df4041ee329&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22">
+<meta property="og:updated_time" content="2021-08-01T02:00:05.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="5.Vue升级引发nextTick的bug(二)">
-<meta name="twitter:description" content="nextTick是Vue绕不开的一个方法，nextTick的实现变了，莫名的bug就会出现，再举一个例子。 首先，Vue升级引发nextTick的bug(一)/)提到，Vue2.5.2中的nextTick是宏任务 -&amp;gt; 微任务 -&amp;gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。 我们的场景是view中有一个form组件，其内部有一个input-n">
-<meta name="twitter:image" content="http://img-ys011.didistatic.com/static/dc2img/do1_96rC48y3RhuUTb1e5xSk">
+<meta name="twitter:title" content="记录一个bug">
+<meta name="twitter:description" content="接口格式该字段是 string，多个id可以通过空格分割，如下图。虽然我们是ts，但是只能把类型写成string 1&amp;#123;notify_groups: &quot;2 1&quot; &amp;#125; 新增时，用户操作完，需要按空格 join 1transportData.notify_groups = transportData.notify_groups.join(&apos; &apos;); 编辑时从接口获取数据再按空格sp">
+<meta name="twitter:image" content="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b76ecb9a-6268-4a0b-9190-6ca42cb4e9dc/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210801%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210801T015722Z&X-Amz-Expires=86400&X-Amz-Signature=51cf6fcda55f9b38a2760e587997ecec7ec0bfa7a6c93edbb5b02b839f3ffa47&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22">
   <!-- Canonical links -->
-  <link rel="canonical" href="guguji5.github.io/5.Vue升级引发nextTick的bug(二)/index.html">
+  <link rel="canonical" href="guguji5.github.io/记录一个bug/index.html">
   
     <link rel="alternate" href="/atom.xml" title="咕咕鸡的前端博客" type="application/atom+xml">
   
@@ -327,14 +324,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-5.Vue升级引发nextTick的bug(二)" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <article id="post-记录一个bug" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      5.Vue升级引发nextTick的bug(二)
+      记录一个bug
     </h1>
   
 
@@ -342,17 +339,12 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/5.Vue升级引发nextTick的bug(二)/" class="article-date">
-	  <time datetime="2021-01-27T03:34:37.000Z" itemprop="datePublished">2021-01-27</time>
+	<a href="/记录一个bug/" class="article-date">
+	  <time datetime="2021-08-01T01:56:36.000Z" itemprop="datePublished">2021-08-01</time>
 	</a>
 </span>
         
         
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Bugfix/">Bugfix</a>
-  </span>
-
 
         
 	<span class="article-read hidden-xs">
@@ -363,10 +355,10 @@
 	</span>
 
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/5.Vue升级引发nextTick的bug(二)/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/记录一个bug/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 442(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 303(字)</span>
 	
 	
 		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
@@ -376,27 +368,19 @@
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <p>nextTick是Vue绕不开的一个方法，nextTick的实现变了，莫名的bug就会出现，再举一个例子。</p>
-<p>首先，<a href="https://guguji5.github.io/4.Vue%E5%8D%87%E7%BA%A7%E5%BC%95%E5%8F%91nextTick%E7%9A%84bug(%E4%B8%80">Vue升级引发nextTick的bug(一)</a>/)提到，Vue2.5.2中的nextTick是宏任务 -&gt; 微任务 -&gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。</p>
-<p>我们的场景是view中有一个form组件，其内部有一个input-number组件。用户填写完信息后submit。</p>
-<p><img src="http://img-ys011.didistatic.com/static/dc2img/do1_96rC48y3RhuUTb1e5xSk" alt=""></p>
-<p>顺便介绍一下input-number，可以参考el-input-number，返回值是数字，当输入其他非法类型时，回弹为上一次有效数字。这一过程会在nextTick中完成。</p>
-<p>submit的入参为params {num: string}。为啥num要传string，额~~ 一言难尽。</p>
-<p>如何将input-number组件的<strong>数字num</strong>,转成字符串呢，form组件中有个方法来处理数据<code>transData</code>。</p>
-<p>每次reactive的数据变化都会触发nextTick。</p>
-<p><img src="https://img-ys011.didistatic.com/static/dc2img/do1_RaSpWcBtIY6jM8Pgsy79" alt=""></p>
-<p>所以提交动作的事件流为：</p>
-<p><strong>submit -&gt; $refs.form.transData() -&gt; axios request</strong></p>
-<p>但是，input-number为form的子组件，当子组件值变化时，会改变form中的值，引用传递，不用多讲啦。</p>
-<p>所以<strong>Vue2.5.2</strong>完整的事件流为：</p>
-<p><strong>submit -&gt; $refs.form.transData() -&gt; axios request -&gt; num回弹为数字</strong></p>
-<p><img src="https://img-ys011.didistatic.com/static/dc2img/do1_DJv1lVGZvksjimDrdD8E" alt=""></p>
-<p>axios的拦截器中是使用promise来处理数据，promise的then为微任务。</p>
-<p>而根据上一篇的讨论，<a href=""></a> num值的变化是在nextTick中完成的。所以当<strong>Vue升级成2.6.10</strong>，nextTick变成微任务后，事件流为：</p>
-<p><strong>submit -&gt; num回弹为数字 -&gt; $refs.form.transData() -&gt; axios request</strong></p>
-<p><img src="https://img-ys011.didistatic.com/static/dc2img/axiosNum2.6.10.png" alt=""></p>
-<p>从console中可以看到，在Vue2.5.2中是先axios请求，然后值回弹为数字，所以发送的num为字符串，符合预期。</p>
-<p>而升级为Vue2.6.10后，会先回弹，再发送数据，所以发送的num为数字，bug出现。</p>
+        <p><img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b76ecb9a-6268-4a0b-9190-6ca42cb4e9dc/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210801%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20210801T015722Z&amp;X-Amz-Expires=86400&amp;X-Amz-Signature=51cf6fcda55f9b38a2760e587997ecec7ec0bfa7a6c93edbb5b02b839f3ffa47&amp;X-Amz-SignedHeaders=host&amp;response-content-disposition=filename%20%3D%22Untitled.png%22" alt=""></p>
+<p>接口格式该字段是 string，多个id可以通过空格分割，如下图。虽然我们是ts，但是只能把类型写成string</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">notify_groups</span>: <span class="string">"2 1"</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>新增时，用户操作完，需要按空格 join</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">transportData.notify_groups = transportData.notify_groups.join(<span class="string">' '</span>);</span><br></pre></td></tr></table></figure>
+<p>编辑时从接口获取数据再按空格split</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">notify_groups = curStrategyObj.notify_groups.length &gt; <span class="number">0</span> ? curStrategyObj.notify_groups.split(<span class="string">' '</span>): []</span><br></pre></td></tr></table></figure>
+<p>但是编辑时候有问题，只展示id如下图。</p>
+<p><img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/cd6ace6a-0092-41f5-8b86-af3474ed7e39/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210801%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20210801T015907Z&amp;X-Amz-Expires=86400&amp;X-Amz-Signature=229db94740b110c9e24a227966a10e66a1c6377f631d4bb072cb5df4041ee329&amp;X-Amz-SignedHeaders=host&amp;response-content-disposition=filename%20%3D%22Untitled.png%22" alt=""></p>
+<p>why ? 因为从图一可以看，该Select是从接口获取的，id为number，而前端的组件是将展示的label和背后实际的value分开的。拿该组件距离，它展示的name字段，但是读到的数据是id字段。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> notifyGroupsOptions = notifyGroups.map(<span class="function">(<span class="params">ng: Team</span>) =&gt;</span> (</span><br><span class="line">    &lt;Option value=&#123;ng.id&#125; key=&#123;ng.id&#125;&gt;</span><br><span class="line">      &#123;ng.name&#125;</span><br><span class="line">    &lt;<span class="regexp">/Option&gt;</span></span><br><span class="line"><span class="regexp">  ));</span></span><br></pre></td></tr></table></figure>
+<p>Bug怎么产生的呢？因为split 后的数据还是string，而该组件向外抛（或者获取）的数据是number。前端改起来很容易，map时候加个Number方法处理一下就好。</p>
+<p>由此bug想到，如果后端把该字段设计成 number[]，前端这么多transfrom就都不必了，还可以用ts的interface来静态检查。何况本来就是user-groups的id字段组成的。</p>
 
       
     </div>
@@ -406,7 +390,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="guguji5.github.io/5.Vue升级引发nextTick的bug(二)/" title="5.Vue升级引发nextTick的bug(二)" target="_blank" rel="external">guguji5.github.io/5.Vue升级引发nextTick的bug(二)/</a>
+      <a href="guguji5.github.io/记录一个bug/" title="记录一个bug" target="_blank" rel="external">guguji5.github.io/记录一个bug/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -452,13 +436,9 @@
   
   <ul class="pager pull-left">
     
-    <li class="prev">
-      <a href="/2020年微前端踩坑回顾/" title="2020年微前端踩坑回顾"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
-    </li>
-    
     
     <li class="next">
-      <a href="/4.Vue升级引发nextTick的bug(一)/" title="4.Vue升级引发nextTick的bug(一)"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/源码浅析/" title="import-html-entry源码浅析"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     

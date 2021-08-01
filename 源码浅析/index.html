@@ -17,26 +17,24 @@
   <meta http-equiv="window-target" content="_top">
   
   
-  <title>5.Vue升级引发nextTick的bug(二) | 咕咕鸡的前端博客</title>
-  <meta name="description" content="nextTick是Vue绕不开的一个方法，nextTick的实现变了，莫名的bug就会出现，再举一个例子。 首先，Vue升级引发nextTick的bug(一)/)提到，Vue2.5.2中的nextTick是宏任务 -&amp;gt; 微任务 -&amp;gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。 我们的场景是view中有一个form组件，其内部有一个input-n">
-<meta name="keywords" content="Bugfix">
+  <title>import-html-entry源码浅析 | 咕咕鸡的前端博客</title>
+  <meta name="description" content="难道没人好奇qiankun是如何实现html entry的吗？  single-spa和qiankun最大的不同，我认为就是qiankun实现了html entry，而single-spa只能是js entry  之前使用single-spa的过程中，发现如果有多个chunk 插入到html中，那么他们的执行顺序会很关键。而从下图single-spa注册应用的钩子函数来看，它只暴露了一个方法来加载">
 <meta property="og:type" content="article">
-<meta property="og:title" content="5.Vue升级引发nextTick的bug(二)">
-<meta property="og:url" content="guguji5.github.io/5.Vue升级引发nextTick的bug(二)/index.html">
+<meta property="og:title" content="import-html-entry源码浅析">
+<meta property="og:url" content="guguji5.github.io/源码浅析/index.html">
 <meta property="og:site_name" content="咕咕鸡的前端博客">
-<meta property="og:description" content="nextTick是Vue绕不开的一个方法，nextTick的实现变了，莫名的bug就会出现，再举一个例子。 首先，Vue升级引发nextTick的bug(一)/)提到，Vue2.5.2中的nextTick是宏任务 -&amp;gt; 微任务 -&amp;gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。 我们的场景是view中有一个form组件，其内部有一个input-n">
+<meta property="og:description" content="难道没人好奇qiankun是如何实现html entry的吗？  single-spa和qiankun最大的不同，我认为就是qiankun实现了html entry，而single-spa只能是js entry  之前使用single-spa的过程中，发现如果有多个chunk 插入到html中，那么他们的执行顺序会很关键。而从下图single-spa注册应用的钩子函数来看，它只暴露了一个方法来加载">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://img-ys011.didistatic.com/static/dc2img/do1_96rC48y3RhuUTb1e5xSk">
-<meta property="og:image" content="https://img-ys011.didistatic.com/static/dc2img/do1_RaSpWcBtIY6jM8Pgsy79">
-<meta property="og:image" content="https://img-ys011.didistatic.com/static/dc2img/do1_DJv1lVGZvksjimDrdD8E">
-<meta property="og:image" content="https://img-ys011.didistatic.com/static/dc2img/axiosNum2.6.10.png">
-<meta property="og:updated_time" content="2021-07-25T07:53:39.000Z">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-376af0545ed81e06e6979995cfab917a_720w.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-ebd0b10c799926939eb89834bd4307c4_720w.jpg">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-8d807e26342b1d6e7ea0387c7a95b40f_720w.jpg">
+<meta property="og:updated_time" content="2021-08-01T01:54:20.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="5.Vue升级引发nextTick的bug(二)">
-<meta name="twitter:description" content="nextTick是Vue绕不开的一个方法，nextTick的实现变了，莫名的bug就会出现，再举一个例子。 首先，Vue升级引发nextTick的bug(一)/)提到，Vue2.5.2中的nextTick是宏任务 -&amp;gt; 微任务 -&amp;gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。 我们的场景是view中有一个form组件，其内部有一个input-n">
-<meta name="twitter:image" content="http://img-ys011.didistatic.com/static/dc2img/do1_96rC48y3RhuUTb1e5xSk">
+<meta name="twitter:title" content="import-html-entry源码浅析">
+<meta name="twitter:description" content="难道没人好奇qiankun是如何实现html entry的吗？  single-spa和qiankun最大的不同，我认为就是qiankun实现了html entry，而single-spa只能是js entry  之前使用single-spa的过程中，发现如果有多个chunk 插入到html中，那么他们的执行顺序会很关键。而从下图single-spa注册应用的钩子函数来看，它只暴露了一个方法来加载">
+<meta name="twitter:image" content="https://pic3.zhimg.com/80/v2-376af0545ed81e06e6979995cfab917a_720w.jpg">
   <!-- Canonical links -->
-  <link rel="canonical" href="guguji5.github.io/5.Vue升级引发nextTick的bug(二)/index.html">
+  <link rel="canonical" href="guguji5.github.io/源码浅析/index.html">
   
     <link rel="alternate" href="/atom.xml" title="咕咕鸡的前端博客" type="application/atom+xml">
   
@@ -327,14 +325,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-5.Vue升级引发nextTick的bug(二)" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <article id="post-源码浅析" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      5.Vue升级引发nextTick的bug(二)
+      import-html-entry源码浅析
     </h1>
   
 
@@ -342,17 +340,12 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/5.Vue升级引发nextTick的bug(二)/" class="article-date">
-	  <time datetime="2021-01-27T03:34:37.000Z" itemprop="datePublished">2021-01-27</time>
+	<a href="/源码浅析/" class="article-date">
+	  <time datetime="2021-08-01T01:52:52.000Z" itemprop="datePublished">2021-08-01</time>
 	</a>
 </span>
         
         
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Bugfix/">Bugfix</a>
-  </span>
-
 
         
 	<span class="article-read hidden-xs">
@@ -363,40 +356,35 @@
 	</span>
 
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/5.Vue升级引发nextTick的bug(二)/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/源码浅析/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 442(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 831(字)</span>
 	
 	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 3(分)</span>
 	
 
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <p>nextTick是Vue绕不开的一个方法，nextTick的实现变了，莫名的bug就会出现，再举一个例子。</p>
-<p>首先，<a href="https://guguji5.github.io/4.Vue%E5%8D%87%E7%BA%A7%E5%BC%95%E5%8F%91nextTick%E7%9A%84bug(%E4%B8%80">Vue升级引发nextTick的bug(一)</a>/)提到，Vue2.5.2中的nextTick是宏任务 -&gt; 微任务 -&gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。</p>
-<p>我们的场景是view中有一个form组件，其内部有一个input-number组件。用户填写完信息后submit。</p>
-<p><img src="http://img-ys011.didistatic.com/static/dc2img/do1_96rC48y3RhuUTb1e5xSk" alt=""></p>
-<p>顺便介绍一下input-number，可以参考el-input-number，返回值是数字，当输入其他非法类型时，回弹为上一次有效数字。这一过程会在nextTick中完成。</p>
-<p>submit的入参为params {num: string}。为啥num要传string，额~~ 一言难尽。</p>
-<p>如何将input-number组件的<strong>数字num</strong>,转成字符串呢，form组件中有个方法来处理数据<code>transData</code>。</p>
-<p>每次reactive的数据变化都会触发nextTick。</p>
-<p><img src="https://img-ys011.didistatic.com/static/dc2img/do1_RaSpWcBtIY6jM8Pgsy79" alt=""></p>
-<p>所以提交动作的事件流为：</p>
-<p><strong>submit -&gt; $refs.form.transData() -&gt; axios request</strong></p>
-<p>但是，input-number为form的子组件，当子组件值变化时，会改变form中的值，引用传递，不用多讲啦。</p>
-<p>所以<strong>Vue2.5.2</strong>完整的事件流为：</p>
-<p><strong>submit -&gt; $refs.form.transData() -&gt; axios request -&gt; num回弹为数字</strong></p>
-<p><img src="https://img-ys011.didistatic.com/static/dc2img/do1_DJv1lVGZvksjimDrdD8E" alt=""></p>
-<p>axios的拦截器中是使用promise来处理数据，promise的then为微任务。</p>
-<p>而根据上一篇的讨论，<a href=""></a> num值的变化是在nextTick中完成的。所以当<strong>Vue升级成2.6.10</strong>，nextTick变成微任务后，事件流为：</p>
-<p><strong>submit -&gt; num回弹为数字 -&gt; $refs.form.transData() -&gt; axios request</strong></p>
-<p><img src="https://img-ys011.didistatic.com/static/dc2img/axiosNum2.6.10.png" alt=""></p>
-<p>从console中可以看到，在Vue2.5.2中是先axios请求，然后值回弹为数字，所以发送的num为字符串，符合预期。</p>
-<p>而升级为Vue2.6.10后，会先回弹，再发送数据，所以发送的num为数字，bug出现。</p>
+        <p>难道没人好奇qiankun是如何实现html entry的吗？</p>
+<blockquote>
+<p>single-spa和qiankun最大的不同，我认为就是qiankun实现了html entry，而single-spa只能是js entry</p>
+</blockquote>
+<p>之前使用single-spa的过程中，发现如果有多个chunk 插入到html中，那么他们的执行顺序会很关键。而从下图single-spa注册应用的钩子函数来看，它只暴露了一个方法来加载资源，这意味着如果你有多个chunk，你需要自己根据加载顺序依次加载。简而言之，它必须<strong>串行加载，浪费时间，白屏时间长</strong></p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">singleSpa.registerApplication(</span><br><span class="line">  <span class="string">'appName'</span>,</span><br><span class="line">  () =&gt; System.import(<span class="string">'appName'</span>), <span class="comment">// 加载appName 对应的js资源</span></span><br><span class="line">  location =&gt; location.pathname.startsWith(<span class="string">'appName'</span>),</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 它需要依次加载chunk</span></span><br><span class="line">singleSpa.registerApplication(</span><br><span class="line">  <span class="string">'appName'</span>,</span><br><span class="line">  () =&gt; System.import(<span class="string">'chunk'</span>).then(<span class="function"><span class="params">()</span>=&gt;</span> System.import(<span class="string">'appName'</span>)), <span class="comment">// 先加载依赖的chunk，再加载appName</span></span><br><span class="line">  location =&gt; location.pathname.startsWith(<span class="string">'appName'</span>),</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>qiankun解决了这个问题，它希望我们像使用iframe一样加载一个子应用，只需要知道其html的url就能加载到主应用中。这可能是其github star数已经超过single-spa的一个重要原因。难道就没人好奇，<strong>qiankun是如何实现了html entry</strong>吗？importHTML 方法究竟做了什么？</p>
+<h3 id="importHTML的几个关键方法"><a href="#importHTML的几个关键方法" class="headerlink" title="importHTML的几个关键方法"></a>importHTML的几个关键方法</h3><p><img src="https://pic3.zhimg.com/80/v2-376af0545ed81e06e6979995cfab917a_720w.jpg" alt=""></p>
+<p>首先importHTML的参数为需要加载的页面url，拿到后会先通过fetch方法读取页面内容，并且返回为页面html的字符串，接下来的processTpl方法比较关键，是一个核心方法。它会解析html的内容并且删除注释，获取style样式及script代码（下图 line38-82）。用的方法很明显是正则+replace，但是每一个步骤都做了很多适配，比如获取script脚本，需要区分该script是不是entry script，type是JavaScript还是module，是行内script还是外链script，是相对路径还是绝对路径，是否需要处理协议等等。很复杂！借用Joel Denning的一句话 “Kuitos did great job” </p>
+<p><img src="https://pic1.zhimg.com/80/v2-ebd0b10c799926939eb89834bd4307c4_720w.jpg" alt=""></p>
+<p>processTpl的返回值也从上图可见，有template，script，style，entry。为什么要把entry单独出来？它不是一个普通的JavaScript脚本么难道？肯定是因为它需要等其他JavaScript都加载好才能执行啦，不然肯定会报错的。importHTML拿到这些返回值，并暴露出来几个方法。最常用的肯定是<strong>execScript、getExternalStyleSheets、getExternalScripts</strong> 等上图画五角星的三个关键方法。</p>
+<h3 id="execScript做了什么事"><a href="#execScript做了什么事" class="headerlink" title="execScript做了什么事"></a>execScript做了什么事</h3><p>望文生义，肯定是把processTpl返回的script <strong>exec</strong>一下呗。具体流程如下图。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-8d807e26342b1d6e7ea0387c7a95b40f_720w.jpg" alt="https://pic4.zhimg.com/80/v2-8d807e26342b1d6e7ea0387c7a95b40f_720w.jpg"></p>
+<p>execScript会先调用内部方法getExternalScript，将外部script拿到和行内script合并成一个队列按顺序执行。getExternalScript的内部就是一个promise.all 这也是我们使用qiankun后它就不必串行加载script的关键所在。getExternalScript后所有的行内script和外部script都被以text的形式获取到，接下来就是执行script了，execScript还注册了两个内部函数，schedule和exec，很显然，schedule会按照次序调度exec执行script代码，如何执行JavaScript 字符串呢？ 使用eval解决的。</p>
+<p>getExternalStyleSheets和getExternalScripts简单很多，只需要获取到style或者JavaScript文本就好了，返回给调用importHTML的开发者，自行处理。</p>
+<p>我们一句话总结一下 import-html-entry 为 qiankun 做了那些事，”<strong>获取html的url，解析模板并暴露出来一些可以读取css、js的方法</strong>“</p>
 
       
     </div>
@@ -406,7 +394,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="guguji5.github.io/5.Vue升级引发nextTick的bug(二)/" title="5.Vue升级引发nextTick的bug(二)" target="_blank" rel="external">guguji5.github.io/5.Vue升级引发nextTick的bug(二)/</a>
+      <a href="guguji5.github.io/源码浅析/" title="import-html-entry源码浅析" target="_blank" rel="external">guguji5.github.io/源码浅析/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -453,12 +441,12 @@
   <ul class="pager pull-left">
     
     <li class="prev">
-      <a href="/2020年微前端踩坑回顾/" title="2020年微前端踩坑回顾"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+      <a href="/记录一个bug/" title="记录一个bug"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
     </li>
     
     
     <li class="next">
-      <a href="/4.Vue升级引发nextTick的bug(一)/" title="4.Vue升级引发nextTick的bug(一)"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/一个Special的RangePicker/" title="一个Special的RangePicker"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     

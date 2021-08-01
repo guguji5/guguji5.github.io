@@ -17,26 +17,16 @@
   <meta http-equiv="window-target" content="_top">
   
   
-  <title>5.Vue升级引发nextTick的bug(二) | 咕咕鸡的前端博客</title>
-  <meta name="description" content="nextTick是Vue绕不开的一个方法，nextTick的实现变了，莫名的bug就会出现，再举一个例子。 首先，Vue升级引发nextTick的bug(一)/)提到，Vue2.5.2中的nextTick是宏任务 -&amp;gt; 微任务 -&amp;gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。 我们的场景是view中有一个form组件，其内部有一个input-n">
-<meta name="keywords" content="Bugfix">
-<meta property="og:type" content="article">
-<meta property="og:title" content="5.Vue升级引发nextTick的bug(二)">
-<meta property="og:url" content="guguji5.github.io/5.Vue升级引发nextTick的bug(二)/index.html">
+  <title>归档: 2021/8 | 咕咕鸡的前端博客</title>
+  <meta property="og:type" content="website">
+<meta property="og:title" content="咕咕鸡的前端博客">
+<meta property="og:url" content="guguji5.github.io/archives/2021/08/index.html">
 <meta property="og:site_name" content="咕咕鸡的前端博客">
-<meta property="og:description" content="nextTick是Vue绕不开的一个方法，nextTick的实现变了，莫名的bug就会出现，再举一个例子。 首先，Vue升级引发nextTick的bug(一)/)提到，Vue2.5.2中的nextTick是宏任务 -&amp;gt; 微任务 -&amp;gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。 我们的场景是view中有一个form组件，其内部有一个input-n">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://img-ys011.didistatic.com/static/dc2img/do1_96rC48y3RhuUTb1e5xSk">
-<meta property="og:image" content="https://img-ys011.didistatic.com/static/dc2img/do1_RaSpWcBtIY6jM8Pgsy79">
-<meta property="og:image" content="https://img-ys011.didistatic.com/static/dc2img/do1_DJv1lVGZvksjimDrdD8E">
-<meta property="og:image" content="https://img-ys011.didistatic.com/static/dc2img/axiosNum2.6.10.png">
-<meta property="og:updated_time" content="2021-07-25T07:53:39.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="5.Vue升级引发nextTick的bug(二)">
-<meta name="twitter:description" content="nextTick是Vue绕不开的一个方法，nextTick的实现变了，莫名的bug就会出现，再举一个例子。 首先，Vue升级引发nextTick的bug(一)/)提到，Vue2.5.2中的nextTick是宏任务 -&amp;gt; 微任务 -&amp;gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。 我们的场景是view中有一个form组件，其内部有一个input-n">
-<meta name="twitter:image" content="http://img-ys011.didistatic.com/static/dc2img/do1_96rC48y3RhuUTb1e5xSk">
+<meta name="twitter:title" content="咕咕鸡的前端博客">
   <!-- Canonical links -->
-  <link rel="canonical" href="guguji5.github.io/5.Vue升级引发nextTick的bug(二)/index.html">
+  <link rel="canonical" href="guguji5.github.io/archives/2021/08/index.html">
   
     <link rel="alternate" href="/atom.xml" title="咕咕鸡的前端博客" type="application/atom+xml">
   
@@ -326,156 +316,68 @@
   
   
 <main class="main" role="main">
-  <div class="content">
-  <article id="post-5.Vue升级引发nextTick的bug(二)" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  	<article class="content article article-archives article-type-list" itemscope="">
+	    <header class="article-header">
+	      <h1 itemprop="title">归档: 2021/8</h1>
+	      <p class="text-muted">共 3 篇文章</p>
+	    </header>
+	    <div class="article-body">
+	      
+  
+  
     
-    <div class="article-header">
+    
       
-        
-  
-    <h1 class="article-title" itemprop="name">
-      5.Vue升级引发nextTick的bug(二)
-    </h1>
-  
-
       
-      <div class="article-meta">
-        <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/5.Vue升级引发nextTick的bug(二)/" class="article-date">
-	  <time datetime="2021-01-27T03:34:37.000Z" itemprop="datePublished">2021-01-27</time>
-	</a>
-</span>
-        
-        
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Bugfix/">Bugfix</a>
-  </span>
-
-
-        
-	<span class="article-read hidden-xs">
-	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
-	    <span id="busuanzi_container_page_pv">
-			<span id="busuanzi_value_page_pv">0</span>
-		</span>
-	</span>
-
-
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/5.Vue升级引发nextTick的bug(二)/#comments" class="article-comment-link">评论</a></span>
-        
-	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 442(字)</span>
-	
-	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
-	
-
-      </div>
-    </div>
-    <div class="article-entry marked-body" itemprop="articleBody">
-      
-        <p>nextTick是Vue绕不开的一个方法，nextTick的实现变了，莫名的bug就会出现，再举一个例子。</p>
-<p>首先，<a href="https://guguji5.github.io/4.Vue%E5%8D%87%E7%BA%A7%E5%BC%95%E5%8F%91nextTick%E7%9A%84bug(%E4%B8%80">Vue升级引发nextTick的bug(一)</a>/)提到，Vue2.5.2中的nextTick是宏任务 -&gt; 微任务 -&gt; 宏任务交替触发，先使用宏任务。而Vue2.6.10中nextTick全部使用微任务。</p>
-<p>我们的场景是view中有一个form组件，其内部有一个input-number组件。用户填写完信息后submit。</p>
-<p><img src="http://img-ys011.didistatic.com/static/dc2img/do1_96rC48y3RhuUTb1e5xSk" alt=""></p>
-<p>顺便介绍一下input-number，可以参考el-input-number，返回值是数字，当输入其他非法类型时，回弹为上一次有效数字。这一过程会在nextTick中完成。</p>
-<p>submit的入参为params {num: string}。为啥num要传string，额~~ 一言难尽。</p>
-<p>如何将input-number组件的<strong>数字num</strong>,转成字符串呢，form组件中有个方法来处理数据<code>transData</code>。</p>
-<p>每次reactive的数据变化都会触发nextTick。</p>
-<p><img src="https://img-ys011.didistatic.com/static/dc2img/do1_RaSpWcBtIY6jM8Pgsy79" alt=""></p>
-<p>所以提交动作的事件流为：</p>
-<p><strong>submit -&gt; $refs.form.transData() -&gt; axios request</strong></p>
-<p>但是，input-number为form的子组件，当子组件值变化时，会改变form中的值，引用传递，不用多讲啦。</p>
-<p>所以<strong>Vue2.5.2</strong>完整的事件流为：</p>
-<p><strong>submit -&gt; $refs.form.transData() -&gt; axios request -&gt; num回弹为数字</strong></p>
-<p><img src="https://img-ys011.didistatic.com/static/dc2img/do1_DJv1lVGZvksjimDrdD8E" alt=""></p>
-<p>axios的拦截器中是使用promise来处理数据，promise的then为微任务。</p>
-<p>而根据上一篇的讨论，<a href=""></a> num值的变化是在nextTick中完成的。所以当<strong>Vue升级成2.6.10</strong>，nextTick变成微任务后，事件流为：</p>
-<p><strong>submit -&gt; num回弹为数字 -&gt; $refs.form.transData() -&gt; axios request</strong></p>
-<p><img src="https://img-ys011.didistatic.com/static/dc2img/axiosNum2.6.10.png" alt=""></p>
-<p>从console中可以看到，在Vue2.5.2中是先axios请求，然后值回弹为数字，所以发送的num为字符串，符合预期。</p>
-<p>而升级为Vue2.6.10后，会先回弹，再发送数据，所以发送的num为数字，bug出现。</p>
-
-      
-    </div>
-    <div class="article-footer">
-      <blockquote class="mt-2x">
-  <ul class="post-copyright list-unstyled">
+      <section class="panel panel-default b-no">
+        <div class="panel-heading" role="tab">
+          <h3 class="panel-title">
+            <a data-toggle="collapse" href="#collapse2021" aria-expanded="true">
+              <i class="icon icon-calendar-plus text-active"></i><i class="icon icon-calendar-minus text"></i>
+              2021
+            </a>
+            <!-- <a href="/archives/2021" class="archive-year">2021</a> -->
+          </h3>
+        </div>
+        <div id="collapse2021" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading2021">
+        <div class="panel-body">
+          <div class="collection">
     
-    <li class="post-copyright-link hidden-xs">
-      <strong>本文链接：</strong>
-      <a href="guguji5.github.io/5.Vue升级引发nextTick的bug(二)/" title="5.Vue升级引发nextTick的bug(二)" target="_blank" rel="external">guguji5.github.io/5.Vue升级引发nextTick的bug(二)/</a>
-    </li>
     
-    <li class="post-copyright-license">
-      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
-    </li>
-  </ul>
-</blockquote>
-
-
-<div class="panel panel-default panel-badger">
-  <div class="panel-body">
-    <figure class="media">
-      <div class="media-left">
-        <a href="https://github.com/guguji5" target="_blank" class="img-burn thumb-sm visible-lg">
-          <img src="/images/gangji.jpeg" class="img-rounded w-full" alt="">
-        </a>
-      </div>
-      <div class="media-body">
-        <h3 class="media-heading"><a href="https://github.com/guguji5" target="_blank"><span class="text-dark">Damon Du</span><small class="ml-1x">菜鸡前端</small></a></h3>
-        <div>滴滴云</div>
-      </div>
-    </figure>
-  </div>
-</div>
-
-
-    </div>
-  </article>
-  
-    
-  <section id="comments">
-  	
-           
-    
-  </section>
+<a href="/记录一个bug/" class="collection-item" target="_blank" itemprop="url">
+  <time datetime="2021-08-01T01:56:36.000Z" itemprop="datePublished">2021-08-01</time>
+  <span>&nbsp;&nbsp;&nbsp;</span> 记录一个bug
+</a>
 
 
   
-</div>
-
-  <nav class="bar bar-footer clearfix" data-stick-bottom="">
-  <div class="bar-inner">
-  
-  <ul class="pager pull-left">
-    
-    <li class="prev">
-      <a href="/2020年微前端踩坑回顾/" title="2020年微前端踩坑回顾"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
-    </li>
     
     
-    <li class="next">
-      <a href="/4.Vue升级引发nextTick的bug(一)/" title="4.Vue升级引发nextTick的bug(一)"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
-    </li>
     
-    
-  </ul>
-  
-  
-  
-  <div class="bar-right">
-    
-    <div class="share-component" data-sites="weibo,wechat" data-mobile-sites="weibo,wechat"></div>
-    
-  </div>
-  </div>
-</nav>
-  
+<a href="/源码浅析/" class="collection-item" target="_blank" itemprop="url">
+  <time datetime="2021-08-01T01:52:52.000Z" itemprop="datePublished">2021-08-01</time>
+  <span>&nbsp;&nbsp;&nbsp;</span> import-html-entry源码浅析
+</a>
 
 
+  
+    
+    
+    
+<a href="/一个Special的RangePicker/" class="collection-item" target="_blank" itemprop="url">
+  <time datetime="2021-08-01T01:24:07.000Z" itemprop="datePublished">2021-08-01</time>
+  <span>&nbsp;&nbsp;&nbsp;</span> 一个Special的RangePicker
+</a>
+
+
+  
+  
+    </div></div></div></section>
+  
+
+	    </div>
+  	</article>
+  	 	
 </main>
 
   <footer class="footer" itemscope="" itemtype="http://schema.org/WPFooter">
@@ -525,33 +427,6 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
-
-   
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-
-
-
-   
-    
-  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
-  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
-  <script type="text/javascript">
-  var gitalk = new Gitalk({
-    clientID: 'd2c2eed331f93213c11d',
-    clientSecret: 'df41c902c1854c3a80133f0096c625c6020609c2',
-    repo: 'guguji5.github.io',
-    owner: 'guguji5',
-    admin: ['guguji5'],
-    id: md5(location.pathname),
-    distractionFreeMode: true
-  })
-  gitalk.render('comments')
-  </script>
-
-      
 
 
 
