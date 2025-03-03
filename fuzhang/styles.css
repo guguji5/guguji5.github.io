@@ -1,0 +1,325 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+  
+  body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  .container {
+    width: 100%;
+    /* max-width: 800px; */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  .questionnaire {
+    width: 100%;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    margin: 20px;
+  }
+  
+  h1 {
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .subtitle {
+    text-align: right;
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 40px;
+  }
+  
+  .question {
+    margin-bottom: 35px;
+  }
+  
+  .question p {
+    font-size: 18px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+  }
+  
+  .radio-option,
+  .checkbox-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+  }
+  
+  .radio-option:hover,
+  .checkbox-option:hover {
+    transform: translateY(-2px);
+  }
+  
+  .radio-option input,
+  .checkbox-option input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  .radio-custom {
+    position: relative;
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    margin-right: 10px;
+    transition: all 0.2s ease;
+  }
+  
+  .radio-option:hover .radio-custom {
+    border-color: #666;
+  }
+  
+  .radio-option input:checked ~ .radio-custom {
+    border-color: #3a86ff;
+    background-color: #f0f7ff;
+  }
+  
+  .radio-option input:checked ~ .radio-custom::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #3a86ff;
+    animation: pulse 0.3s ease;
+  }
+  
+  .checkbox-custom {
+    position: relative;
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+    transition: all 0.2s ease;
+  }
+  
+  .checkbox-option:hover .checkbox-custom {
+    border-color: #666;
+  }
+  
+  .checkbox-option input:checked ~ .checkbox-custom {
+    border-color: #3a86ff;
+    background-color: #3a86ff;
+  }
+  
+  .checkbox-option input:checked ~ .checkbox-custom::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    animation: pulse 0.3s ease;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  .option-text {
+    font-size: 16px;
+    color: #444;
+  }
+  
+  .form-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    align-items: center;
+  }
+  
+  .about-button {
+    background: none;
+    border: none;
+    color: #666;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 15px;
+    padding: 8px;
+    transition: all 0.2s ease;
+  }
+  
+  .about-button:hover {
+    color: #3a86ff;
+  }
+  
+  .submit-button {
+    background-color: #3a86ff;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(58, 134, 255, 0.3);
+  }
+  
+  .submit-button:hover {
+    background-color: #2a75f0;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(58, 134, 255, 0.4);
+  }
+  
+  .submit-button:active {
+    transform: translateY(0);
+  }
+  
+  /* Modal Styles */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+  }
+  
+  .modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 30px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    animation: modalFadeIn 0.3s ease;
+  }
+  
+  @keyframes modalFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .close:hover {
+    color: #3a86ff;
+  }
+  
+  .modal h2 {
+    margin-bottom: 20px;
+    font-size: 22px;
+    color: #333;
+  }
+  
+  .modal p {
+    margin-bottom: 15px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+  }
+  
+  @media (max-width: 600px) {
+    .questionnaire {
+      padding: 25px;
+    }
+  
+    h1 {
+      font-size: 26px;
+    }
+  
+    .options {
+      flex-direction: column;
+      gap: 15px;
+    }
+  
+    .submit-button {
+      padding: 10px 20px;
+    }
+  }
+  
+  
+  .result-table {
+    text-align: center;
+    width: 100%;
+    margin-top: 25px;
+    border-collapse: collapse; /* 合并边框 */
+    border: 1px solid #ddd; /* 边框颜色 */
+}
+
+.result-table th, .result-table td {
+    border: 1px solid #ddd; /* 单元格边框 */
+    padding: 12px; /* 单元格内边距 */
+}
+
+.result-table th {
+    background-color: #f4f4f4; /* 表头背景色 */
+    font-weight: bold;
+}
+
+.result-table tr:nth-child(even) {
+    background-color: #f9f9f9; /* 隔行变色 */
+}
+
+.result-table tr:hover {
+    background-color: #f1f1f1; /* 鼠标悬停效果 */
+}

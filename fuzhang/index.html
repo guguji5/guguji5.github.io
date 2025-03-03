@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>腹胀诊断问卷</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="questionnaire">
+            <h1>腹胀诊断问卷</h1>
+            <p class="subtitle"><button type="button" class="about-button" onclick="window.open('https://book.douban.com/subject/37109533/', '_blank')">《终结腹胀》by 塔玛拉·杜克·费曼</button></p>
+            
+            <form id="bloatingForm">
+                <div class="question">
+                    <p>1. 我腹胀时的肚子是</p>
+                    <div class="options">
+                        <label class="radio-option">
+                            <input type="radio" name="stomachShape" value="1">
+                            <span class="radio-custom"></span>
+                            <span class="option-text">软的</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="stomachShape" value="2">
+                            <span class="radio-custom"></span>
+                            <span class="option-text">像气球</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="stomachShape" value="3">
+                            <span class="radio-custom"></span>
+                            <span class="option-text">像石头</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <p>2. 我的腹胀位置主要集中在</p>
+                    <div class="options">
+                        <label class="radio-option">
+                            <input type="radio" name="location" value="1">
+                            <span class="radio-custom"></span>
+                            <span class="option-text">上腹部区域（肚脐上方）</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="location" value="2">
+                            <span class="radio-custom"></span>
+                            <span class="option-text">正中间，胸骨正下方</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="location" value="3">
+                            <span class="radio-custom"></span>
+                            <span class="option-text">下腹部区域（肚脐下方）</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="location" value="4">
+                            <span class="radio-custom"></span>
+                            <span class="option-text">所有区域</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <p>3. 腹胀发作情况（选择三个与自己情形最相符的描述）</p>
+                    <div class="options">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="bloatingTiming" value="1">
+                            <span class="checkbox-custom"></span>
+                            <span class="option-text">在饱餐一顿后腹胀会更严重</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="bloatingTiming" value="2">
+                            <span class="checkbox-custom"></span>
+                            <span class="option-text">从早上开始越来越严重，晚上最严重</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="bloatingTiming" value="3">
+                            <span class="checkbox-custom"></span>
+                            <span class="option-text">如果在感到非常饿的情况下进食，那么一吃完饭就会开始腹胀</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="bloatingTiming" value="4">
+                            <span class="checkbox-custom"></span>
+                            <span class="option-text">吃任何东西后都会腹胀</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="bloatingTiming" value="5">
+                            <span class="checkbox-custom"></span>
+                            <span class="option-text">与饮食似乎无关</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p>4. 引起严重腹胀的食物是......（选择所有符合的，没有则不勾选）</p>
+                    <div class="options">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="bloatingFoodTypes" value="1">
+                            <span class="checkbox-custom"></span>
+                            <span class="option-text">水</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="bloatingFoodTypes" value="2">
+                            <span class="checkbox-custom"></span>
+                            <span class="option-text">加橄榄油和醋的大份沙拉</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="bloatingFoodTypes" value="3">
+                            <span class="checkbox-custom"></span>
+                            <span class="option-text">一小盘配有大量红酱的意大利面</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="bloatingFoodTypes" value="4">
+                            <span class="checkbox-custom"></span>
+                            <span class="option-text">麦当劳标准尺寸的汉堡和小份薯条</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="bloatingFoodTypes" value="5">
+                            <span class="checkbox-custom"></span>
+                            <span class="option-text">小份冻酸奶</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="bloatingFoodTypes" value="6">
+                            <span class="checkbox-custom"></span>
+                            <span class="option-text">一小碗西蓝花汤（不含牛奶和奶油）</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p>5. 醒来后是否会感觉腹胀？</p>
+                    <div class="options">
+                        <label class="radio-option">
+                            <input type="radio" name="morningBloating" value="1">
+                            <span class="radio-custom"></span>
+                            <span class="option-text">会，这取决于昨天晚上吃的东西</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="morningBloating" value="2">
+                            <span class="radio-custom"></span>
+                            <span class="option-text">不会</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p>6. 感到腹胀时，腹内有气体吗？</p>
+                    <div class="options">
+                        <label class="radio-option">
+                            <input type="radio" name="gasSymptoms" value="1">
+                            <span class="radio-custom"></span>
+                            <span class="option-text">是，会打嗝</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="gasSymptoms" value="2">
+                            <span class="radio-custom"></span>
+                            <span class="option-text">是，会放屁</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="gasSymptoms" value="3">
+                            <span class="radio-custom"></span>
+                            <span class="option-text">是，既会打嗝也会放屁</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="gasSymptoms" value="4">
+                            <span class="radio-custom"></span>
+                            <span class="option-text">否</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p>7. 除了腹胀，还有上消化系统的其他症状（勾选所有符合的，没有则不勾选）：</p>
+                    <div class="options">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="otherSymptoms" value="1">
+                            <span class="checkbox-custom"></span>
+                            <span class="option-text">恶心</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="otherSymptoms" value="2">
+                            <span class="checkbox-custom"></span>
+                            <span class="option-text">呕吐</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="otherSymptoms" value="3">
+                            <span class="checkbox-custom"></span>
+                            <span class="option-text">胃食管反流/胃灼热</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="otherSymptoms" value="4">
+                            <span class="checkbox-custom"></span>
+                            <span class="option-text">食欲不振</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p>8. 除了腹胀，还有下消化系统的其他问题（勾选所有符合的）：</p>
+                    <div class="options">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="lowerDigestiveSymptoms" value="1">
+                            <span class="checkbox-custom"></span>
+                            <span class="option-text">排便困难（一周少于3次）</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="lowerDigestiveSymptoms" value="2">
+                            <span class="checkbox-custom"></span>
+                            <span class="option-text">排便时总感觉排不净</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="lowerDigestiveSymptoms" value="3">
+                            <span class="checkbox-custom"></span>
+                            <span class="option-text">粪便黏稠，呈焦油状，很难擦干净</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="lowerDigestiveSymptoms" value="4">
+                            <span class="checkbox-custom"></span>
+                            <span class="option-text">粪便很硬，呈小球状，像兔子粪便</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="lowerDigestiveSymptoms" value="5">
+                            <span class="checkbox-custom"></span>
+                            <span class="option-text">腹泻</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="lowerDigestiveSymptoms" value="6">
+                            <span class="checkbox-custom"></span>
+                            <span class="option-text">浅色或橙色的稀便</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="lowerDigestiveSymptoms" value="7">
+                            <span class="checkbox-custom"></span>
+                            <span class="option-text">排便正常</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p>9. 腹胀时的痛感属于：</p>
+                    <div class="options">
+                        <label class="radio-option">
+                            <input type="radio" name="painType" value="1">
+                            <span class="radio-custom"></span>
+                            <span class="option-text">无明显痛感（但是腹胀还是会不舒服）</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="painType" value="2">
+                            <span class="radio-custom"></span>
+                            <span class="option-text">上腹部会有灼烧般的疼痛</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="painType" value="3">
+                            <span class="radio-custom"></span>
+                            <span class="option-text">整个腹部都会剧痛</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="painType" value="4">
+                            <span class="radio-custom"></span>
+                            <span class="option-text">下腹（肚脐下方）绞痛</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="painType" value="5">
+                            <span class="radio-custom"></span>
+                            <span class="option-text">整个腹部都有钝痛感</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-footer">
+                    <span>
+                        <button type="button" id="aboutButton" class="about-button">关于本问卷</button>
+                        <button type="button" id="authorButton" class="about-button">关于我</button>
+                    </span>
+                    <button type="submit" class="submit-button">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>关于本问卷</h2>
+            <p>匿名，无任何存储，也不会发送到任何服务器</p>
+            <p>本问卷是该书的精髓，可以比较准确的帮助诊断腹胀问题的原因和类型</p>
+            <p>每一种腹胀类型都有对应的解决方案，可以参考书中的解决方案</p>
+            <p>问卷结果仅供参考，如有健康问题，请咨询医生</p>
+        </div>
+    </div>
+
+    <div id="author-modal" class="modal">
+        <div class="modal-content">
+            <span class="author-close close">&times;</span>
+            <h2>关于我</h2>
+            <p>我只是一个偶然购买的读者，与本书无任何利益关系</p>
+            <p>25年初无缘由腹胀1个月，彩超 / 血常规 / 尿常规 / 幽门螺旋杆菌 都无异常，1个月后自然恢复</p>
+            <p>去过医院三次最后得处的结论和本书问卷得到的一致，鄙人觉得很有帮助，遂分享在此</p>
+            <p><strong>如果侵权或者不合适，可以联系github作者删除！</strong></p>
+        </div>
+    </div>
+    <div id="result-modal" class="modal">
+        <div class="modal-content">
+            <span class="result-close close">&times;</span>
+            <table border="1" class="result-table">
+                <thead>
+                    <tr>
+                        <th>腹胀类型</th>
+                        <th>结果</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>胃轻瘫</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>腹膈协同失调</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>典型性消化不良</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>功能性消化不良</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>吞气症</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>便秘</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>小肠细菌过度生长</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>碳水化合物不耐受</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
